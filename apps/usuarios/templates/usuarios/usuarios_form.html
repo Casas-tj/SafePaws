@@ -1,0 +1,102 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}SafePaws - Registrar Nuevo Usuario{% endblock %}
+
+{% block content %}
+<div class="form-view">
+    <div class="form-header">
+        <h2 class="form-title">Información del Usuario</h2>
+        <p style="color: #64748b; font-size: 0.875rem; margin-top: 0.5rem;">
+            Completa todos los campos para registrar un nuevo usuario en el sistema
+        </p>
+    </div>
+
+    <form id="formNuevoUsuario" class="animal-form">
+        <!-- Fila 1: Nombre, Apellidos -->
+        <div class="form-row">
+            <div class="form-group">
+                <label for="nombre">Nombre *</label>
+                <input type="text" id="nombre" name="nombre" class="form-control-list" placeholder="Nombre"
+                    autocomplete="given-name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="apellidos">Apellidos *</label>
+                <input type="text" id="apellidos" name="apellidos" class="form-control-list" placeholder="Apellidos"
+                    autocomplete="family-name" required>
+            </div>
+        </div>
+
+        <!-- Fila 2: Email, Teléfono -->
+        <div class="form-row">
+            <div class="form-group">
+                <label for="email">Email *</label>
+                <input type="email" id="email" name="email" class="form-control-list" placeholder="correo@dominio.com"
+                    autocomplete="email" required>
+            </div>
+
+            <div class="form-group">
+                <label for="telephone">Teléfono *</label>
+                <input type="tel" id="telephone" name="telefono" class="form-control-list" placeholder="Ej: 123456789"
+                    pattern="[0-9]{8,15}" autocomplete="tel" required>
+            </div>
+        </div>
+
+        <!-- Fila 3: Dirección -->
+        <div class="form-row">
+            <div class="form-group" style="grid-column: span 2;">
+                <label for="direccion">Dirección *</label>
+                <input type="text" id="direccion" name="direccion" class="form-control-list"
+                    placeholder="Calle, número, piso, código postal, ciudad" autocomplete="street-address" required>
+            </div>
+        </div>
+
+        <!-- Fila 4: Tipo, Estado -->
+        <div class="form-row">
+            <div class="form-group">
+                <label for="tipo">Tipo de Usuario *</label>
+                <select id="tipo" name="tipo" class="form-control-list" required>
+                    <option value="">Selecciona el tipo de usuario</option>
+                    <option value="Administrador">👑 Administrador</option>
+                    <option value="Veterinario">🩺 Veterinario</option>
+                    <option value="Cuidador">🐾 Cuidador</option>
+                    <option value="Recepcionista"> 📋 Recepcionista</option>
+                    <option value="Voluntario">🤝 Voluntario</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="estado">Estado *</label>
+                <select id="estado" name="estado" class="form-control-list" required>
+                    <option value="">Selecciona un estado</option>
+                    <option value="Activo">✅ Activo</option>
+                    <option value="Inactivo">⏸️ Inactivo</option>
+                    <option value="Suspendido">🚫 Suspendido</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Fila 5: Información adicional -->
+        <div class="form-row">
+            <div class="form-group form-group-full">
+                <label for="observaciones">Información adicional</label>
+                <textarea id="observaciones" name="observaciones" class="form-control-list form-textarea"
+                    placeholder="Información adicional sobre el usuario..."></textarea>
+            </div>
+        </div>
+
+        <!-- Botones -->
+        <div class="form-buttons">
+            <button type="submit" class="btn-success">
+                ✅ Registrar Usuario
+            </button>
+
+            <button type="reset" class="btn-danger" style="background-color: #f59e0b;">
+                🔄 Limpiar Formulario
+            </button>
+
+            {% include 'layouts/partials/btn-back.html' %}
+        </div>
+    </form>
+</div>
+{% endblock %}

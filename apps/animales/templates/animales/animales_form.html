@@ -1,0 +1,117 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}SafePaws - Registrar Nuevo Animal{% endblock %}
+
+{% block content %}
+<div class="form-view">
+    <div class="form-header">
+        <h2 class="form-title">Información del Animal</h2>
+        <p style="color: #64748b; font-size: 0.875rem; margin-top: 0.5rem;">
+            Completa todos los campos para registrar un nuevo animal en el sistema
+        </p>
+    </div>
+
+    <form id="formNuevoAnimal" class="animal-form">
+        <!-- Fila 1: Nombre, Especie, Raza -->
+        <div class="form-row">
+            <div class="form-group">
+                <label for="animalNombre">Nombre *</label>
+                <input type="text" id="animalNombre" class="form-control-list" placeholder="Nombre del animal" required>
+            </div>
+            <div class="form-group">
+                <label for="animalEspecie">Especie *</label>
+                <select id="animalEspecie" class="form-control-list" required>
+                    <option value="" disabled selected>Selecciona la especie</option>
+                    <option value="Perro">Perro</option>
+                    <option value="Gato">Gato</option>
+                    <option value="Conejo">Conejo</option>
+                    <option value="Hamster">Hamster</option>
+                    <option value="Pájaro">Pájaro</option>
+                    <option value="Otro">Otro</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="animalRaza">Raza *</label>
+                <input type="text" id="animalRaza" class="form-control-list" placeholder="Raza o mezcla" required>
+            </div>
+        </div>
+
+        <!-- Fila 2: Edad, Sexo, Estado -->
+        <div class="form-row">
+            <div class="form-group">
+                <label for="animalEdad">Edad *</label>
+                <input type="text" id="animalEdad" class="form-control-list" placeholder="Ej: 3 años, 6 meses, cachorro"
+                    required>
+            </div>
+
+            <div class="form-group">
+                <label for="animalSexo">Sexo</label>
+                <select id="animalSexo" class="form-control-list">
+                    <option value="" disabled selected>Selecciona el sexo</option>
+                    <option value="Macho">Macho</option>
+                    <option value="Hembra">Hembra</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="animalEstado">Estado *</label>
+                <select id="animalEstado" class="form-control-list" required>
+                    <option value="" disabled selected>Selecciona un estado</option>
+                    <option value="En Adopción">En Adopción</option>
+                    <option value="En Acogida">En Acogida</option>
+                    <option value="Adoptado">Adoptado</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Fila 3: Fecha de Ingreso, Características de salud  -->
+        <div class="form-row">
+            <div class="form-group">
+                <label for="animalFechaIngreso">Fecha de Ingreso *</label>
+                <input type="date" id="animalFechaIngreso" class="form-control-list" required>
+            </div>
+
+            <div class="form-group">
+                <label for="animalVacunado">¿Vacunado?</label>
+                <select id="animalVacunado" class="form-control-list">
+                    <option value="" disabled selected>Selecciona...</option>
+                    <option value="Sí">Sí</option>
+                    <option value="No">No</option>
+                    <option value="Parcialmente">Parcialmente</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="animalEsterilizado">¿Esterilizado?</label>
+                <select id="animalEsterilizado" class="form-control-list">
+                    <option value="" disabled selected>Seleccionar...</option>
+                    <option value="Sí">Sí</option>
+                    <option value="No">No</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Fila 4: Historia / Observaciones -->
+        <div class="form-row">
+            <div class="form-group form-group-full">
+                <label for="animalDescripcion">Descripción y Salud</label>
+                <textarea id="animalDescripcion" class="form-control-list form-textarea" rows="4"
+                    placeholder="Cómo llegó al refugio, situación previa, información adicional relevante..."></textarea>
+            </div>
+        </div>
+
+        <!-- Botones -->
+        <div class="form-buttons">
+            <button type="submit" class="btn-success">
+                ✅ Registrar Animal
+            </button>
+
+            <button type="reset" class="btn-danger" style="background-color: #f59e0b;">
+                🔄 Limpiar Formulario
+            </button>
+
+            {% include 'layouts/partials/btn-back.html' %}
+        </div>
+    </form>
+</div>
+{% endblock %}

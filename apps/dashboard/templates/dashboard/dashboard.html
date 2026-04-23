@@ -1,0 +1,2166 @@
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">{% endblock %}
+
+{% block sidebar %}
+<!-- Sidebar -->
+<aside class="dashboard-sidebar">
+    <div class="sidebar-header">
+        <div class="sidebar-logo">
+            <img src="{% static 'img/Logo.jpg' %}" alt="SafePaws Logo">
+        </div>
+        <div class="sidebar-brand">
+            <h2>SafePaws</h2>
+            <p>Donde cada<br>huella cuenta</p>
+        </div>
+    </div>
+
+    <nav class="sidebar-nav">
+        <a href="#panel" class="sidebar-link" data-view="panel">
+            <span class="sidebar-icon">📊</span>
+            <span>Panel</span>
+        </a>
+        <a href="#animales" class="sidebar-link" data-view="animales">
+            <span class="sidebar-icon">🐾</span>
+            <span>Animales</span>
+        </a>
+        <a href="#adopciones" class="sidebar-link" data-view="adopciones">
+            <span class="sidebar-icon">❤️</span>
+            <span>Adopciones</span>
+        </a>
+        <a href="#voluntarios" class="sidebar-link" data-view="voluntarios">
+            <span class="sidebar-icon">👥</span>
+            <span>Voluntarios</span>
+        </a>
+        <a href="#donaciones" class="sidebar-link" data-view="donaciones">
+            <span class="sidebar-icon">💰</span>
+            <span>Donaciones</span>
+        </a>
+        <a href="#incidencias" class="sidebar-link" data-view="incidencias">
+            <span class="sidebar-icon">⚠️</span>
+            <span>Incidencias</span>
+        </a>
+        <a href="#horario" class="sidebar-link" data-view="horario">
+            <span class="sidebar-icon">📅</span>
+            <span>Horario</span>
+        </a>
+        <a href="#reportes" class="sidebar-link" data-view="reportes">
+            <span class="sidebar-icon">📄</span>
+            <span>Reportes</span>
+        </a>
+        <a href="#configuracion" class="sidebar-link" data-view="configuracion">
+            <span class="sidebar-icon">⚙️</span>
+            <span>Configuración</span>
+        </a>
+    </nav>
+</aside>
+{% endblock %}
+
+{% block content %}
+<!-- Main Content -->
+<div class="dashboard-content">
+    <!-- Top Header -->
+    <header class="dashboard-top-header">
+        <div class="header-left">
+            <h1 id="page-title">Panel de Control</h1>
+            <p class="header-subtitle" id="page-subtitle">Sistema de Gestión de Refugio Animal</p>
+        </div>
+        <div class="header-right">
+            <div class="search-box">
+                <span class="search-icon">🔍</span>
+                <input type="text" placeholder="Buscar...">
+            </div>
+            <button class="btn-notifications">
+                🔔
+                <span class="notification-badge">3</span>
+            </button>
+            <div class="user-menu">
+                <div class="user-info">
+                    <span class="user-name">Zuriñe Johnson</span>
+                    <span class="user-role">Administradora</span>
+                </div>
+                <div class="user-avatar">ZJ</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Vista: Panel General -->
+    <section id="view-panel" class="dashboard-view active">
+        <div class="animales-dashboard">
+
+            <!-- Header -->
+            <div class="animales-dashboard-header">
+                <div>
+                    <h2 class="animales-dashboard-title">Panel de Control</h2>
+                    <p class="animales-dashboard-subtitle">Sistema de Gestión de Refugio Animal</p>
+                </div>
+                <a href="{% url 'home' %}" class="btn-back animales-btn-volver card-link">
+                    <span>← {{btn_back}}</span>
+                </a>
+            </div>
+
+            <!-- Métricas -->
+            <div class="animales-metrics-grid">
+                <div class="animales-metric-card animales-metric-blue">
+                    <div class="animales-metric-header">
+                        <div class="animales-metric-icon animales-icon-blue">🐾</div>
+                        <span class="animales-metric-trend positive">↑ 12%</span>
+                    </div>
+                    <p class="animales-metric-label">Total Animales</p>
+                    <h3 class="animales-metric-value">274</h3>
+                    <p class="animales-metric-detail">42 nuevos este mes</p>
+                </div>
+
+                <div class="animales-metric-card animales-metric-green">
+                    <div class="animales-metric-header">
+                        <div class="animales-metric-icon animales-icon-green">👥</div>
+                        <span class="animales-metric-trend positive">↑ 8%</span>
+                    </div>
+                    <p class="animales-metric-label">Voluntarios Activos</p>
+                    <h3 class="animales-metric-value">89</h3>
+                    <p class="animales-metric-detail">18 programados hoy</p>
+                </div>
+
+                <div class="animales-metric-card animales-metric-yellow">
+                    <div class="animales-metric-header">
+                        <div class="animales-metric-icon animales-icon-yellow">💰</div>
+                        <span class="animales-metric-trend positive">↑ 23%</span>
+                    </div>
+                    <p class="animales-metric-label">Donaciones Totales</p>
+                    <h3 class="animales-metric-value">$102,150</h3>
+                    <p class="animales-metric-detail">Contribuciones este mes</p>
+                </div>
+
+                <div class="animales-metric-card animales-metric-red">
+                    <div class="animales-metric-header">
+                        <div class="animales-metric-icon animales-icon-red">⚠️</div>
+                        <span class="animales-metric-trend negative">↓ 2</span>
+                    </div>
+                    <p class="animales-metric-label">Incidencias Abiertas</p>
+                    <h3 class="animales-metric-value">7</h3>
+                    <p class="animales-metric-detail">3 requieren atención inmediata</p>
+                </div>
+            </div>
+
+            <!-- Fila de gráficos: Financiero + Distribución -->
+            <div class="animales-charts-row">
+                <div class="animales-chart-card">
+                    <h3 class="animales-chart-title">Resumen Financiero Mensual</h3>
+                    <div class="animales-chart-wrap">
+                        <canvas id="barChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="animales-chart-card">
+                    <h3 class="animales-chart-title">Distribución del Estado de Animales</h3>
+                    <div class="animales-chart-wrap">
+                        <canvas id="doughnutChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Grid de 3 columnas para las secciones recientes -->
+            <div class="recent-sections-row">
+                <!-- Incidencias Recientes -->
+                <div class="recent-section-card">
+                    <div class="recent-section-header">
+                        <div>
+                            <h3 class="recent-section-title">Incidencias Recientes</h3>
+                            <p class="recent-section-subtitle">Últimas alertas y problemas</p>
+                        </div>
+                        <button class="btn-link">Ver Todo →</button>
+                    </div>
+                    <div class="recent-items-list">
+                        <div class="recent-item">
+                            <div class="recent-item-icon red-icon">🚨</div>
+                            <div class="recent-item-content">
+                                <h4 class="recent-item-title">Emergencia Médica</h4>
+                                <p class="recent-item-subtitle">Gato "Whiskers" necesita atención veterinaria
+                                    inmediata</p>
+                            </div>
+                            <div class="recent-item-time">
+                                <span class="time-icon">🕐</span>
+                                <span>Hace 2 horas</span>
+                            </div>
+                        </div>
+                        <div class="recent-item">
+                            <div class="recent-item-icon yellow-icon">⚠️</div>
+                            <div class="recent-item-content">
+                                <h4 class="recent-item-title">Problema en Instalaciones</h4>
+                                <p class="recent-item-subtitle">Cerca rota en área exterior</p>
+                            </div>
+                            <div class="recent-item-time">
+                                <span class="time-icon">🕐</span>
+                                <span>Hace 5 horas</span>
+                            </div>
+                        </div>
+                        <div class="recent-item">
+                            <div class="recent-item-icon yellow-icon">📦</div>
+                            <div class="recent-item-content">
+                                <h4 class="recent-item-title">Alerta de Suministros</h4>
+                                <p class="recent-item-subtitle">Bajo inventario de comida para perros</p>
+                            </div>
+                            <div class="recent-item-time">
+                                <span class="time-icon">🕐</span>
+                                <span>Hace 1 día</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Adopciones Recientes -->
+                <div class="recent-section-card">
+                    <div class="recent-section-header">
+                        <div>
+                            <h3 class="recent-section-title">Adopciones Recientes</h3>
+                            <p class="recent-section-subtitle">Animales colocados exitosamente</p>
+                        </div>
+                        <button class="btn-link">Ver Todo →</button>
+                    </div>
+                    <div class="recent-items-list">
+                        <div class="recent-item">
+                            <div class="recent-item-icon green-icon">✓</div>
+                            <div class="recent-item-content">
+                                <h4 class="recent-item-title">Max (Golden Retriever)</h4>
+                                <p class="recent-item-subtitle">Adoptado por Familia Johnson</p>
+                            </div>
+                            <div class="recent-item-time">
+                                <span class="time-icon">🕐</span>
+                                <span>Hace 3 horas</span>
+                            </div>
+                        </div>
+                        <div class="recent-item">
+                            <div class="recent-item-icon green-icon">✓</div>
+                            <div class="recent-item-content">
+                                <h4 class="recent-item-title">Luna (Gato Atigrado)</h4>
+                                <p class="recent-item-subtitle">Adoptado por Sarah Martinez</p>
+                            </div>
+                            <div class="recent-item-time">
+                                <span class="time-icon">🕐</span>
+                                <span>Hace 1 día</span>
+                            </div>
+                        </div>
+                        <div class="recent-item">
+                            <div class="recent-item-icon green-icon">✓</div>
+                            <div class="recent-item-content">
+                                <h4 class="recent-item-title">Charlie (Beagle)</h4>
+                                <p class="recent-item-subtitle">Adoptado por Familia Thomson</p>
+                            </div>
+                            <div class="recent-item-time">
+                                <span class="time-icon">🕐</span>
+                                <span>Hace 2 días</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Últimas Donaciones -->
+                <div class="recent-section-card">
+                    <div class="recent-section-header">
+                        <div>
+                            <h3 class="recent-section-title">Últimas Donaciones</h3>
+                            <p class="recent-section-subtitle">Contribuciones recientes</p>
+                        </div>
+                        <button class="btn-link">Ver Todo →</button>
+                    </div>
+                    <div class="recent-items-list">
+                        <div class="recent-item">
+                            <div class="recent-item-icon blue-icon">💵</div>
+                            <div class="recent-item-content">
+                                <h4 class="recent-item-title">$500 de Anónimo</h4>
+                                <p class="recent-item-subtitle">Contribución al fondo general</p>
+                            </div>
+                            <div class="recent-item-time">
+                                <span class="time-icon">🕐</span>
+                                <span>Hace 1 hora</span>
+                            </div>
+                        </div>
+                        <div class="recent-item">
+                            <div class="recent-item-icon blue-icon">💵</div>
+                            <div class="recent-item-content">
+                                <h4 class="recent-item-title">$1,200 de Pet Store Co.</h4>
+                                <p class="recent-item-subtitle">Patrocinio corporativo</p>
+                            </div>
+                            <div class="recent-item-time">
+                                <span class="time-icon">🕐</span>
+                                <span>Hace 4 horas</span>
+                            </div>
+                        </div>
+                        <div class="recent-item">
+                            <div class="recent-item-icon blue-icon">💵</div>
+                            <div class="recent-item-content">
+                                <h4 class="recent-item-title">$250 de Mary Wilson</h4>
+                                <p class="recent-item-subtitle">Donación al fondo médico</p>
+                            </div>
+                            <div class="recent-item-time">
+                                <span class="time-icon">🕐</span>
+                                <span>Hace 1 día</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabla: Turnos de Voluntarios -->
+            <div class="animales-chart-card animales-chart-full">
+                <div class="animales-table-header">
+                    <h3 class="animales-chart-title animales-chart-title-no-mb">Turnos de Voluntarios Próximos</h3>
+                    <button class="btn-link" onclick="navigateTo('horario')">Ver Horario →</button>
+                </div>
+                <div class="animales-table-wrap">
+                    <table class="animales-table">
+                        <thead>
+                            <tr>
+                                <th>Voluntario</th>
+                                <th>Rol</th>
+                                <th>Día</th>
+                                <th>Horario</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="animales-td-bold animales-td-avatar"><span
+                                        class="animales-avatar animales-avatar-purple">EC</span> Emily Chen</td>
+                                <td>Cuidadora de Perros</td>
+                                <td>Hoy</td>
+                                <td>9:00 AM – 2:00 PM</td>
+                            </tr>
+                            <tr>
+                                <td class="animales-td-bold animales-td-avatar"><span
+                                        class="animales-avatar animales-avatar-blue">MT</span> Michael Torres</td>
+                                <td>Entrenador de Gatos</td>
+                                <td>Mañana</td>
+                                <td>8:30 AM – 1:00 PM</td>
+                            </tr>
+                            <tr>
+                                <td class="animales-td-bold animales-td-avatar"><span
+                                        class="animales-avatar animales-avatar-green">JB</span> Jessica Brown</td>
+                                <td>Asistente de Veterinario</td>
+                                <td>18 Nov</td>
+                                <td>1:00 PM – 6:00 PM</td>
+                            </tr>
+                            <tr>
+                                <td class="animales-td-bold animales-td-avatar"><span
+                                        class="animales-avatar animales-avatar-yellow">DK</span> David Kim</td>
+                                <td>Coordinación de Instalaciones</td>
+                                <td>20 Lun</td>
+                                <td>7:30 AM – 2:00 PM</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Vista: Animales -->
+    <section id="view-animales" class="dashboard-view">
+        <div class="animales-dashboard">
+
+            <!-- Header -->
+            <div class="animales-dashboard-header">
+                <div>
+                    <h2 class="animales-dashboard-title">Dashboard de Animales</h2>
+                    <p class="animales-dashboard-subtitle">Gestión y seguimiento de todos los animales</p>
+                </div>
+                <button class="btn-back animales-btn-volver" onclick="navigateTo('panel')">
+                    <span>←</span> Volver al Panel
+                </button>
+            </div>
+
+            <!-- Métricas -->
+            <div class="animales-metrics-grid">
+                <div class="animales-metric-card animales-metric-blue">
+                    <div class="animales-metric-header">
+                        <div class="animales-metric-icon animales-icon-blue">🐾</div>
+                        <span class="animales-metric-trend positive">↑ 12%</span>
+                    </div>
+                    <p class="animales-metric-label">Total Animales</p>
+                    <h3 class="animales-metric-value">274</h3>
+                    <p class="animales-metric-detail">42 nuevos este mes</p>
+                </div>
+
+                <div class="animales-metric-card animales-metric-green">
+                    <div class="animales-metric-header">
+                        <div class="animales-metric-icon animales-icon-green">❤️</div>
+                        <span class="animales-metric-trend positive">↑ 1.8%</span>
+                    </div>
+                    <p class="animales-metric-label">Disponibles Adopción</p>
+                    <h3 class="animales-metric-value">156</h3>
+                    <p class="animales-metric-detail">57% del total</p>
+                </div>
+
+                <div class="animales-metric-card animales-metric-yellow">
+                    <div class="animales-metric-header">
+                        <div class="animales-metric-icon animales-icon-yellow">📋</div>
+                        <span class="animales-metric-trend negative">↓ 3</span>
+                    </div>
+                    <p class="animales-metric-label">En Tratamiento</p>
+                    <h3 class="animales-metric-value">52</h3>
+                    <p class="animales-metric-detail">19% del total</p>
+                </div>
+
+                <div class="animales-metric-card animales-metric-red">
+                    <div class="animales-metric-header">
+                        <div class="animales-metric-icon animales-icon-red">⚠️</div>
+                        <span class="animales-metric-trend negative">↓ 2</span>
+                    </div>
+                    <p class="animales-metric-label">Estado Crítico</p>
+                    <h3 class="animales-metric-value">7</h3>
+                    <p class="animales-metric-detail">Requieren atención urgente</p>
+                </div>
+            </div>
+
+            <!-- Fila de gráficos: Pie (Especie) + Line (Ingresos) -->
+            <div class="animales-charts-row">
+                <div class="animales-chart-card">
+                    <h3 class="animales-chart-title">Distribución por Especie</h3>
+                    <div class="animales-chart-wrap">
+                        <canvas id="animalPieChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="animales-chart-card">
+                    <h3 class="animales-chart-title">Resumen de Ingresos Mensuales</h3>
+                    <div class="animales-chart-wrap">
+                        <canvas id="animalLineChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gráfico de barras full: Estado de Salud General -->
+            <div class="animales-chart-card animales-chart-full">
+                <h3 class="animales-chart-title">Estado de Salud General</h3>
+                <div class="animales-chart-wrap animales-chart-wrap-bar">
+                    <canvas id="animalBarChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Tabla: Ingresos Recientes -->
+            <div class="animales-chart-card animales-chart-full">
+                <div class="animales-table-header">
+                    <h3 class="animales-chart-title animales-chart-title-no-mb">Ingresos Recientes</h3>
+                    <button class="btn-link">Ver todos →</button>
+                </div>
+                <div class="animales-table-wrap">
+                    <table class="animales-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nombre</th>
+                                <th>Especie</th>
+                                <th>Edad</th>
+                                <th>Estado</th>
+                                <th>Fecha</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>#A274</td>
+                                <td class="animales-td-bold">Luna</td>
+                                <td>Gato</td>
+                                <td>2 años</td>
+                                <td><span class="badge badge-success">Saludable</span></td>
+                                <td>18/01/2026</td>
+                            </tr>
+                            <tr>
+                                <td>#A273</td>
+                                <td class="animales-td-bold">Max</td>
+                                <td>Perro</td>
+                                <td>3 años</td>
+                                <td><span class="badge badge-warning">En Tratamiento</span></td>
+                                <td>17/01/2026</td>
+                            </tr>
+                            <tr>
+                                <td>#A272</td>
+                                <td class="animales-td-bold">Coco</td>
+                                <td>Pájaro</td>
+                                <td>1 año</td>
+                                <td><span class="badge badge-success">Saludable</span></td>
+                                <td>16/01/2026</td>
+                            </tr>
+                            <tr>
+                                <td>#A271</td>
+                                <td class="animales-td-bold">Rocky</td>
+                                <td>Perro</td>
+                                <td>5 años</td>
+                                <td><span class="badge badge-info">Recuperación</span></td>
+                                <td>15/01/2026</td>
+                            </tr>
+                            <tr>
+                                <td>#A270</td>
+                                <td class="animales-td-bold">Bella</td>
+                                <td>Gato</td>
+                                <td>4 años</td>
+                                <td><span class="badge badge-success">Saludable</span></td>
+                                <td>14/01/2026</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div><!-- .animales-dashboard -->
+    </section>
+
+    <!-- Vista: Adopciones -->
+    <section id="view-adopciones" class="dashboard-view">
+        <div class="animales-dashboard">
+            <!-- Header -->
+            <div class="animales-dashboard-header">
+                <div>
+                    <h2 class="animales-dashboard-title">Dashboard de Adopciones</h2>
+                    <p class="animales-dashboard-subtitle">Seguimiento de solicitudes y adopciones</p>
+                </div>
+                <button class="btn-back adopciones-btn-volver" onclick="navigateTo('panel')">
+                    <span>←</span> Volver al Panel
+                </button>
+            </div>
+
+            <!-- Métricas Principales -->
+            <div class="animales-metrics-grid">
+                <div class="animales-metric-card animales-metric-blue">
+                    <div class="animales-metric-header">
+                        <div class="animales-metric-icon animales-icon-blue">❤️</div>
+                        <span class="animales-metric-trend positive">↑ 23%</span>
+                    </div>
+                    <p class="animales-metric-label">Total Adopciones</p>
+                    <h3 class="animales-metric-value">174</h3>
+                    <p class="animales-metric-detail">En los últimos 12 meses</p>
+                </div>
+
+                <div class="animales-metric-card animales-metric-green">
+                    <div class="animales-metric-header">
+                        <div class="animales-metric-icon animales-icon-green">✅</div>
+                        <span class="animales-metric-trend positive">↑ 18%</span>
+                    </div>
+                    <p class="animales-metric-label">Adopciones Exitosas</p>
+                    <h3 class="animales-metric-value">24</h3>
+                    <p class="animales-metric-detail">Este mes</p>
+                </div>
+
+                <div class="animales-metric-card animales-metric-yellow">
+                    <div class="animales-metric-header">
+                        <div class="animales-metric-icon animales-icon-yellow">📊</div>
+                        <span class="animales-metric-trend positive">↑ 5%</span>
+                    </div>
+                    <p class="animales-metric-label">Tasa de Éxito</p>
+                    <h3 class="animales-metric-value">87%</h3>
+                    <p class="animales-metric-detail">Índice de adopción</p>
+                </div>
+
+                <div class="animales-metric-card animales-metric-purple">
+                    <div class="animales-metric-header">
+                        <div class="animales-metric-icon animales-icon-purple">📋</div>
+                        <span class="animales-metric-trend neutral">↓ 3</span>
+                    </div>
+                    <p class="animales-metric-label">Solicitudes Pendientes</p>
+                    <h3 class="animales-metric-value">18</h3>
+                    <p class="animales-metric-detail">En revisión</p>
+                </div>
+            </div>
+
+            <!-- Gráficos: Línea + Donut -->
+            <div class="animales-charts-row">
+                <div class="animales-chart-card">
+                    <h3 class="animales-chart-title">Adopciones por Mes</h3>
+                    <div class="animales-chart-wrap">
+                        <canvas id="adopcionesLineChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="animales-chart-card">
+                    <h3 class="animales-chart-title">Adopciones por Especie</h3>
+                    <div class="animales-chart-wrap">
+                        <canvas id="adopcionesDoughnutChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gráfico de Barras: Estado del Proceso -->
+            <div class="animales-chart-card animales-chart-full">
+                <h3 class="animales-chart-title">Estado del Proceso de Adopción</h3>
+                <div class="animales-chart-wrap animales-chart-wrap-bar">
+                    <canvas id="adopcionesBarChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Tabla: Adopciones Recientes -->
+            <div class="animales-chart-card animales-chart-full">
+                <div class="animales-table-header">
+                    <h3 class="animales-chart-title animales-chart-title-no-mb">Adopciones Recientes</h3>
+                    <button class="btn-link">Ver todas →</button>
+                </div>
+                <div class="animales-table-wrap">
+                    <table class="animales-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Animal</th>
+                                <th>Especie</th>
+                                <th>Adoptante</th>
+                                <th>Fecha</th>
+                                <th>Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="animales-td-bold">#AD024</td>
+                                <td class="animales-td-bold">Max</td>
+                                <td>Perro</td>
+                                <td>Carlos Gómez</td>
+                                <td>18/01/2026</td>
+                                <td><span class="badge badge-success">Completada</span></td>
+                            </tr>
+                            <tr>
+                                <td class="animales-td-bold">#AD023</td>
+                                <td class="animales-td-bold">Luna</td>
+                                <td>Gato</td>
+                                <td>María López</td>
+                                <td>17/01/2026</td>
+                                <td><span class="badge badge-success">Completada</span></td>
+                            </tr>
+                            <tr>
+                                <td class="animales-td-bold">#AD022</td>
+                                <td class="animales-td-bold">Rocky</td>
+                                <td>Perro</td>
+                                <td>Juan Pérez</td>
+                                <td>16/01/2026</td>
+                                <td><span class="badge badge-success">Completada</span></td>
+                            </tr>
+                            <tr>
+                                <td class="animales-td-bold">#AD021</td>
+                                <td class="animales-td-bold">Bella</td>
+                                <td>Gato</td>
+                                <td>Ana Martínez</td>
+                                <td>15/01/2026</td>
+                                <td><span class="badge badge-success">Completada</span></td>
+                            </tr>
+                            <tr>
+                                <td class="animales-td-bold">#AD020</td>
+                                <td class="animales-td-bold">Toby</td>
+                                <td>Conejo</td>
+                                <td>Pedro Ruiz</td>
+                                <td>14/01/2026</td>
+                                <td><span class="badge badge-success">Completada</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Tabla: Solicitudes Pendientes -->
+            <div class="animales-chart-card animales-chart-full">
+                <div class="animales-table-header">
+                    <h3 class="animales-chart-title animales-chart-title-no-mb">Solicitudes Pendientes</h3>
+                    <button class="btn-primary">
+                        <span>➕</span> Nueva Solicitud
+                    </button>
+                </div>
+                <div class="animales-table-wrap">
+                    <table class="animales-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Solicitante</th>
+                                <th>Animal</th>
+                                <th>Especie</th>
+                                <th>Fecha Solicitud</th>
+                                <th>Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="animales-td-bold">#AR035</td>
+                                <td class="animales-td-bold">Laura García</td>
+                                <td>Duke</td>
+                                <td>Perro</td>
+                                <td>01/02/2026</td>
+                                <td><span class="badge badge-info">Pendiente</span></td>
+                            </tr>
+                            <tr>
+                                <td class="animales-td-bold">#AR034</td>
+                                <td class="animales-td-bold">Miguel Torres</td>
+                                <td>Max</td>
+                                <td>Gato</td>
+                                <td>31/01/2026</td>
+                                <td><span class="badge badge-warning">Aprobada</span></td>
+                            </tr>
+                            <tr>
+                                <td class="animales-td-bold">#AR033</td>
+                                <td class="animales-td-bold">Sofía Benítez</td>
+                                <td>Charlie</td>
+                                <td>Perro</td>
+                                <td>30/01/2026</td>
+                                <td><span class="badge badge-danger">En Revisión</span></td>
+                            </tr>
+                            <tr>
+                                <td class="animales-td-bold">#AR032</td>
+                                <td class="animales-td-bold">David Castro</td>
+                                <td>Mila</td>
+                                <td>Gato</td>
+                                <td>29/01/2026</td>
+                                <td><span class="badge badge-danger">En Revisión</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Vista: Voluntarios -->
+    <section id="view-voluntarios" class="dashboard-view">
+        <div class="animales-dashboard">
+
+            <!-- Header -->
+            <div class="animales-dashboard-header">
+                <div>
+                    <h2 class="animales-dashboard-title">Dashboard de Voluntarios</h2>
+                    <p class="animales-dashboard-subtitle">Gestión de voluntarios y turnos</p>
+                </div>
+                <button class="btn-back animales-btn-volver" onclick="navigateTo('panel')">
+                    <span>←</span> Volver al Panel
+                </button>
+            </div>
+
+            <!-- Métricas -->
+            <div class="animales-metrics-grid">
+                <div class="animales-metric-card animales-metric-blue">
+                    <div class="animales-metric-header">
+                        <div class="animales-metric-icon animales-icon-blue">👥</div>
+                        <span class="animales-metric-trend positive">↑ 1.8%</span>
+                    </div>
+                    <p class="animales-metric-label">Voluntarios Activos</p>
+                    <h3 class="animales-metric-value">89</h3>
+                    <p class="animales-metric-detail">Total registrados</p>
+                </div>
+
+                <div class="animales-metric-card animales-metric-green">
+                    <div class="animales-metric-header">
+                        <div class="animales-metric-icon animales-icon-green">📅</div>
+                        <span class="animales-metric-trend positive">↑ 5</span>
+                    </div>
+                    <p class="animales-metric-label">Programados Hoy</p>
+                    <h3 class="animales-metric-value">18</h3>
+                    <p class="animales-metric-detail">Se ovienes turnos</p>
+                </div>
+
+                <div class="animales-metric-card animales-metric-yellow">
+                    <div class="animales-metric-header">
+                        <div class="animales-metric-icon animales-icon-yellow">⏰</div>
+                        <span class="animales-metric-trend positive">↑ 12%</span>
+                    </div>
+                    <p class="animales-metric-label">Horas Este Mes</p>
+                    <h3 class="animales-metric-value">398</h3>
+                    <p class="animales-metric-detail">Total acumuladas</p>
+                </div>
+
+                <div class="animales-metric-card animales-metric-purple">
+                    <div class="animales-metric-header">
+                        <div class="animales-metric-icon animales-icon-purple">⭐</div>
+                        <span class="animales-metric-trend positive">↑ 15%</span>
+                    </div>
+                    <p class="animales-metric-label">Tareas Completadas</p>
+                    <h3 class="animales-metric-value">282</h3>
+                    <p class="animales-metric-detail">En enero 2026</p>
+                </div>
+            </div>
+
+            <!-- Fila de gráficos: Line (Horas) + Pie (Distribución por Tarea) -->
+            <div class="animales-charts-row">
+                <div class="animales-chart-card">
+                    <h3 class="animales-chart-title">Horas de Voluntariado (Mensual)</h3>
+                    <div class="animales-chart-wrap">
+                        <canvas id="volLineChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="animales-chart-card">
+                    <h3 class="animales-chart-title">Distribución por Tarea</h3>
+                    <div class="animales-chart-wrap">
+                        <canvas id="volPieChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gráfico de barras full: Voluntarios por Turno -->
+            <div class="animales-chart-card animales-chart-full">
+                <h3 class="animales-chart-title">Voluntarios por Turno</h3>
+                <div class="animales-chart-wrap animales-chart-wrap-bar">
+                    <canvas id="volBarChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Tabla: Top Voluntarios del Mes -->
+            <div class="animales-chart-card animales-chart-full">
+                <div class="animales-table-header">
+                    <h3 class="animales-chart-title animales-chart-title-no-mb">Top Voluntarios del Mes</h3>
+                    <button class="btn-link">Ver todos →</button>
+                </div>
+                <div class="animales-table-wrap">
+                    <table class="animales-table">
+                        <thead>
+                            <tr>
+                                <th>Voluntario</th>
+                                <th>Horas</th>
+                                <th>Tareas</th>
+                                <th>Rating</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="animales-td-bold">María García</td>
+                                <td>156h</td>
+                                <td>48</td>
+                                <td>⭐ <span class="animales-td-bold">4.9</span></td>
+                            </tr>
+                            <tr>
+                                <td class="animales-td-bold">Juan Pérez</td>
+                                <td>142h</td>
+                                <td>45</td>
+                                <td>⭐ <span class="animales-td-bold">4.8</span></td>
+                            </tr>
+                            <tr>
+                                <td class="animales-td-bold">Ana López</td>
+                                <td>138h</td>
+                                <td>42</td>
+                                <td>⭐ <span class="animales-td-bold">4.9</span></td>
+                            </tr>
+                            <tr>
+                                <td class="animales-td-bold">Carlos Ruiz</td>
+                                <td>125h</td>
+                                <td>38</td>
+                                <td>⭐ <span class="animales-td-bold">4.7</span></td>
+                            </tr>
+                            <tr>
+                                <td class="animales-td-bold">Laura Martín</td>
+                                <td>118h</td>
+                                <td>36</td>
+                                <td>⭐ <span class="animales-td-bold">4.8</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Tabla: Próximos Turnos -->
+            <div class="animales-chart-card animales-chart-full">
+                <div class="animales-table-header">
+                    <h3 class="animales-chart-title animales-chart-title-no-mb">Próximos Turnos</h3>
+                    <button class="btn-link">Ver calendario completo →</button>
+                </div>
+                <div class="animales-table-wrap">
+                    <table class="animales-table">
+                        <thead>
+                            <tr>
+                                <th>Voluntario</th>
+                                <th>Turno</th>
+                                <th>Fecha</th>
+                                <th>Horario</th>
+                                <th>Tarea</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="animales-td-bold">María García</td>
+                                <td><span class="badge badge-success">Mañana</span></td>
+                                <td>19/01/2026</td>
+                                <td>08:00 - 14:00</td>
+                                <td>Cuidado Animal</td>
+                            </tr>
+                            <tr>
+                                <td class="animales-td-bold">Juan Pérez</td>
+                                <td><span class="badge badge-warning">Tarde</span></td>
+                                <td>19/01/2026</td>
+                                <td>14:00 - 20:00</td>
+                                <td>Administrativo</td>
+                            </tr>
+                            <tr>
+                                <td class="animales-td-bold">Ana López</td>
+                                <td><span class="badge badge-success">Mañana</span></td>
+                                <td>19/01/2026</td>
+                                <td>08:00 - 14:00</td>
+                                <td>Cuidado Animal</td>
+                            </tr>
+                            <tr>
+                                <td class="animales-td-bold">Carlos Ruiz</td>
+                                <td><span class="badge badge-danger">Noche</span></td>
+                                <td>19/01/2026</td>
+                                <td>20:00 - 02:00</td>
+                                <td>Vigilancia</td>
+                            </tr>
+                            <tr>
+                                <td class="animales-td-bold">Laura Martín</td>
+                                <td><span class="badge badge-warning">Tarde</span></td>
+                                <td>19/01/2026</td>
+                                <td>14:00 - 20:00</td>
+                                <td>Eventos</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div><!-- .animales-dashboard -->
+    </section>
+
+    <!-- Vista: Donaciones -->
+    <section id="view-donaciones" class="dashboard-view">
+        <div class="animales-dashboard">
+
+            <!-- Header -->
+            <div class="animales-dashboard-header">
+                <div>
+                    <h2 class="animales-dashboard-title">Dashboard de Donaciones</h2>
+                    <p class="animales-dashboard-subtitle">Seguimiento de donaciones y donantes</p>
+                </div>
+                <button class="btn-back animales-btn-volver" onclick="navigateTo('panel')">
+                    <span>←</span> Volver al Panel
+                </button>
+            </div>
+
+            <!-- Métricas -->
+            <div class="animales-metrics-grid">
+                <div class="animales-metric-card animales-metric-blue">
+                    <div class="animales-metric-header">
+                        <div class="animales-metric-icon animales-icon-blue">💵</div>
+                        <span class="animales-metric-trend positive">↑ 23%</span>
+                    </div>
+                    <p class="animales-metric-label">Total Este Mes</p>
+                    <h3 class="animales-metric-value">$102,150</h3>
+                    <p class="animales-metric-detail">Acumulado enero</p>
+                </div>
+
+                <div class="animales-metric-card animales-metric-green">
+                    <div class="animales-metric-header">
+                        <div class="animales-metric-icon animales-icon-green">📊</div>
+                        <span class="animales-metric-trend positive">↑ 12%</span>
+                    </div>
+                    <p class="animales-metric-label">Nueva Donación</p>
+                    <h3 class="animales-metric-value">$317</h3>
+                    <p class="animales-metric-detail">Promedio por donación</p>
+                </div>
+
+                <div class="animales-metric-card animales-metric-yellow">
+                    <div class="animales-metric-header">
+                        <div class="animales-metric-icon animales-icon-yellow">👥</div>
+                        <span class="animales-metric-trend positive">↑ 8%</span>
+                    </div>
+                    <p class="animales-metric-label">Donantes Activos</p>
+                    <h3 class="animales-metric-value">322</h3>
+                    <p class="animales-metric-detail">En el último mes</p>
+                </div>
+
+                <div class="animales-metric-card animales-metric-purple">
+                    <div class="animales-metric-header">
+                        <div class="animales-metric-icon animales-icon-purple">🔄</div>
+                        <span class="animales-metric-trend positive">↑ 18%</span>
+                    </div>
+                    <p class="animales-metric-label">Donantes Recurrentes</p>
+                    <h3 class="animales-metric-value">322</h3>
+                    <p class="animales-metric-detail">Suscritos activos</p>
+                </div>
+            </div>
+
+            <!-- Fila de gráficos: Line (Tendencia) + Pie (Tipos) -->
+            <div class="animales-charts-row">
+                <div class="animales-chart-card">
+                    <h3 class="animales-chart-title">Tendencia de Donaciones (Mensual)</h3>
+                    <div class="animales-chart-wrap">
+                        <canvas id="donLineChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="animales-chart-card">
+                    <h3 class="animales-chart-title">Tipos de Donación</h3>
+                    <div class="animales-chart-wrap">
+                        <canvas id="donPieChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gráfico de barras full: Métodos de Pago -->
+            <div class="animales-chart-card animales-chart-full">
+                <h3 class="animales-chart-title">Métodos de Pago Utilizados</h3>
+                <div class="animales-chart-wrap animales-chart-wrap-bar">
+                    <canvas id="donBarChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Tabla: Top Donantes -->
+            <div class="animales-chart-card animales-chart-full">
+                <div class="animales-table-header">
+                    <h3 class="animales-chart-title animales-chart-title-no-mb">Top Donantes</h3>
+                    <button class="btn-link">Ver todos →</button>
+                </div>
+                <div class="animales-table-wrap">
+                    <table class="animales-table">
+                        <thead>
+                            <tr>
+                                <th>Donante</th>
+                                <th>Total Donado</th>
+                                <th>Nº Donaciones</th>
+                                <th>Frecuencia</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="animales-td-bold">Fundación Amigos</td>
+                                <td>$12,350</td>
+                                <td>8</td>
+                                <td><span class="badge badge-info">Mensual</span></td>
+                            </tr>
+                            <tr>
+                                <td class="animales-td-bold">María Gómez</td>
+                                <td>$8,900</td>
+                                <td>12</td>
+                                <td><span class="badge badge-success">Semanal</span></td>
+                            </tr>
+                            <tr>
+                                <td class="animales-td-bold">Empresas Nat SA</td>
+                                <td>$7,850</td>
+                                <td>3</td>
+                                <td><span class="badge badge-warning">Trimestral</span></td>
+                            </tr>
+                            <tr>
+                                <td class="animales-td-bold">Juan Rodríguez</td>
+                                <td>$6,200</td>
+                                <td>15</td>
+                                <td><span class="badge badge-info">Mensual</span></td>
+                            </tr>
+                            <tr>
+                                <td class="animales-td-bold">ONG Protectora</td>
+                                <td>$5,800</td>
+                                <td>6</td>
+                                <td><span class="badge badge-info">Mensual</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Tabla: Donaciones Recientes -->
+            <div class="animales-chart-card animales-chart-full">
+                <div class="animales-table-header">
+                    <h3 class="animales-chart-title animales-chart-title-no-mb">Donaciones Recientes</h3>
+                    <button class="btn-link">Ver historial completo →</button>
+                </div>
+                <div class="animales-table-wrap">
+                    <table class="animales-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Donante</th>
+                                <th>Tipo</th>
+                                <th>Monto</th>
+                                <th>Método</th>
+                                <th>Fecha</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="animales-td-bold">#D282</td>
+                                <td class="animales-td-bold">María Gómez</td>
+                                <td><span class="badge badge-success">Mensual</span></td>
+                                <td>$150</td>
+                                <td>Transferencia</td>
+                                <td>19/01/2026</td>
+                            </tr>
+                            <tr>
+                                <td class="animales-td-bold">#D281</td>
+                                <td class="animales-td-bold">Fundación Amigos</td>
+                                <td><span class="badge badge-info">Anónima</span></td>
+                                <td>$1,200</td>
+                                <td>Empresa</td>
+                                <td>17/01/2026</td>
+                            </tr>
+                            <tr>
+                                <td class="animales-td-bold">#D280</td>
+                                <td class="animales-td-bold">Anónimo</td>
+                                <td><span class="badge badge-success">Mensual</span></td>
+                                <td>$200</td>
+                                <td>Efectivo</td>
+                                <td>16/01/2026</td>
+                            </tr>
+                            <tr>
+                                <td class="animales-td-bold">#D279</td>
+                                <td class="animales-td-bold">Juan Rodríguez</td>
+                                <td><span class="badge badge-danger">Esporádica</span></td>
+                                <td>$300</td>
+                                <td>PayPal</td>
+                                <td>14/01/2026</td>
+                            </tr>
+                            <tr>
+                                <td class="animales-td-bold">#D278</td>
+                                <td class="animales-td-bold">Empresas Nat SA</td>
+                                <td><span class="badge badge-purple">Corporativa</span></td>
+                                <td>$800</td>
+                                <td>Transferencia</td>
+                                <td>13/01/2026</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div><!-- .animales-dashboard -->
+    </section>
+
+    <!-- Vista: Incidencias -->
+    <section id="view-incidencias" class="dashboard-view">
+        <div class="animales-dashboard">
+
+            <!-- Header -->
+            <div class="animales-dashboard-header">
+                <div>
+                    <h2 class="animales-dashboard-title">Dashboard de Incidencias</h2>
+                    <p class="animales-dashboard-subtitle">Gestión y seguimiento de incidencias</p>
+                </div>
+                <button class="btn-back animales-btn-volver" onclick="navigateTo('panel')">
+                    <span>←</span> Volver al Panel
+                </button>
+            </div>
+
+            <!-- Métricas -->
+            <div class="animales-metrics-grid">
+                <div class="animales-metric-card animales-metric-red">
+                    <div class="animales-metric-header">
+                        <div class="animales-metric-icon animales-icon-red">🚨</div>
+                        <span class="animales-metric-trend negative">↑ 2</span>
+                    </div>
+                    <p class="animales-metric-label">Incidencias Abiertas</p>
+                    <h3 class="animales-metric-value">7</h3>
+                    <p class="animales-metric-detail">Requieren atención</p>
+                </div>
+
+                <div class="animales-metric-card animales-metric-yellow">
+                    <div class="animales-metric-header">
+                        <div class="animales-metric-icon animales-icon-yellow">⚠️</div>
+                        <span class="animales-metric-trend positive">↓ 1</span>
+                    </div>
+                    <p class="animales-metric-label">Prioridad Alta</p>
+                    <h3 class="animales-metric-value">3</h3>
+                    <p class="animales-metric-detail">Urgentes sin resolver</p>
+                </div>
+
+                <div class="animales-metric-card animales-metric-blue">
+                    <div class="animales-metric-header">
+                        <div class="animales-metric-icon animales-icon-blue">⏱️</div>
+                        <span class="animales-metric-trend positive">↑ 0.5%</span>
+                    </div>
+                    <p class="animales-metric-label">Tiempo Promedio</p>
+                    <h3 class="animales-metric-value">3.2 días</h3>
+                    <p class="animales-metric-detail">Resolución media</p>
+                </div>
+
+                <div class="animales-metric-card animales-metric-green">
+                    <div class="animales-metric-header">
+                        <div class="animales-metric-icon animales-icon-green">✅</div>
+                        <span class="animales-metric-trend positive">↑ 18%</span>
+                    </div>
+                    <p class="animales-metric-label">Resueltos Este Mes</p>
+                    <h3 class="animales-metric-value">42</h3>
+                    <p class="animales-metric-detail">98% tasa resolución</p>
+                </div>
+            </div>
+
+            <!-- Fila de gráficos: Line (Incidencias por Mes) + Pie (Tipos) -->
+            <div class="animales-charts-row">
+                <div class="animales-chart-card">
+                    <h3 class="animales-chart-title">Incidencias por Mes</h3>
+                    <div class="animales-chart-wrap">
+                        <canvas id="incLineChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="animales-chart-card">
+                    <h3 class="animales-chart-title">Tipos de Incidencias</h3>
+                    <div class="animales-chart-wrap">
+                        <canvas id="incPieChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gráfico de barras full: Distribución por Severidad -->
+            <div class="animales-chart-card animales-chart-full">
+                <h3 class="animales-chart-title">Distribución por Severidad</h3>
+                <div class="animales-chart-wrap animales-chart-wrap-bar">
+                    <canvas id="incBarChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Tabla: Incidencias Abiertas -->
+            <div class="animales-chart-card animales-chart-full">
+                <div class="animales-table-header">
+                    <h3 class="animales-chart-title animales-chart-title-no-mb">Incidencias Abiertas</h3>
+                    <button class="btn-link">+ Nueva Incidencia</button>
+                </div>
+                <div class="animales-table-wrap">
+                    <table class="animales-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Tipo</th>
+                                <th>Descripción</th>
+                                <th>Prioridad</th>
+                                <th>Responsable</th>
+                                <th>Fecha</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="animales-td-bold">#I127</td>
+                                <td class="animales-td-bold">Salud Animal</td>
+                                <td>Perro con síntomas de enfermedad</td>
+                                <td><span class="badge badge-danger">Crítica</span></td>
+                                <td>Dr. García</td>
+                                <td>19/01/2026</td>
+                            </tr>
+                            <tr>
+                                <td class="animales-td-bold">#I126</td>
+                                <td class="animales-td-bold">Instalaciones</td>
+                                <td>Fuga de agua en área de gatos</td>
+                                <td><span class="badge badge-warning">Alta</span></td>
+                                <td>Mantenimiento</td>
+                                <td>17/01/2026</td>
+                            </tr>
+                            <tr>
+                                <td class="animales-td-bold">#I125</td>
+                                <td class="animales-td-bold">Seguridad</td>
+                                <td>Puerta de acceso dañada</td>
+                                <td><span class="badge badge-info">Media</span></td>
+                                <td>Seguridad</td>
+                                <td>17/01/2026</td>
+                            </tr>
+                            <tr>
+                                <td class="animales-td-bold">#I124</td>
+                                <td class="animales-td-bold">Clima</td>
+                                <td>Sistema AC no funciona</td>
+                                <td><span class="badge badge-warning">Alta</span></td>
+                                <td>HVAC</td>
+                                <td>16/01/2026</td>
+                            </tr>
+                            <tr>
+                                <td class="animales-td-bold">#I123</td>
+                                <td class="animales-td-bold">Personal</td>
+                                <td>Falta de voluntarios turno noche</td>
+                                <td><span class="badge badge-info">Media</span></td>
+                                <td>RH/23</td>
+                                <td>15/01/2026</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Tabla: Resueltos Recientemente -->
+            <div class="animales-chart-card animales-chart-full">
+                <div class="animales-table-header">
+                    <h3 class="animales-chart-title animales-chart-title-no-mb">Resueltos Recientemente</h3>
+                    <button class="btn-link">Ver historial completo →</button>
+                </div>
+                <div class="animales-table-wrap">
+                    <table class="animales-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Tipo</th>
+                                <th>Descripción</th>
+                                <th>Estado</th>
+                                <th>Fecha Cierre</th>
+                                <th>Tiempo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="animales-td-bold">#I122</td>
+                                <td class="animales-td-bold">Clima</td>
+                                <td>Sistema AC reparado</td>
+                                <td><span class="badge badge-success">Resuelto</span></td>
+                                <td>19/01/2026</td>
+                                <td>2 días</td>
+                            </tr>
+                            <tr>
+                                <td class="animales-td-bold">#I121</td>
+                                <td class="animales-td-bold">Salud Animal</td>
+                                <td>Tratamiento completado</td>
+                                <td><span class="badge badge-success">Resuelto</span></td>
+                                <td>19/01/2026</td>
+                                <td>5 días</td>
+                            </tr>
+                            <tr>
+                                <td class="animales-td-bold">#I120</td>
+                                <td class="animales-td-bold">Seguridad</td>
+                                <td>Actualización de alarmas</td>
+                                <td><span class="badge badge-success">Resuelto</span></td>
+                                <td>18/01/2026</td>
+                                <td>1 día</td>
+                            </tr>
+                            <tr>
+                                <td class="animales-td-bold">#I119</td>
+                                <td class="animales-td-bold">Personal</td>
+                                <td>Capacitación completada</td>
+                                <td><span class="badge badge-success">Resuelto</span></td>
+                                <td>17/01/2026</td>
+                                <td>3 días</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div><!-- .animales-dashboard -->
+    </section>
+
+    <!-- Vista: Horario -->
+    <section id="view-horario" class="dashboard-view">
+        <div class="horario-dashboard">
+            <!-- Header -->
+            <div class="horario-header">
+                <div>
+                    <h2 class="horario-title">Horarios y Calendario</h2>
+                    <p class="horario-subtitle">Gestión de turnos y eventos programados</p>
+                </div>
+                <button class="btn-back horario-btn-volver" onclick="navigateTo('panel')">
+                    <span>←</span> Volver al Panel
+                </button>
+            </div>
+
+            <!-- Navegación de Calendario -->
+            <div class="horario-nav">
+                <button class="horario-nav-btn">
+                    <span>←</span>
+                </button>
+                <h3 class="horario-nav-title">Enero 2026</h3>
+                <button class="horario-nav-btn">
+                    <span>→</span>
+                </button>
+                <div class="horario-nav-actions">
+                    <button class="btn-secondary">Semana</button>
+                    <button class="btn-secondary active">Mes</button>
+                    <button class="btn-primary">
+                        <span>➕</span> Nuevo Turno
+                    </button>
+                </div>
+            </div>
+
+            <!-- Calendario Semanal -->
+            <div class="horario-calendar">
+                <div class="horario-weekdays">
+                    <div class="horario-weekday">
+                        <div class="horario-day-name">Lunes 19</div>
+                    </div>
+                    <div class="horario-weekday">
+                        <div class="horario-day-name">Martes 20</div>
+                    </div>
+                    <div class="horario-weekday">
+                        <div class="horario-day-name">Miércoles 21</div>
+                    </div>
+                    <div class="horario-weekday">
+                        <div class="horario-day-name">Jueves 22</div>
+                    </div>
+                    <div class="horario-weekday">
+                        <div class="horario-day-name">Viernes 23</div>
+                    </div>
+                    <div class="horario-weekday">
+                        <div class="horario-day-name">Sábado 24</div>
+                    </div>
+                    <div class="horario-weekday">
+                        <div class="horario-day-name">Domingo 25</div>
+                    </div>
+                </div>
+
+                <div class="horario-events-grid">
+                    <!-- Lunes 19 -->
+                    <div class="horario-day-column">
+                        <div class="horario-event horario-event-green">
+                            <div class="horario-event-time">08:00 - 14:00</div>
+                            <div class="horario-event-title">Cuidado Animal</div>
+                            <div class="horario-event-person">Sarah García</div>
+                        </div>
+                        <div class="horario-event horario-event-blue">
+                            <div class="horario-event-time">14:00 - 20:00</div>
+                            <div class="horario-event-title">Administración</div>
+                            <div class="horario-event-person">Miguel Torres</div>
+                        </div>
+                        <div class="horario-event horario-event-purple">
+                            <div class="horario-event-time">20:00 - 23:00</div>
+                            <div class="horario-event-title">Guardia</div>
+                            <div class="horario-event-person">Carlos Ruiz</div>
+                        </div>
+                    </div>
+
+                    <!-- Martes 20 -->
+                    <div class="horario-day-column">
+                        <div class="horario-event horario-event-green">
+                            <div class="horario-event-time">08:00 - 14:00</div>
+                            <div class="horario-event-title">Cuidado Animal</div>
+                            <div class="horario-event-person">Laura Martín</div>
+                        </div>
+                        <div class="horario-event horario-event-yellow">
+                            <div class="horario-event-time">14:00 - 20:00</div>
+                            <div class="horario-event-title">Medicina</div>
+                            <div class="horario-event-person">Dr. García</div>
+                        </div>
+                    </div>
+
+                    <!-- Miércoles 21 -->
+                    <div class="horario-day-column">
+                        <div class="horario-event horario-event-blue">
+                            <div class="horario-event-time">08:00 - 14:00</div>
+                            <div class="horario-event-title">Administración</div>
+                            <div class="horario-event-person">Jorge Castro</div>
+                        </div>
+                        <div class="horario-event horario-event-red">
+                            <div class="horario-event-time">15:00 - 18:00</div>
+                            <div class="horario-event-title">Transporte</div>
+                            <div class="horario-event-person">Ana López</div>
+                        </div>
+                        <div class="horario-event horario-event-blue">
+                            <div class="horario-event-time">18:00 - 20:00</div>
+                            <div class="horario-event-title">Eventos</div>
+                            <div class="horario-event-person">Camila Valle</div>
+                        </div>
+                    </div>
+
+                    <!-- Jueves 22 -->
+                    <div class="horario-day-column">
+                        <div class="horario-event horario-event-green">
+                            <div class="horario-event-time">08:00 - 14:00</div>
+                            <div class="horario-event-title">Cuidado Animal</div>
+                            <div class="horario-event-person">Isabel Moreno</div>
+                        </div>
+                    </div>
+
+                    <!-- Viernes 23 -->
+                    <div class="horario-day-column">
+                        <div class="horario-event horario-event-green">
+                            <div class="horario-event-time">08:00 - 14:00</div>
+                            <div class="horario-event-title">Cuidado Animal</div>
+                            <div class="horario-event-person">María Fernández</div>
+                        </div>
+                        <div class="horario-event horario-event-yellow">
+                            <div class="horario-event-time">14:00 - 20:00</div>
+                            <div class="horario-event-title">Medicina</div>
+                            <div class="horario-event-person">Equipo Vet</div>
+                        </div>
+                    </div>
+
+                    <!-- Sábado 24 -->
+                    <div class="horario-day-column">
+                        <div class="horario-event horario-event-green">
+                            <div class="horario-event-time">08:00 - 14:00</div>
+                            <div class="horario-event-title">Cuidado Animal</div>
+                            <div class="horario-event-person">Fernando López</div>
+                        </div>
+                        <div class="horario-event horario-event-yellow">
+                            <div class="horario-event-time">14:00 - 20:00</div>
+                            <div class="horario-event-title">Medicina</div>
+                            <div class="horario-event-person">Melissa Herrera</div>
+                        </div>
+                    </div>
+
+                    <!-- Domingo 25 -->
+                    <div class="horario-day-column">
+                        <div class="horario-event horario-event-green">
+                            <div class="horario-event-time">08:00 - 14:00</div>
+                            <div class="horario-event-title">Cuidado Animal</div>
+                            <div class="horario-event-person">Pedro Vidal</div>
+                        </div>
+                        <div class="horario-event horario-event-blue">
+                            <div class="horario-event-time">14:00 - 20:00</div>
+                            <div class="horario-event-title">Administración</div>
+                            <div class="horario-event-person">Equipo Admin</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tareas Próximas -->
+            <div class="horario-tasks">
+                <h3 class="horario-tasks-title">Tareas Próximas</h3>
+                <div class="horario-tasks-list">
+                    <div class="horario-task">
+                        <div class="horario-task-icon horario-icon-blue">🔵</div>
+                        <div class="horario-task-content">
+                            <div class="horario-task-title">Reunión veterinaria grupal</div>
+                            <div class="horario-task-time">20/01/2026 a las 10:00</div>
+                        </div>
+                        <div class="horario-task-assigned">
+                            <span class="horario-task-label">Asignado a</span>
+                            <span class="horario-task-person">Dr. García</span>
+                        </div>
+                    </div>
+
+                    <div class="horario-task">
+                        <div class="horario-task-icon horario-icon-blue">🔵</div>
+                        <div class="horario-task-content">
+                            <div class="horario-task-title">Evento de adopción</div>
+                            <div class="horario-task-time">21/01/2026 a las 16:00</div>
+                        </div>
+                        <div class="horario-task-assigned">
+                            <span class="horario-task-label">Asignado a</span>
+                            <span class="horario-task-person">Equipo de Eventos</span>
+                        </div>
+                    </div>
+
+                    <div class="horario-task">
+                        <div class="horario-task-icon horario-icon-blue">🔵</div>
+                        <div class="horario-task-content">
+                            <div class="horario-task-title">Entrega de donaciones</div>
+                            <div class="horario-task-time">21/01/2026 a las 18:00</div>
+                        </div>
+                        <div class="horario-task-assigned">
+                            <span class="horario-task-label">Asignado a</span>
+                            <span class="horario-task-person">Laura Martín</span>
+                        </div>
+                    </div>
+
+                    <div class="horario-task">
+                        <div class="horario-task-icon horario-icon-blue">🔵</div>
+                        <div class="horario-task-content">
+                            <div class="horario-task-title">Capacitación voluntarios</div>
+                            <div class="horario-task-time">25/01/2026 a las 09:00</div>
+                        </div>
+                        <div class="horario-task-assigned">
+                            <span class="horario-task-label">Asignado a</span>
+                            <span class="horario-task-person">RRHH</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Leyenda de Tareas -->
+            <div class="horario-legend">
+                <h3 class="horario-legend-title">Leyenda de Tareas</h3>
+                <div class="horario-legend-items">
+                    <div class="horario-legend-item">
+                        <span class="horario-legend-color horario-legend-green"></span>
+                        <span class="horario-legend-text">Cuidado Animal</span>
+                    </div>
+                    <div class="horario-legend-item">
+                        <span class="horario-legend-color horario-legend-blue"></span>
+                        <span class="horario-legend-text">Administración</span>
+                    </div>
+                    <div class="horario-legend-item">
+                        <span class="horario-legend-color horario-legend-yellow"></span>
+                        <span class="horario-legend-text">Medicina</span>
+                    </div>
+                    <div class="horario-legend-item">
+                        <span class="horario-legend-color horario-legend-purple"></span>
+                        <span class="horario-legend-text">Vigilancia</span>
+                    </div>
+                    <div class="horario-legend-item">
+                        <span class="horario-legend-color horario-legend-red"></span>
+                        <span class="horario-legend-text">Transporte</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Vista: Reportes -->
+    <section id="view-reportes" class="dashboard-view">
+        <div class="animales-dashboard">
+
+            <!-- Header -->
+            <div class="animales-dashboard-header">
+                <div>
+                    <h2 class="animales-dashboard-title">Reportes y Análisis</h2>
+                    <p class="animales-dashboard-subtitle">Genera y visualiza reportes del sistema</p>
+                </div>
+                <button class="btn-back animales-btn-volver" onclick="navigateTo('panel')">
+                    <span>←</span> Volver al Panel
+                </button>
+            </div>
+
+            <!-- Fila de gráficos: Line doble (Ingresos y Adopciones) + Bar (Donaciones) -->
+            <div class="animales-charts-row">
+                <div class="animales-chart-card">
+                    <h3 class="animales-chart-title">Tendencia de Ingresos y Adopciones</h3>
+                    <div class="animales-chart-wrap">
+                        <canvas id="repLineChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="animales-chart-card">
+                    <h3 class="animales-chart-title">Tendencia de Donaciones</h3>
+                    <div class="animales-chart-wrap">
+                        <canvas id="repBarChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Grid de tarjetas de reportes (2x2) -->
+            <div class="animales-charts-row">
+                <!-- Reportes de Animales -->
+                <div class="animales-chart-card">
+                    <div class="report-category-header">
+                        <div class="report-category-icon" style="background: rgba(16, 185, 129, 0.15);">
+                            <span style="font-size: 24px;">🐾</span>
+                        </div>
+                        <h3 class="animales-chart-title" style="margin-bottom: 0;">Reportes de Animales</h3>
+                    </div>
+                    <div class="report-items-list">
+                        <div class="report-item">
+                            <div>
+                                <div class="report-item-title">Ingresos y Adopciones Mensuales</div>
+                                <div class="report-item-meta">Generado: 15/01/2026</div>
+                            </div>
+                            <button class="btn-icon-report" title="Descargar">⬇️</button>
+                        </div>
+                        <div class="report-item">
+                            <div>
+                                <div class="report-item-title">Estado de Salud General</div>
+                                <div class="report-item-meta">Generado: 14/01/2026</div>
+                            </div>
+                            <button class="btn-icon-report" title="Descargar">⬇️</button>
+                        </div>
+                        <div class="report-item">
+                            <div>
+                                <div class="report-item-title">Distribución por Especie</div>
+                                <div class="report-item-meta">Generado: 12/01/2026</div>
+                            </div>
+                            <button class="btn-icon-report" title="Descargar">⬇️</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Reportes de Voluntarios -->
+                <div class="animales-chart-card">
+                    <div class="report-category-header">
+                        <div class="report-category-icon" style="background: rgba(59, 130, 246, 0.15);">
+                            <span style="font-size: 24px;">👥</span>
+                        </div>
+                        <h3 class="animales-chart-title" style="margin-bottom: 0;">Reportes de Voluntarios</h3>
+                    </div>
+                    <div class="report-items-list">
+                        <div class="report-item">
+                            <div>
+                                <div class="report-item-title">Horas de Voluntariado</div>
+                                <div class="report-item-meta">Generado: 17/01/2026</div>
+                            </div>
+                            <button class="btn-icon-report" title="Descargar">⬇️</button>
+                        </div>
+                        <div class="report-item">
+                            <div>
+                                <div class="report-item-title">Performance y Actividad</div>
+                                <div class="report-item-meta">Generado: 15/01/2026</div>
+                            </div>
+                            <button class="btn-icon-report" title="Descargar">⬇️</button>
+                        </div>
+                        <div class="report-item">
+                            <div>
+                                <div class="report-item-title">Asistencia por Turno</div>
+                                <div class="report-item-meta">Generado: 13/01/2026</div>
+                            </div>
+                            <button class="btn-icon-report" title="Descargar">⬇️</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="animales-charts-row">
+                <!-- Reportes Financieros -->
+                <div class="animales-chart-card">
+                    <div class="report-category-header">
+                        <div class="report-category-icon" style="background: rgba(245, 158, 11, 0.15);">
+                            <span style="font-size: 24px;">💰</span>
+                        </div>
+                        <h3 class="animales-chart-title" style="margin-bottom: 0;">Reportes Financieros</h3>
+                    </div>
+                    <div class="report-items-list">
+                        <div class="report-item">
+                            <div>
+                                <div class="report-item-title">Donaciones Mensuales</div>
+                                <div class="report-item-meta">Generado: 18/01/2026</div>
+                            </div>
+                            <button class="btn-icon-report" title="Descargar">⬇️</button>
+                        </div>
+                        <div class="report-item">
+                            <div>
+                                <div class="report-item-title">Gastos Operacionales</div>
+                                <div class="report-item-meta">Generado: 16/01/2026</div>
+                            </div>
+                            <button class="btn-icon-report" title="Descargar">⬇️</button>
+                        </div>
+                        <div class="report-item">
+                            <div>
+                                <div class="report-item-title">Balance General</div>
+                                <div class="report-item-meta">Generado: 12/01/2026</div>
+                            </div>
+                            <button class="btn-icon-report" title="Descargar">⬇️</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Reportes de Incidencias -->
+                <div class="animales-chart-card">
+                    <div class="report-category-header">
+                        <div class="report-category-icon" style="background: rgba(239, 68, 68, 0.15);">
+                            <span style="font-size: 24px;">⚠️</span>
+                        </div>
+                        <h3 class="animales-chart-title" style="margin-bottom: 0;">Reportes de Incidencias</h3>
+                    </div>
+                    <div class="report-items-list">
+                        <div class="report-item">
+                            <div>
+                                <div class="report-item-title">Incidentes por Categoría</div>
+                                <div class="report-item-meta">Generado: 17/01/2026</div>
+                            </div>
+                            <button class="btn-icon-report" title="Descargar">⬇️</button>
+                        </div>
+                        <div class="report-item">
+                            <div>
+                                <div class="report-item-title">Tiempo de Resolución</div>
+                                <div class="report-item-meta">Generado: 14/01/2026</div>
+                            </div>
+                            <button class="btn-icon-report" title="Descargar">⬇️</button>
+                        </div>
+                        <div class="report-item">
+                            <div>
+                                <div class="report-item-title">Análisis de Tendencias</div>
+                                <div class="report-item-meta">Generado: 11/01/2026</div>
+                            </div>
+                            <button class="btn-icon-report" title="Descargar">⬇️</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabla: Reportes Recientes -->
+            <div class="animales-chart-card animales-chart-full">
+                <div class="animales-table-header">
+                    <h3 class="animales-chart-title animales-chart-title-no-mb">Reportes Recientes</h3>
+                    <button class="btn-link">+ Generar Nuevo Reporte</button>
+                </div>
+                <div class="animales-table-wrap">
+                    <table class="animales-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nombre del Reporte</th>
+                                <th>Tipo</th>
+                                <th>Fecha</th>
+                                <th>Tamaño</th>
+                                <th>Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="animales-td-bold">#R089</td>
+                                <td class="animales-td-bold">Informe Mensual de Adopciones</td>
+                                <td><span class="badge badge-success">Animales</span></td>
+                                <td>19/01/2026</td>
+                                <td>2.4 MB</td>
+                                <td><button class="btn-icon" title="Descargar">⬇️</button></td>
+                            </tr>
+                            <tr>
+                                <td class="animales-td-bold">#R088</td>
+                                <td class="animales-td-bold">Reporte de Donaciones Q4 2025</td>
+                                <td><span class="badge badge-warning">Financiero</span></td>
+                                <td>15/01/2026</td>
+                                <td>1.8 MB</td>
+                                <td><button class="btn-icon" title="Descargar">⬇️</button></td>
+                            </tr>
+                            <tr>
+                                <td class="animales-td-bold">#R087</td>
+                                <td class="animales-td-bold">Análisis de Voluntarios 2025</td>
+                                <td><span class="badge badge-info">Voluntarios</span></td>
+                                <td>14/01/2026</td>
+                                <td>3.2 MB</td>
+                                <td><button class="btn-icon" title="Descargar">⬇️</button></td>
+                            </tr>
+                            <tr>
+                                <td class="animales-td-bold">#R086</td>
+                                <td class="animales-td-bold">Tendencias de Salud Animal</td>
+                                <td><span class="badge badge-success">Animales</span></td>
+                                <td>12/01/2026</td>
+                                <td>1.5 MB</td>
+                                <td><button class="btn-icon" title="Descargar">⬇️</button></td>
+                            </tr>
+                            <tr>
+                                <td class="animales-td-bold">#R085</td>
+                                <td class="animales-td-bold">Balance Anual 2025</td>
+                                <td><span class="badge badge-warning">Financiero</span></td>
+                                <td>05/01/2026</td>
+                                <td>4.1 MB</td>
+                                <td><button class="btn-icon" title="Descargar">⬇️</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Generador de Reportes Personalizado -->
+            <div class="animales-chart-card animales-chart-full">
+                <h3 class="animales-chart-title">Generar Reporte Personalizado</h3>
+                <div
+                    style="padding: 20px; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; align-items: end;">
+                    <div>
+                        <label
+                            style="display: block; color: #94a3b8; font-size: 13px; margin-bottom: 8px;">Categoría</label>
+                        <select
+                            style="width: 100%; padding: 10px 12px; background: #1e293b; border: 1px solid #334155; border-radius: 8px; color: #e2e8f0; font-size: 14px;">
+                            <option>Animales</option>
+                            <option>Donaciones</option>
+                            <option>Voluntarios</option>
+                            <option>Incidencias</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label style="display: block; color: #94a3b8; font-size: 13px; margin-bottom: 8px;">Fecha
+                            Inicio</label>
+                        <input type="date" value="01/01/2026"
+                            style="width: 100%; padding: 10px 12px; background: #1e293b; border: 1px solid #334155; border-radius: 8px; color: #e2e8f0; font-size: 14px;">
+                    </div>
+                    <div>
+                        <label style="display: block; color: #94a3b8; font-size: 13px; margin-bottom: 8px;">Fecha
+                            Fin</label>
+                        <input type="date" value="01/01/2026"
+                            style="width: 100%; padding: 10px 12px; background: #1e293b; border: 1px solid #334155; border-radius: 8px; color: #e2e8f0; font-size: 14px;">
+                    </div>
+                </div>
+                <div style="padding: 0 20px 20px; display: flex; gap: 12px;">
+                    <label style="display: block; color: #94a3b8; font-size: 13px; margin-bottom: 8px;">Formato de
+                        Exportación</label>
+                </div>
+                <div style="padding: 0 20px 20px; display: flex; gap: 12px;">
+                    <button class="btn-secondary"
+                        style="background: #3b82f6; color: white; padding: 10px 20px; border-radius: 8px; border: none; font-weight: 600; cursor: pointer;">PDF</button>
+                    <button class="btn-secondary"
+                        style="background: #10b981; color: white; padding: 10px 20px; border-radius: 8px; border: none; font-weight: 600; cursor: pointer;">Excel</button>
+                    <button class="btn-secondary"
+                        style="background: #f59e0b; color: white; padding: 10px 20px; border-radius: 8px; border: none; font-weight: 600; cursor: pointer;">CSV</button>
+                    <button class="btn-primary"
+                        style="margin-left: auto; background: #22d3ee; color: #0f172a; padding: 10px 24px; border-radius: 8px; border: none; font-weight: 600; cursor: pointer;">📊
+                        Generar Reporte</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Vista: Configuración -->
+    <section id="view-configuracion" class="dashboard-view">
+        <div class="config-dashboard">
+            <!-- Header -->
+            <div class="config-header">
+                <div>
+                    <h2 class="config-title">Configuración</h2>
+                    <p class="config-subtitle">Administra las configuraciones del sistema</p>
+                </div>
+                <button class="btn-back animales-btn-volver" onclick="navigateTo('panel')">
+                    <span>←</span> Volver al Panel
+                </button>
+            </div>
+
+            <!-- Layout Principal: Sidebar + Content -->
+            <div class="config-layout">
+                <!-- Sidebar de Navegación -->
+                <div class="config-sidebar">
+                    <button class="config-nav-btn active" data-config-tab="general">
+                        <span class="config-nav-icon">⚙️</span>
+                        <span>General</span>
+                    </button>
+                    <button class="config-nav-btn" data-config-tab="perfil">
+                        <span class="config-nav-icon">👤</span>
+                        <span>Perfil</span>
+                    </button>
+                    <button class="config-nav-btn" data-config-tab="notificaciones">
+                        <span class="config-nav-icon">🔔</span>
+                        <span>Notificaciones</span>
+                    </button>
+                    <button class="config-nav-btn" data-config-tab="seguridad">
+                        <span class="config-nav-icon">🔒</span>
+                        <span>Seguridad</span>
+                    </button>
+                    <button class="config-nav-btn" data-config-tab="datos">
+                        <span class="config-nav-icon">💾</span>
+                        <span>Datos</span>
+                    </button>
+                    <button class="config-nav-btn" data-config-tab="apariencia">
+                        <span class="config-nav-icon">🎨</span>
+                        <span>Apariencia</span>
+                    </button>
+                </div>
+
+                <!-- Panel de Contenido -->
+                <div class="config-content">
+                    <!-- Tab: General -->
+                    <div id="config-tab-general" class="config-tab-content active">
+                        <div class="config-panel">
+                            <h3 class="config-panel-title">Configuración General</h3>
+
+                            <div class="config-form">
+                                <div class="config-form-group">
+                                    <label class="config-label">Nombre del Refugio</label>
+                                    <input type="text" class="config-input" value="SafePaws">
+                                </div>
+
+                                <div class="config-form-group">
+                                    <label class="config-label">Correo de Contacto</label>
+                                    <input type="email" class="config-input" value="contacto@safepaws.org">
+                                </div>
+
+                                <div class="config-form-group">
+                                    <label class="config-label">Teléfono</label>
+                                    <input type="tel" class="config-input" value="+34 123 456 789">
+                                </div>
+
+                                <div class="config-form-group">
+                                    <label class="config-label">Dirección</label>
+                                    <input type="text" class="config-input" value="Calle Principal 123, Ciudad, País">
+                                </div>
+
+                                <div class="config-form-actions">
+                                    <button class="btn-primary">Guardar Cambios</button>
+                                    <button class="btn-secondary">Cancelar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tab: Perfil -->
+                    <div id="config-tab-perfil" class="config-tab-content">
+                        <div class="config-panel">
+                            <h3 class="config-panel-title">Perfil de Usuario</h3>
+
+                            <!-- Avatar y Cambiar Foto -->
+                            <div class="profile-avatar-section">
+                                <div class="profile-avatar">
+                                    <div class="profile-avatar-icon">👤</div>
+                                </div>
+                                <button class="btn-primary btn-small">Cambiar Foto</button>
+                            </div>
+
+                            <!-- Formulario de Perfil -->
+                            <div class="config-form">
+                                <div class="config-form-group">
+                                    <label class="config-label">Nombre Completo</label>
+                                    <input type="text" class="config-input" value="Administrador Principal">
+                                </div>
+
+                                <div class="config-form-group">
+                                    <label class="config-label">Email</label>
+                                    <input type="email" class="config-input" value="admin@safepaws.org">
+                                </div>
+
+                                <div class="config-form-group">
+                                    <label class="config-label">Rol</label>
+                                    <select class="config-input config-select">
+                                        <option value="administrador" selected>Administrador</option>
+                                        <option value="veterinario">Veterinario</option>
+                                        <option value="voluntario">Voluntario</option>
+                                    </select>
+                                </div>
+
+                                <div class="config-form-actions">
+                                    <button class="btn-primary">Guardar Cambios</button>
+                                    <button class="btn-secondary">Cancelar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tab: Notificaciones -->
+                    <div id="config-tab-notificaciones" class="config-tab-content">
+                        <div class="config-panel">
+                            <h3 class="config-panel-title">Preferencias de Notificaciones</h3>
+
+                            <div class="notifications-list">
+                                <!-- Nuevas adopciones -->
+                                <div class="notification-item">
+                                    <div class="notification-info">
+                                        <h4 class="notification-title">Nuevas adopciones</h4>
+                                        <p class="notification-desc">Recibe notificaciones de nuevas adopciones
+                                            completadas</p>
+                                    </div>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" checked>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+
+                                <!-- Incidentes críticos -->
+                                <div class="notification-item">
+                                    <div class="notification-info">
+                                        <h4 class="notification-title">Incidentes críticos</h4>
+                                        <p class="notification-desc">Alertas inmediatas para incidentes de alta
+                                            prioridad</p>
+                                    </div>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" checked>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+
+                                <!-- Donaciones -->
+                                <div class="notification-item">
+                                    <div class="notification-info">
+                                        <h4 class="notification-title">Donaciones</h4>
+                                        <p class="notification-desc">Notificaciones cuando se reciban nuevas
+                                            donaciones</p>
+                                    </div>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" checked>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+
+                                <!-- Voluntarios -->
+                                <div class="notification-item">
+                                    <div class="notification-info">
+                                        <h4 class="notification-title">Voluntarios</h4>
+                                        <p class="notification-desc">Actualizaciones sobre turnos y actividades de
+                                            voluntarios</p>
+                                    </div>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" checked>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+
+                                <!-- Ingresos de animales -->
+                                <div class="notification-item">
+                                    <div class="notification-info">
+                                        <h4 class="notification-title">Ingresos de animales</h4>
+                                        <p class="notification-desc">Avisos cuando se registren nuevos animales</p>
+                                    </div>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" checked>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="config-form-actions">
+                                <button class="btn-primary">Guardar Cambios</button>
+                                <button class="btn-secondary">Cancelar</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tab: Seguridad -->
+                    <div id="config-tab-seguridad" class="config-tab-content">
+                        <div class="config-panel">
+                            <h3 class="config-panel-title">Seguridad</h3>
+
+                            <!-- Cambio de Contraseña -->
+                            <div class="security-section">
+                                <h4 class="security-section-title">Contraseña Actual</h4>
+                                <div class="config-form-group">
+                                    <input type="password" class="config-input">
+                                </div>
+
+                                <h4 class="security-section-title">Nueva Contraseña</h4>
+                                <div class="config-form-group">
+                                    <input type="password" class="config-input">
+                                </div>
+
+                                <h4 class="security-section-title">Confirmar Contraseña</h4>
+                                <div class="config-form-group">
+                                    <input type="password" class="config-input">
+                                </div>
+
+                                <button class="btn-primary">Actualizar Contraseña</button>
+                            </div>
+
+                            <!-- Autenticación en Dos Pasos -->
+                            <div class="security-section">
+                                <h4 class="security-section-title">Autenticación en Dos Factores</h4>
+                                <p class="security-section-desc">Añade una capa extra de seguridad a tu cuenta</p>
+                                <button class="btn-primary">Activar 2FA</button>
+                            </div>
+
+                            <div class="config-form-actions">
+                                <button class="btn-primary">Guardar Cambios</button>
+                                <button class="btn-secondary">Cancelar</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tab: Datos -->
+                    <div id="config-tab-datos" class="config-tab-content">
+                        <div class="config-panel">
+                            <h3 class="config-panel-title">Gestión de Datos</h3>
+
+                            <!-- Exportar Datos -->
+                            <div class="data-section">
+                                <h4 class="data-section-title">Exportar Datos</h4>
+                                <p class="data-section-desc">Descarga una copia de todos tus datos</p>
+                                <button class="btn-primary">Exportar a CSV</button>
+                            </div>
+
+                            <!-- Copia de Seguridad -->
+                            <div class="data-section">
+                                <h4 class="data-section-title">Copia de Seguridad</h4>
+                                <p class="data-section-desc">Última copia: 18/01/2026 23:00</p>
+                                <button class="btn-primary">Crear Copia Ahora</button>
+                            </div>
+
+                            <!-- Zona de Peligro -->
+                            <div class="data-section danger-zone">
+                                <h4 class="danger-zone-title">Zona de Peligro</h4>
+                                <p class="danger-zone-desc">Eliminar todos los datos permanentemente</p>
+                                <button class="btn-danger">Eliminar Todos los Datos</button>
+                            </div>
+
+                            <div class="config-form-actions">
+                                <button class="btn-primary">Guardar Cambios</button>
+                                <button class="btn-secondary">Cancelar</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tab: Apariencia -->
+                    <div id="config-tab-apariencia" class="config-tab-content">
+                        <div class="config-panel">
+                            <h3 class="config-panel-title">Apariencia</h3>
+
+                            <!-- Selector de Tema -->
+                            <div class="appearance-section">
+                                <h4 class="appearance-section-title">Tema</h4>
+                                <select class="config-input config-select">
+                                    <option value="oscuro" selected>Oscuro</option>
+                                    <option value="claro">Claro</option>
+                                    <option value="automatico">Automático</option>
+                                </select>
+                            </div>
+
+                            <!-- Selector de Color Principal -->
+                            <div class="appearance-section">
+                                <h4 class="appearance-section-title">Color Principal</h4>
+                                <div class="color-picker-grid">
+                                    <button class="color-option" style="background: #10b981;" title="Verde"></button>
+                                    <button class="color-option" style="background: #3b82f6;" title="Azul"></button>
+                                    <button class="color-option" style="background: #f59e0b;" title="Amarillo"></button>
+                                    <button class="color-option" style="background: #8b5cf6;" title="Púrpura"></button>
+                                    <button class="color-option" style="background: #ef4444;" title="Rojo"></button>
+                                    <button class="color-option" style="background: #ec4899;" title="Rosa"></button>
+                                </div>
+                            </div>
+
+                            <!-- Selector de Tamaño de Fuente -->
+                            <div class="appearance-section">
+                                <h4 class="appearance-section-title">Tamaño de Fuente</h4>
+                                <select class="config-input config-select">
+                                    <option value="pequeno" selected>Pequeño</option>
+                                    <option value="mediano">Mediano</option>
+                                    <option value="grande">Grande</option>
+                                </select>
+                            </div>
+
+                            <div class="config-form-actions">
+                                <button class="btn-primary">Guardar Cambios</button>
+                                <button class="btn-secondary">Cancelar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% endblock %}
+
+    {% block js %}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script src="{% static 'js/dashboard.js' %}"></script>
+    {% endblock %}

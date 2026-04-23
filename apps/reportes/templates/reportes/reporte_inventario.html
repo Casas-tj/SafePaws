@@ -1,0 +1,153 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}SafePaws - Reporte de Inventario{% endblock %}
+
+{% block header_dashboard %}
+<!-- Header Dashboard -->
+<header class="dashboard-header">
+    <div class="dashboard-header-content">
+        <div class="dashboard-title-container">
+            <h1 class="dashboard-title">Reporte de Inventario</h1>
+        </div>
+
+        <div class="dashboard-actions">
+            <button class="btn-primary" onclick="imprimirReporte()">🖨️ Imprimir</button>
+            <button class="btn-primary" onclick="exportarPDF()">📄 Exportar PDF</button>
+            {% include 'layouts/partials/btn-back.html' %}
+        </div>
+    </div>
+</header>
+{% endblock %}
+
+<!-- Contenido Principal -->
+{% block content %}
+<div class="list-view">
+    <div class="list-header">
+        <h3 class="list-title">Reporte de Inventario</h3>
+        <div class="list-actions">
+            {% include 'layouts/partials/btn-back.html' %}
+        </div>
+    </div>
+
+    <!-- Resumen -->
+    <div
+        style="background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%); padding: 1.5rem; border-radius: 0.5rem; margin-bottom: 2rem;">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem;">
+            <div>
+                <div style="font-size: 0.875rem; color: #64748b; margin-bottom: 0.5rem;">Total de Productos</div>
+                <div style="font-size: 2rem; font-weight: 700; color: #1e293b;">125</div>
+            </div>
+            <div>
+                <div style="font-size: 0.875rem; color: #64748b; margin-bottom: 0.5rem;">Productos con Stock Bajo
+                </div>
+                <div style="font-size: 2rem; font-weight: 700; color: #ef4444;">8</div>
+            </div>
+            <div>
+                <div style="font-size: 0.875rem; color: #64748b; margin-bottom: 0.5rem;">Valor Total Inventario
+                </div>
+                <div style="font-size: 2rem; font-weight: 700; color: #10b981;">$45,230</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tabla de Inventario -->
+    <div class="table-wrapper">
+        <table class="data-table-list">
+            <thead>
+                <tr>
+                    <th>Código</th>
+                    <th>Producto</th>
+                    <th>Categoría</th>
+                    <th>Stock Actual</th>
+                    <th>Stock Mínimo</th>
+                    <th>Precio Unitario</th>
+                    <th>Valor Total</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="td-id">INV001</td>
+                    <td class="td-nombre">Alimento para Perros Premium</td>
+                    <td class="td-text">Alimentos</td>
+                    <td class="td-text">150 kg</td>
+                    <td class="td-text">50 kg</td>
+                    <td class="td-text">$25.00/kg</td>
+                    <td class="td-text">$3,750</td>
+                    <td><span class="status-badge badge-adoptado">OK</span></td>
+                </tr>
+                <tr>
+                    <td class="td-id">INV002</td>
+                    <td class="td-nombre">Alimento para Gatos</td>
+                    <td class="td-text">Alimentos</td>
+                    <td class="td-text">80 kg</td>
+                    <td class="td-text">40 kg</td>
+                    <td class="td-text">$28.00/kg</td>
+                    <td class="td-text">$2,240</td>
+                    <td><span class="status-badge badge-adoptado">OK</span></td>
+                </tr>
+                <tr>
+                    <td class="td-id">INV003</td>
+                    <td class="td-nombre">Medicamentos Básicos</td>
+                    <td class="td-text">Farmacia</td>
+                    <td class="td-text">25 unidades</td>
+                    <td class="td-text">30 unidades</td>
+                    <td class="td-text">$15.00/und</td>
+                    <td class="td-text">$375</td>
+                    <td><span class="status-badge badge-temporal">Bajo</span></td>
+                </tr>
+                <tr>
+                    <td class="td-id">INV004</td>
+                    <td class="td-nombre">Collares y Correas</td>
+                    <td class="td-text">Accesorios</td>
+                    <td class="td-text">45 unidades</td>
+                    <td class="td-text">20 unidades</td>
+                    <td class="td-text">$12.00/und</td>
+                    <td class="td-text">$540</td>
+                    <td><span class="status-badge badge-adoptado">OK</span></td>
+                </tr>
+                <tr>
+                    <td class="td-id">INV005</td>
+                    <td class="td-nombre">Vacunas Antirrábicas</td>
+                    <td class="td-text">Farmacia</td>
+                    <td class="td-text">15 dosis</td>
+                    <td class="td-text">25 dosis</td>
+                    <td class="td-text">$8.00/dosis</td>
+                    <td class="td-text">$120</td>
+                    <td><span class="status-badge badge-temporal">Bajo</span></td>
+                </tr>
+                <tr>
+                    <td class="td-id">INV006</td>
+                    <td class="td-nombre">Juguetes para Perros</td>
+                    <td class="td-text">Accesorios</td>
+                    <td class="td-text">60 unidades</td>
+                    <td class="td-text">30 unidades</td>
+                    <td class="td-text">$5.00/und</td>
+                    <td class="td-text">$300</td>
+                    <td><span class="status-badge badge-adoptado">OK</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Pie de reporte -->
+    <div
+        style="margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #e2e8f0; text-align: center; color: #64748b; font-size: 0.875rem;">
+        <p>Reporte generado el: 19/01/2026 14:30</p>
+        <br>
+        <p>SafePaws - Sistema de Gestión de Protectora de Animales</p>
+    </div>
+</div>
+{% endblock %}
+
+{% block js %}
+<script>
+    function imprimirReporte() {
+        window.print();
+    }
+
+    function exportarPDF() {
+        alert('Función de exportación a PDF\n\nEn producción, esto generaría un archivo PDF con el reporte completo.');
+    }
+</script>
+{% endblock %}

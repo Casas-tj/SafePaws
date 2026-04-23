@@ -1,0 +1,114 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}SafePaws - Registrar Nueva Incidencia{% endblock %}
+
+{% block content %}
+<div class="form-view">
+    <div class="form-header">
+        <h2 id="formSubtitle" class="form-title">Información de la Incidencia</h2>
+        <p style="color: #64748b; font-size: 0.875rem; margin-top: 0.5rem;">
+            Completa todos los campos para registrar una nueva incidencia en el sistema
+        </p>
+    </div>
+
+    <form id="formIncidencia" class="animal-form">
+        <!-- ID (solo visible en modo edición) -->
+        <div class="form-row" id="rowId" style="display: none; margin-bottom: 1.5rem;">
+            <div class="form-group">
+                <label for="incidenciaId" style="font-weight: 600; color: #475569;">
+                    ID de Registro
+                </label>
+                <input type="text" id="incidenciaId" class="form-control-list" readonly
+                    style="background-color: #f8fafc;">
+            </div>
+        </div>
+
+        <!-- Fila 1: Título, Categoría, Ubicación -->
+        <div class="form-row">
+            <div class="form-group">
+                <label for="titulo">Asunto / Título *</label>
+                <input type="text" id="titulo" class="form-control-list" placeholder="Ej: Fuga de agua en cheniles"
+                    required>
+            </div>
+
+            <div class="form-group">
+                <label for="categoria">Tipo de Incidencia *</label>
+                <select id="categoria" class="form-control-list" required>
+                    <option value="" disabled selected>Selecciona la categoría</option>
+                    <option value="Mantenimiento">Mantenimiento</option>
+                    <option value="Salud">Salud</option>
+                    <option value="Comportamiento">Comportamiento</option>
+                    <option value="Suministros">Suministros</option>
+                    <option value="Sistema">Sistema</option>
+                    <option value="Seguridad">Seguridad</option>
+                    <option value="Limpieza">Limpieza</option>
+                    <option value="Otro">Otro</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="ubicacion">Ubicación *</label>
+                <input type="text" id="ubicacion" class="form-control-list"
+                    placeholder="Lugar donde ocurrió la incidencia" required>
+            </div>
+        </div>
+
+        <!-- Fila 2: Prioridad, Estado, Fecha de Resolución, Fecha de Reporte -->
+        <div class="form-row">
+            <div class="form-group">
+                <label for="prioridad">Prioridad *</label>
+                <select id="prioridad" class="form-control-list" required>
+                    <option value="" disabled selected>Selecciona la prioridad</option>
+                    <option value="Baja">Baja</option>
+                    <option value="Media">Media</option>
+                    <option value="Alta">Alta (Urgente)</option>
+                    <option value="Crítica">Crítica (Atención Inmediata)</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="estado">Estado *</label>
+                <select id="estado" class="form-control-list" required>
+                    <option value="" disabled selected>Selecciona el estado</option>
+                    <option value="Abierta">Abierta</option>
+                    <option value="En Proceso">En Proceso</option>
+                    <option value="Resuelta">Resuelta</option>
+                    <option value="Cerrada">Cerrada</option>
+                </select>
+            </div>
+
+            <div class="form-group" id="rowFechaResolucion" style="display: none;">
+                <label for="fechaResolucion">Fecha de Resolución</label>
+                <input type="date" id="fechaResolucion" class="form-control-list">
+            </div>
+
+            <div class="form-group">
+                <label for="fechaReporte">Fecha de Reporte *</label>
+                <input type="date" id="fechaReporte" class="form-control-list" required>
+            </div>
+        </div>
+
+        <!-- Fila 3: Descripción -->
+        <div class="form-row">
+            <div class="form-group form-group-full">
+                <label for="descripcion">Descripción *</label>
+                <textarea id="descripcion" class="form-control-list form-textarea"
+                    placeholder="Describe detalladamente la incidencia..." required></textarea>
+            </div>
+        </div>
+
+        <!-- Botones -->
+        <div class="form-buttons">
+            <button type="submit" class="btn-success" id="btnGuardar">
+                ✅ Registrar Incidencia
+            </button>
+
+            <button type="reset" class="btn-danger" style="background-color: #f59e0b;">
+                🔄 Limpiar Formulario
+            </button>
+
+            {% include 'layouts/partials/btn-back.html' %}
+        </div>
+    </form>
+</div>
+{% endblock %}

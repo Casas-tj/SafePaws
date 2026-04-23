@@ -1,0 +1,34 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}SafePaws - Control de Inventario{% endblock %}
+
+{% block content %}
+<!-- CARDS -->
+<section id="mainMenu">
+    <div class="section-header">
+        <h2>Control de Inventario</h2>
+
+        {% include 'layouts/partials/btn-back.html' %}
+    </div>
+
+    <div class="card-container">
+        <!-- INVENTARIO -->
+        <a class="card-link" href="{% url 'inventario' %}">
+            <div class="card" data-section="inventario" data-view="inventario">
+                <span class="module-icon">📦</span>
+                <h3>Inventario</h3>
+                <p>Gestión de productos y existencias</p>
+            </div>
+        </a>
+
+        <!-- STOCK -->
+        <a class="card-link" href="{% url 'stock' %}">
+            <div class="card" data-section="control_stock" data-view="control_stock">
+                <span class="module-icon">📊</span>
+                <h3>Stock</h3>
+                <p>Entradas y salidas de productos</p>
+            </div>
+        </a>
+    </div>
+</section>
+{% endblock %}

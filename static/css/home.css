@@ -1,0 +1,466 @@
+/* Estilos Globales */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    width: 100%;
+    overflow-x: hidden;
+    /* Esto oculta la barra horizontal si algo se sale por poco */
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    /* Ocupa el 100% del alto de la ventana */
+    margin: 0;
+    background-color: #f8f9fa;
+    color: #333;
+}
+
+header {
+    background-color: #2c3e50;
+    color: #ffffff;
+    text-align: center;
+    border-bottom: 4px solid #27ae60;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 25px 40px;
+    position: relative;
+    height: 140px;
+}
+
+/* CENTRO ABSOLUTO */
+.header-left {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.header-left h1 {
+    margin: 0;
+}
+
+.header-left p {
+    margin: 5px 0 0;
+    font-size: 14px;
+    opacity: 0.9;
+}
+
+/* DERECHA */
+.header-right {
+    position: absolute;
+    bottom: 20px;
+    right: 30px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+/* Navegación */
+nav {
+    background-color: #34495e;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+nav a {
+    color: #ecf0f1;
+    text-decoration: none;
+    font-weight: 600;
+    padding: 8px 15px;
+    transition: 0.3s;
+}
+
+nav a:hover {
+    color: #27ae60;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+}
+
+/* Enlace de tarjeta */
+.card-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.card-link:hover {
+    text-decoration: none;
+}
+
+/* Hacemos que el enlace llene la celda de la grid y la tarjeta ocupe toda su altura
+   para que todas las cards tengan la misma altura visual. */
+.card-link {
+    display: flex;
+}
+
+.card-link .card {
+    flex: 1 1 auto;
+}
+
+/* Contenedor Principal */
+main {
+    padding: 40px 20px;
+    max-width: 1100px;
+    margin: auto;
+}
+
+.main-content {
+    padding: 40px 20px;
+    max-width: 1100px;
+    margin: auto;
+    width: 100%;
+    flex: 1;
+}
+
+/* Grid de Gestión */
+.card-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    margin-top: 30px;
+}
+
+.card {
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.3s;
+    /* Forzar altura uniforme y centrar verticalmente el contenido */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 170px;
+    /* Asegura que la tarjeta rellene la altura del contenedor de la grid */
+    height: 100%;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card h3 {
+    color: #2c3e50;
+    margin-bottom: 15px;
+}
+
+/* Aplicamos el margen extra SOLO al botón de la tercera tarjeta (Voluntarios) */
+#mainMenu .card-container .card:nth-child(3) .btn {
+    margin-top: 35px;
+    /* Ajusta este valor (ej. 40px o 45px) hasta que esté a la altura que deseas */
+    align-self: center;
+}
+
+/* Pie de página */
+footer {
+    text-align: center;
+    padding: 15px;
+    background: #2c3e50;
+    color: white;
+    bottom: 0;
+    width: 100%;
+}
+
+/* Manejo de secciones */
+.section {
+    display: none;
+    /* Oculto por defecto */
+}
+
+.section.active {
+    display: block;
+    /* Solo se ve cuando tiene la clase active */
+    animation: fadeIn 0.4s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Cabeceras de sección */
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #eee;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+}
+
+/* Formularios */
+.admin-form {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.admin-form input {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    flex: 1;
+    min-width: 200px;
+}
+
+.admin-form select {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    flex: 1;
+    min-width: 200px;
+    background-color: white;
+    cursor: pointer;
+}
+
+/* Tablas y Listas */
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.data-table th,
+.data-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+.info-list {
+    list-style: none;
+    padding: 0;
+}
+
+.info-list li {
+    background: #f9f9f9;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-left: 5px solid #27ae60;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 4px;
+}
+
+/* Botones */
+.btn {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 12px 20px;
+    background: #27ae60;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.btn:hover {
+    background: #219150;
+}
+
+.btn,
+.btn-back,
+.card,
+button {
+    cursor: pointer;
+}
+
+.btn-back {
+    background: #e74c3c;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* Botón eliminar */
+button[onclick*="delete"] {
+    background: #ff4757;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+/* ==============
+DASHBOARD VISUAL
+================= */
+
+/* Título del dashboard */
+#dashboardView h2 {
+    font-size: 1.8rem;
+    color: #2c3e50;
+}
+
+/* Contenedor de tarjetas del dashboard */
+#dashboardView .card-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 25px;
+    margin-top: 30px;
+}
+
+/* Tarjetas del dashboard */
+#dashboardView .card {
+    background: linear-gradient(135deg, #ffffff, #f4f6f8);
+    border-radius: 15px;
+    padding: 30px 20px;
+    text-align: center;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Efecto hover profesional */
+#dashboardView .card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+}
+
+/* Título de cada métrica */
+#dashboardView .card h3 {
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+    color: #34495e;
+}
+
+/* Valor principal (número grande) */
+#dashboardView .card p {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #27ae60;
+    margin: 0;
+}
+
+/* Diferenciar tipos de tarjetas por color */
+#dashboardView .card:nth-child(1) p {
+    color: #2980b9;
+    /* Animales */
+}
+
+#dashboardView .card:nth-child(2) p {
+    color: #27ae60;
+    /* Adopciones */
+}
+
+#dashboardView .card:nth-child(3) p {
+    color: #e67e22;
+    /* Incidencias */
+}
+
+#dashboardView .card:nth-child(4) p {
+    color: #8e44ad;
+    /* Voluntarios */
+}
+
+#dashboardView .card:nth-child(5) p {
+    color: #16a085;
+    /* Donaciones */
+}
+
+/* Responsive extra */
+@media (max-width: 600px) {
+    #dashboardView .card p {
+        font-size: 1.6rem;
+    }
+}
+
+/* Botones */
+.btn {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 12px 20px;
+    background: #27ae60;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.btn:hover {
+    background: #219150;
+}
+
+.btn,
+.btn-back,
+.card,
+button {
+    cursor: pointer;
+}
+
+.btn-back {
+    background: #e74c3c;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* Botón eliminar */
+button[onclick*="delete"] {
+    background: #ff4757;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+/* Botón de cerrar sesión */
+.logout-btn {
+    background-color: #e74c3c;
+    border: none;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.logout-btn:hover {
+    background-color: #c0392b;
+}
+
+/* Ajustes para el header con info de usuario */
+.user-info {
+    margin-top: 15px;
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Usuario */
+#user-name {
+    font-weight: 600;
+    font-size: 15px;
+}

@@ -1,0 +1,62 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}SafePaws - Gestión de Donaciones{% endblock %}
+
+{% block content %}
+<div class="list-header">
+    <h1 class="section-title">Listado de Donaciones</h1>
+
+    {% include 'layouts/partials/btn-back.html' %}
+</div>
+
+<div class="main-container-flex">
+    <div class="search-section-container">
+        <div class="search-bar-container">
+            <div class="search-input-wrapper">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="searchInput" class="search-input-list"
+                    placeholder="Buscar por donante, tipo o estado..." oninput="filterTable()">
+            </div>
+
+            <div class="filter-buttons">
+                <div style="position: relative; display: inline-block;">
+                    <button id="btnSortDate" class="btn-filter">📅 Fecha</button>
+                </div>
+            </div>
+
+            <div class="filter-dropdown-container">
+                <button id="btnFilterStatus" class="btn-filter">🔽 Filtros</button>
+                <div id="filterMenu" class="filter-dropdown-content">
+                    <a href="#" onclick="filterByStatus('Todos')">Todos</a>
+                    <a href="#" onclick="filterByStatus('Procesada')">Procesada</a>
+                    <a href="#" onclick="filterByStatus('Recibida')">Recibida</a>
+                    <a href="#" onclick="filterByStatus('Pendiente')">Pendiente</a>
+                    <a href="#" onclick="filterByStatus('Cancelada')">Cancelada</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="result-count">
+    <span id="resultCount">Cargando registros...</span>
+</div>
+
+<div class="table-wrapper">
+    <table class="data-table-list">
+        <thead>
+            <tr>
+                <th onclick="sortTable('id')" style="cursor:pointer">ID ↕</th>
+                <th onclick="sortTable('donante')" style="cursor:pointer">Fecha ↕</th>
+                <th onclick="sortTable('donante')" style="cursor:pointer">Donante ↕</th>
+                <th onclick="sortTable('tipo')" style="cursor:pointer">Tipo ↕</th>
+                <th onclick="sortTable('monto')" style="cursor:pointer">Monto/Descripción ↕</th>
+                <th onclick="sortTable('estado')" style="cursor:pointer">Estado ↕</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody id="tableBody">
+        </tbody>
+    </table>
+</div>
+{% endblock %}

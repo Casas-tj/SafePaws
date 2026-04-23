@@ -1,0 +1,13 @@
+<div class="list-actions">
+    {% if form_url %}
+    <a id="btnNuevoVoluntario" class="btn-success card-link" href="{% url form_url %}">
+        <span>+ {{btn_nuevo}}</span>
+    </a>
+    {% endif %}
+
+    {% if back_url %}
+    <a class="btn-danger card-link" href="{% url back_url %}">
+        <span>× {{btn_back}}</span>
+    </a>
+    {% endif %}
+</div>

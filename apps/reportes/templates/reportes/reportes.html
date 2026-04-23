@@ -1,0 +1,34 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}SafePaws - Reportes Disponibles{% endblock %}
+
+{% block content %}
+<!-- CARDS -->
+<section id="mainMenu">
+    <div class="section-header">
+        <h2>Reportes disponibles</h2>
+
+        {% include 'layouts/partials/btn-back.html' %}
+    </div>
+
+    <div class="card-container">
+        <!-- REPORTES DE INVENTARIO -->
+        <a class="card-link" href="{% url 'reporte_inventario' %}">
+            <div class="card" data-section="reporte_inventario" data-view="reporte_inventario">
+                <span class="module-icon">📦</span>
+                <h3>Reporte de Inventario</h3>
+                <p>Estado actual del inventario de productos.</p>
+            </div>
+        </a>
+
+        <!-- REPORTES DE ADOPCIONES -->
+        <a class="card-link" href="{% url 'reporte_adopciones' %}">
+            <div class="card" data-section="reporte_adopciones" data-view="reporte_adopciones">
+                <span class="module-icon">📊</span>
+                <h3>Reporte de Adopciones</h3>
+                <p>Número de adopciones realizadas.</p>
+            </div>
+        </a>
+    </div>
+</section>
+{% endblock %}

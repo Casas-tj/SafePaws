@@ -1,0 +1,53 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}SafePaws - Añadir Nuevo Producto{% endblock %}
+
+{% include 'layouts/partials/btn-back.html' %}
+
+{% block content %}
+<section class="search-section-container" style="margin: 2rem;">
+    <h3 style="margin-bottom: 1.5rem;">📦 Añadir Nuevo Producto</h3>
+    <div style="display: flex; gap: 1rem; align-items: flex-end;">
+        <div class="form-group" style="flex: 2;">
+            <label>Nombre del Artículo</label>
+            <input type="text" id="newProdNombre" class="form-control-list" placeholder="Ej: Jabón Neutro">
+        </div>
+        <div class="form-group" style="flex: 1;">
+            <label>Stock Mínimo</label>
+            <input type="number" id="newProdMin" class="form-control-list" placeholder="5">
+        </div>
+        <button class="btn-success" onclick="crearProducto()" style="height: 45px;">Guardar en Catálogo</button>
+    </div>
+</section>
+
+<div class="list-view" style="margin: 2rem;">
+
+    <div class="search-section-container">
+        <div class="search-bar-container">
+            <div class="search-input-wrapper">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="searchInput" class="search-input-list"
+                    placeholder="Escribe el nombre del producto..." oninput="handleSearch(event)">
+            </div>
+        </div>
+    </div>
+
+    <h3 class="list-title">Existencias Totales</h3>
+    <br>
+    <div class="table-wrapper">
+        <table class="data-table-list">
+            <thead>
+                <tr>
+                    <th onclick="sortTable('producto')">Producto <span class="sort-icon">↕</span></th>
+                    <th onclick="sortTable('cantidad')">Cantidad <span class="sort-icon">↕</span></th>
+                    <th onclick="sortTable('minimo')">Mínimo <span class="sort-icon">↕</span></th>
+                    <th onclick="sortTable('estado')">Estado <span class="sort-icon">↕</span></th>
+                    <th style="text-align: center;">Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="tablaStock">
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

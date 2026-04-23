@@ -1,0 +1,62 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}SafePaws - Registrar Nueva Entrada o Salida de Productos{% endblock %}
+
+{% include 'layouts/partials/btn-back.html' %}
+
+{% block content %}
+<section class="search-section-container" style="margin: 2rem;">
+    <h3 style="margin-bottom: 1.5rem;">🔄 Registrar Entrada o Salida</h3>
+    <div style="display: grid; grid-template-columns: 2fr 1fr 1fr auto; gap: 1rem; align-items: flex-end;">
+        <div class="form-group">
+            <label>Producto</label>
+            <select id="movProducto" class="form-control-list"></select>
+        </div>
+        <div class="form-group">
+            <label>Operación</label>
+            <select id="movTipo" class="form-control-list">
+                <option value="Entrada">Entrada (+)</option>
+                <option value="Salida">Salida (-)</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Cantidad</label>
+            <input type="number" id="movCant" class="form-control-list" value="1" min="1">
+        </div>
+        <button class="btn-primary-small" onclick="registrarMovimiento()" style="height: 45px;">Actualizar</button>
+    </div>
+</section>
+
+<div class="list-view" style="margin: 2rem;">
+
+    <div class="search-section-container">
+        <div class="search-bar-container">
+            <div class="search-input-wrapper">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="searchInput" class="search-input-list"
+                    placeholder="Escribe el nombre del producto..." oninput="handleSearch(event)">
+            </div>
+        </div>
+    </div>
+
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+        <h3 class="list-title" style="margin: 0;">Historial de Operaciones</h3>
+        <button class="btn-danger" onclick="vaciarHistorial()" style="padding: 8px 15px; font-size: 0.85rem;">
+            🗑️ Vaciar Historial
+        </button>
+    </div>
+
+    <div class="table-wrapper">
+        <table class="data-table-list">
+            <thead>
+                <tr>
+                    <th onclick="sortTable('producto')">Producto <span class="sort-icon">↕</span></th>
+                    <th onclick="sortTable('tipo')">Tipo <span class="sort-icon">↕</span></th>
+                    <th onclick="sortTable('cantidad')">Cantidad <span class="sort-icon">↕</span></th>
+                </tr>
+            </thead>
+            <tbody id="tablaHistorial"></tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="icon" href="{% static 'img/Logo.jpg' %}">
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <link rel="stylesheet" href="{% static 'css/tables.css' %}">
+    {% block css %}{% endblock %}
+</head>
+
+<body>
+    {% include 'layouts/partials/header.html' %}
+
+    {% block sidebar %}{% endblock %}
+    {% block login %}{% endblock %}
+    {% block reset_password %}{% endblock %}
+
+    <main class="main-content">
+        {% block content %}
+
+        {% block btn_back %}{% endblock %}
+
+        {% endblock %}
+    </main>
+
+    {% include 'layouts/partials/footer.html' %}
+
+    {% block js %}{% endblock %}
+</body>
+
+</html>

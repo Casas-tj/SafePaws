@@ -1,0 +1,62 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}SafePaws - Gestión de Voluntarios{% endblock %}
+
+{% block content %}
+<div class="list-header">
+    <h1 class="section-title">Listado de Voluntarios</h1>
+
+    {% include 'layouts/partials/btn-back.html' %}
+</div>
+
+<div class="main-container-flex">
+    <div class="search-section-container">
+        <div class="search-bar-container">
+            <div class="search-input-wrapper">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="searchInput" class="search-input-list"
+                    placeholder="Buscar por nombre, email, teléfono o rol..." oninput="filterTable()">
+            </div>
+
+            <div class="filter-buttons">
+                <div style="position: relative; display: inline-block;">
+                    <button id="btnSortDate" class="btn-filter">📅 Fecha</button>
+                </div>
+            </div>
+
+            <div class="filter-dropdown-container">
+                <button id="btnFilterStatus" class="btn-filter">🔽 Filtros</button>
+                <div id="filterMenu" class="filter-dropdown-content">
+                    <a href="#" onclick="filterByStatus('Todos')">Todos</a>
+                    <a href="#" onclick="filterByStatus('Activo')">Activo</a>
+                    <a href="#" onclick="filterByStatus('Inactivo')">Inactivo</a>
+                    <a href="#" onclick="filterByStatus('En Espera')">En Espera</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="result-count">
+    <span id="resultCount">Cargando registros...</span>
+</div>
+
+<div class="table-wrapper">
+    <table class="data-table-list">
+        <thead>
+            <tr>
+                <th onclick="sortTable('id')">ID <span class="sort-icon">↕</span></th>
+                <th onclick="sortTable('nombre')">Nombre <span class="sort-icon">↕</span></th>
+                <th onclick="sortTable('email')">Email <span class="sort-icon">↕</span></th>
+                <th onclick="sortTable('telefono')">Teléfono <span class="sort-icon">↕</span></th>
+                <th onclick="sortTable('rol')">Rol <span class="sort-icon">↕</span></th>
+                <th onclick="sortTable('estado')">Estado <span class="sort-icon">↕</span></th>
+                <th onclick="sortTable('fechaIngreso')">Fecha de ingreso <span class="sort-icon">↕</span></th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody id="tableBody">
+        </tbody>
+    </table>
+</div>
+{% endblock %}

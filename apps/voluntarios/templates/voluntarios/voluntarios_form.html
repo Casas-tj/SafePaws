@@ -1,0 +1,101 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}SafePaws - Registrar Nuevo Voluntario{% endblock %}
+
+{% block content %}
+<div class="form-view">
+    <div class="form-header">
+        <h2 class="form-title">Información del Voluntario</h2>
+        <p style="color: #64748b; font-size: 0.875rem; margin-top: 0.5rem;">
+            Completa todos los campos para registrar un nuevo voluntario
+        </p>
+    </div>
+
+    <form id="formNuevoVoluntario" class="animal-form">
+        <!-- Fila 1: Nombre, Email, Teléfono -->
+        <div class="form-row">
+            <div class="form-group">
+                <label for="nombre">Nombre *</label>
+                <input type="text" id="nombre" class="form-control-list" placeholder="Nombre y apellidos" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email *</label>
+                <input type="email" id="email" class="form-control-list" placeholder="correo@ejemplo.com" required>
+            </div>
+            <div class="form-group">
+                <label for="telefono">Teléfono *</label>
+                <input type="tel" id="telefono" class="form-control-list" placeholder="555-0000" required>
+            </div>
+        </div>
+
+        <!-- Fila 2: Rol, Estado, Fecha de Ingreso -->
+        <div class="form-row">
+            <div class="form-group">
+                <label for="rol">Funciones a desempeñar *</label>
+                <select id="rol" class="form-control-list" required>
+                    <option value="">Seleccionar...</option>
+                    <option value="Cuidador">Cuidador</option>
+                    <option value="Veterinario">Veterinario</option>
+                    <option value="Administrador">Administrador</option>
+                    <option value="Coordinador">Coordinador</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="estado">Estado *</label>
+                <select id="estado" class="form-control-list" required>
+                    <option value="" disabled selected>Selecciona un estado</option>
+                    <option value="Activo">Activo</option>
+                    <option value="Inactivo">Inactivo</option>
+                    <option value="En Espera">En Espera</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="fechaIngreso">Fecha de Ingreso *</label>
+                <input type="date" id="fechaIngreso" class="form-control-list" required>
+            </div>
+        </div>
+
+        <!-- Fila 3: Dirección, Disponibilidad -->
+        <div class="form-row">
+            <div class="form-group">
+                <label for="direccion">Dirección</label>
+                <input type="text" id="direccion" class="form-control-list" placeholder="Calle, número, ciudad">
+            </div>
+            <div class="form-group">
+                <label for="disponibilidad">Disponibilidad</label>
+                <select id="disponibilidad" class="form-control-list">
+                    <option value="">Seleccionar...</option>
+                    <option value="Tiempo completo">Tiempo completo</option>
+                    <option value="Medio tiempo">Medio tiempo</option>
+                    <option value="Fines de semana">Fines de semana</option>
+                    <option value="Lunes a Viernes">Lunes a Viernes</option>
+                    <option value="Tardes">Tardes</option>
+                    <option value="Mañanas">Mañanas</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Fila 4: Información adicional -->
+        <div class="form-row">
+            <div class="form-group form-group-full">
+                <label for="información adicional">Información adicional</label>
+                <textarea id="información adicional" class="form-control-list form-textarea"
+                    placeholder="Experiencia previa, habilidades (primeros auxilios, adiestramiento, redes sociales), etc."></textarea>
+            </div>
+        </div>
+
+        <!-- Botones -->
+        <div class="form-buttons">
+            <button type="submit" class="btn-success">
+                ✅ Registrar Voluntario
+            </button>
+
+            <button type="reset" class="btn-danger" style="background-color: #f59e0b;">
+                🔄 Limpiar Formulario
+            </button>
+
+            {% include 'layouts/partials/btn-back.html' %}
+        </div>
+    </form>
+</div>
+{% endblock %}

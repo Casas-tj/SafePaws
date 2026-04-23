@@ -1,0 +1,51 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}SafePaws - Roles del Sistema{% endblock %}
+
+{% block content %}
+
+{% include 'layouts/partials/btn-back.html' %}
+
+<div class="table-container">
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Rol</th>
+                <th>Descripción</th>
+                <th>Permisos</th>
+                <th>Usuarios</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Administrador</td>
+                <td style="color: #cbd5e1;">Control total del sistema</td>
+                <td style="color: #cbd5e1;">Todos</td>
+                <td style="color: #cbd5e1;">1</td>
+                <td>
+                    <button class="icon-btn icon-edit">✏️</button>
+                </td>
+            </tr>
+            <tr>
+                <td>Coordinador</td>
+                <td style="color: #cbd5e1;">Gestión de operaciones</td>
+                <td style="color: #cbd5e1;">Gestión completa</td>
+                <td style="color: #cbd5e1;">3</td>
+                <td>
+                    <button class="icon-btn icon-edit">✏️</button>
+                </td>
+            </tr>
+            <tr>
+                <td>Voluntario</td>
+                <td style="color: #cbd5e1;">Tareas de cuidado</td>
+                <td style="color: #cbd5e1;">Lectura y asignaciones</td>
+                <td style="color: #cbd5e1;">15</td>
+                <td>
+                    <button class="icon-btn icon-edit">✏️</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+{% endblock %}

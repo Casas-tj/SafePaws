@@ -1,0 +1,170 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}SafePaws - Reporte de Adopciones{% endblock %}
+
+{% block header_dashboard %}
+<!-- Header Dashboard -->
+<header class="dashboard-header">
+    <div class="dashboard-header-content">
+        <div class="dashboard-title-container">
+            <h1 class="dashboard-title">Reporte de Adopciones</h1>
+        </div>
+        <div class="dashboard-actions">
+            <button class="btn-primary" onclick="imprimirReporte()">🖨️ Imprimir</button>
+            <button class="btn-primary" onclick="exportarPDF()">📄 Exportar PDF</button>
+            {% include 'layouts/partials/btn-back.html' %}
+        </div>
+    </div>
+</header>
+{% endblock %}
+
+<!-- Contenido Principal -->
+{% block content %}
+<div class="list-view">
+    <div class="list-header">
+        <h3 class="list-title">Reporte de Adopciones</h3>
+        <div class="list-actions">
+            {% include 'layouts/partials/btn-back.html' %}
+        </div>
+    </div>
+
+    <!-- Resumen -->
+    <div
+        style="background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%); padding: 1.5rem; border-radius: 0.5rem; margin-bottom: 2rem;">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem;">
+            <div>
+                <div style="font-size: 0.875rem; color: #64748b; margin-bottom: 0.5rem;">Total Adopciones</div>
+                <div style="font-size: 2rem; font-weight: 700; color: #1e293b;">87</div>
+            </div>
+            <div>
+                <div style="font-size: 0.875rem; color: #64748b; margin-bottom: 0.5rem;">Este Mes</div>
+                <div style="font-size: 2rem; font-weight: 700; color: #10b981;">12</div>
+            </div>
+            <div>
+                <div style="font-size: 0.875rem; color: #64748b; margin-bottom: 0.5rem;">En Proceso</div>
+                <div style="font-size: 2rem; font-weight: 700; color: #3b82f6;">5</div>
+            </div>
+            <div>
+                <div style="font-size: 0.875rem; color: #64748b; margin-bottom: 0.5rem;">Tasa de Éxito</div>
+                <div style="font-size: 2rem; font-weight: 700; color: #10b981;">94%</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tabla de Adopciones -->
+    <div class="table-wrapper">
+        <table class="data-table-list">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Animal</th>
+                    <th>Adoptante</th>
+                    <th>Fecha Adopción</th>
+                    <th>Edad del Animal</th>
+                    <th>Estado</th>
+                    <th>Seguimiento</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="td-id">AD001</td>
+                    <td class="td-nombre">Max</td>
+                    <td class="td-text">Juan Pérez González</td>
+                    <td class="td-text">15/01/2026</td>
+                    <td class="td-text">3 años</td>
+                    <td><span class="status-badge badge-adoptado">Completada</span></td>
+                    <td class="td-text">1° seguimiento OK</td>
+                </tr>
+                <tr>
+                    <td class="td-id">AD002</td>
+                    <td class="td-nombre">Luna</td>
+                    <td class="td-text">María García Ruiz</td>
+                    <td class="td-text">10/01/2026</td>
+                    <td class="td-text">2 años</td>
+                    <td><span class="status-badge badge-cuidado">En Proceso</span></td>
+                    <td class="td-text">Visita domiciliaria pendiente</td>
+                </tr>
+                <tr>
+                    <td class="td-id">AD003</td>
+                    <td class="td-nombre">Rocky</td>
+                    <td class="td-text">Carlos Martínez López</td>
+                    <td class="td-text">08/01/2026</td>
+                    <td class="td-text">5 años</td>
+                    <td><span class="status-badge badge-adoptado">Completada</span></td>
+                    <td class="td-text">Seguimiento OK</td>
+                </tr>
+                <tr>
+                    <td class="td-id">AD004</td>
+                    <td class="td-nombre">Mimi</td>
+                    <td class="td-text">Ana Rodríguez Silva</td>
+                    <td class="td-text">05/01/2026</td>
+                    <td class="td-text">1 año</td>
+                    <td><span class="status-badge badge-adoptado">Completada</span></td>
+                    <td class="td-text">2° seguimiento OK</td>
+                </tr>
+                <tr>
+                    <td class="td-id">AD005</td>
+                    <td class="td-nombre">Toby</td>
+                    <td class="td-text">Luis Fernández Castro</td>
+                    <td class="td-text">12/01/2026</td>
+                    <td class="td-text">4 años</td>
+                    <td><span class="status-badge badge-cuidado">En Proceso</span></td>
+                    <td class="td-text">Documentación pendiente</td>
+                </tr>
+                <tr>
+                    <td class="td-id">AD006</td>
+                    <td class="td-nombre">Bella</td>
+                    <td class="td-text">Patricia Sánchez Mora</td>
+                    <td class="td-text">18/01/2026</td>
+                    <td class="td-text">2 años</td>
+                    <td><span class="status-badge badge-adoptado">Completada</span></td>
+                    <td class="td-text">Seguimiento programado</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Gráfico de barras (simulado) -->
+    <div
+        style="margin-top: 2rem; background: white; padding: 1.5rem; border-radius: 0.5rem; border: 1px solid #e2e8f0;">
+        <h4 style="margin-bottom: 1rem; color: #1e293b;">Adopciones por Mes (2026)</h4>
+        <div style="display: flex; gap: 0.5rem; align-items: flex-end; height: 150px;">
+            <div
+                style="flex: 1; background: linear-gradient(to top, #10b981, #34d399); height: 60%; border-radius: 0.25rem 0.25rem 0 0; position: relative;">
+                <span
+                    style="position: absolute; top: -1.5rem; left: 50%; transform: translateX(-50%); font-size: 0.75rem; font-weight: 600;">8</span>
+                <span
+                    style="position: absolute; bottom: -1.5rem; left: 50%; transform: translateX(-50%); font-size: 0.75rem; color: #64748b;">Ene</span>
+            </div>
+            <div
+                style="flex: 1; background: linear-gradient(to top, #3b82f6, #60a5fa); height: 80%; border-radius: 0.25rem 0.25rem 0 0; position: relative;">
+                <span
+                    style="position: absolute; top: -1.5rem; left: 50%; transform: translateX(-50%); font-size: 0.75rem; font-weight: 600;">12</span>
+                <span
+                    style="position: absolute; bottom: -1.5rem; left: 50%; transform: translateX(-50%); font-size: 0.75rem; color: #64748b;">Feb
+                    (actual)</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pie de reporte -->
+    <div
+        style="margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #e2e8f0; text-align: center; color: #64748b; font-size: 0.875rem;">
+        <p>Reporte generado el: 19/01/2026 14:30</p>
+        <br>
+        <p>SafePaws - Sistema de Gestión de Protectora de Animales</p>
+    </div>
+</div>
+{% endblock %}
+
+{% block js %}
+<script>
+    function imprimirReporte() {
+        window.print();
+    }
+
+    function exportarPDF() {
+        alert('Función de exportación a PDF\n\nEn producción, esto generaría un archivo PDF con el reporte completo.');
+    }
+</script>
+{% endblock %}

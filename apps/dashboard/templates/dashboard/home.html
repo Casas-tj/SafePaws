@@ -1,0 +1,110 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}SafePaws - Panel de Administración{% endblock %}
+
+{% block content %}
+<!-- CARDS -->
+<section id="mainMenu">
+    <h2 style="text-align: center;">Panel de Administración</h2>
+    <div class="card-container">
+        <!-- ANIMALES -->
+        <a class="card-link" href="{% url 'animales' %}">
+            <div class="card" data-section="animales" data-view="animales">
+                <span class="module-icon">🐾</span>
+                <h3>Gestión de Animales</h3>
+                <p>Alta, baja y mantenimiento de fichas de animales.</p>
+            </div>
+        </a>
+
+        <!-- ADOPCIONES -->
+        <a class="card-link" href="{% url 'adopciones' %}">
+            <div class="card" data-section="adopciones" data-view="adopciones">
+                <span class="module-icon">❤️</span>
+                <h3>Gestión de Adopciones</h3>
+                <p>Control de procesos de adopción y familias.</p>
+            </div>
+        </a>
+
+        <!-- VOLUNTARIOS -->
+        <a class="card-link" href="{% url 'voluntarios' %}">
+            <div class="card" data-section="voluntarios" data-view="voluntarios">
+                <span class="module-icon">👥</span>
+                <h3>Gestión de Voluntarios</h3>
+                <p>Control de personal y roles asignados.</p>
+            </div>
+        </a>
+
+        <!-- USUARIOS -->
+        <a class="card-link" href="{% url 'usuarios' %}">
+            <div class="card" data-section="usuarios" data-view="usuarios">
+                <span class="module-icon">⚙️</span>
+                <h3>Usuarios</h3>
+                <p>Propietarios y rescatistas</p>
+            </div>
+        </a>
+
+        <!-- INCIDENCIAS -->
+        <a class="card-link" href="{% url 'incidencias' %}">
+            <div class="card" data-section="incidencias" data-view="incidencias">
+                <span class="module-icon">⚠️</span>
+                <h3>Incidencias</h3>
+                <p>Registro de eventos y estados de salud.</p>
+            </div>
+        </a>
+
+        <!-- DONACIONES -->
+        <a class="card-link" href="{% url 'donaciones' %}">
+            <div class="card" data-section="donaciones" data-view="donaciones">
+                <span class="module-icon">💰</span>
+                <h3>Donaciones</h3>
+                <p>Donaciones y sus usos</p>
+            </div>
+        </a>
+
+        <!-- SUMINISTROS -->
+        <a class="card-link" href="{% url 'suministros' %}">
+            <div class="card" data-section="inventario" data-view="inventario">
+                <span class="module-icon">🚚</span>
+                <h3>Suministros</h3>
+                <p>Control de productos y movimientos</p>
+            </div>
+        </a>
+
+        <!-- FUNCIONES -->
+        <a class="card-link" href="{% url 'funciones' %}">
+            <div class="card" data-section="asignaciones" data-view="asignaciones">
+                <span class="module-icon">📋</span>
+                <h3>Funciones</h3>
+                <p>Tareas que hace cada voluntario</p>
+            </div>
+        </a>
+
+        <!-- ROLES -->
+        <a class="card-link" href="{% url 'roles' %}">
+            <div class="card" data-section="roles" data-view="roles">
+                <span class="module-icon">🛡️</span>
+                <h3>Roles del Sistema</h3>
+                <p>Gestión de permisos</p>
+            </div>
+        </a>
+
+        <!-- REPORTES -->
+        <a class="card-link" href="{% url 'reportes' %}">
+            <div class="card" data-section="reportes" data-view="reportes">
+                <span class="module-icon">📄</span>
+                <h3>Reportes</h3>
+                <p>Visualización de métricas, estadísticas e informes del sistema</p>
+            </div>
+        </a>
+
+        <!-- DASHBOARD -->
+        <a class="card-link" href="{% url 'dashboard' %}">
+            <div class="card" data-section="dashboard" data-view="dashboard">
+                <span class="module-icon">📈</span>
+                <h3>SafePaws Dashboard</h3>
+                <p>Análisis y gestión de la protectora</p>
+            </div>
+        </a>
+    </div>
+</section>
+{% endblock %}
