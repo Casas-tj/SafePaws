@@ -5,8 +5,6 @@ def recuperar_contrasena(request):
     return render(request, 'usuarios/recuperar_contrasena.html', {
         "headertitle": "SafePaws",
         "headersubtitle": "Recuperación de Contraseña",
-        # "headtitlebtn": "Nuevo Gasto",
-        # "headlink": 'gastos-add'
     })
 
 
@@ -18,8 +16,6 @@ def usuarios(request):
         "form_url": 'usuarios_form',
         "btn_back": "Volver",
         "back_url": "home",
-        # "headtitlebtn": "Nuevo Gasto",
-        # "headlink": 'gastos-add'
     })
 
 
@@ -29,8 +25,6 @@ def usuarios_form(request):
         "headersubtitle": "Registrar Nuevo Usuario",
         "btn_back": "Cancelar",
         "back_url": "usuarios"
-        # "headtitlebtn": "Nuevo Gasto",
-        # "headlink": 'gastos-add'
     })
 
 
@@ -39,9 +33,16 @@ def roles(request):
         "headertitle": "Gestión de Usuarios",
         "headersubtitle": "Roles del Sistema",
         "btn_nuevo": "Nuevo Rol",
-        "form_url": "roles",
+        "form_url": "roles_form",
         "btn_back": "Volver",
         "back_url": "home",
-        # "headtitlebtn": "Nuevo Gasto",
-        # "headlink": 'gastos-add'
+    })
+
+
+def roles_form(request):
+    return render(request, 'usuarios/roles_form.html', {
+        "headertitle": "Gestión de Roles",
+        "headersubtitle": "Registrar Nuevo Rol",
+        "btn_back": "Cancelar",
+        "back_url": "roles"
     })

@@ -6,17 +6,16 @@ class Usuario(models.Model):
         max_length=30, blank=False, null=False, unique=True)
     contrasena = models.CharField(max_length=20, blank=False, null=False)
     categoria = models.CharField(max_length=30, blank=False, null=False)
-    #nombre = models.CharField(max_length=30, blank=False, null=False)
-    #apellido = models.CharField(max_length=30, blank=False, null=False)
+    nombre = models.CharField(max_length=30, blank=False, null=False)
+    apellido = models.CharField(max_length=30, blank=False, null=False)
     telefono = models.CharField(
-        max_length=15, blank=False, null=False),
-    #email = models.EmailField(unique=True)
-    #direccion = models.CharField(max_length=30, null=False)
+        max_length=15, blank=False, null=False)
+    email = models.EmailField(unique=True)
+    direccion = models.CharField(max_length=30, null=False)
     ciudad = models.CharField(max_length=30, blank=False, null=False)
     codigo_postal = models.CharField(
         max_length=10, blank=False, null=False)
-    #evaluar estado con choices
-    #activo = models.BooleanField(default=True)
+    activo = models.BooleanField(default=True)
     verificado = models.BooleanField(default=False)
     ultimo_acceso = models.DateTimeField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -53,8 +52,12 @@ class Voluntario(models.Model):
     notas = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    # usuario_id =
-    # rol_id =
+    usuario_id = models.ForeignKey(
+        Usuario, on_delete=models.SET_NULL, blank=True, null=True,
+        related_name='voluntarios')
+    rol_id = models.ForeignKey(
+        Rol, on_delete=models.SET_NULL, blank=True, null=True,
+        related_name='voluntarios')
 
     def __str__(self):
         return f"{self.nombre} {self.apellido}"
@@ -84,6 +87,24 @@ class Raza(models.Model):
 
 
 class Animal(models.Model):
+
+    SEXO_CHOICES = [
+        ('macho', 'Macho'),
+        ('hembra', 'Hembra'),
+        ('desconocido', 'Desconocido'),
+    ]
+
+    ESTADO_CHOICES = [
+        ('disponible', 'Disponible'),
+        ('en_adopcion', 'En proceso de adopción'),
+        ('adoptado', 'Adoptado'),
+        ('acogida', 'En acogida'),
+        ('tratamiento', 'En tratamiento'),
+        ('cuarentena', 'En cuarentena'),
+        ('fallecido', 'Fallecido'),
+        ('transferido', 'Transferido'),
+    ]
+
     animal_id = models.BigAutoField(primary_key=True)
     codigo = models.CharField(max_length=50, unique=True)
     nombre = models.CharField(max_length=100)
@@ -93,7 +114,8 @@ class Animal(models.Model):
     raza_id = models.ForeignKey(
         Raza, on_delete=models.SET_NULL, blank=True, null=True,
         related_name='animales')
-    #sexo = 
+    sexo = models.CharField(
+        max_length=15, choices=SEXO_CHOICES, default='desconocido')
     fecha_nacimiento = models.DateField(blank=True, null=True)
     edad_aproximada = models.CharField(max_length=50, blank=True, null=True)
     color = models.CharField(max_length=100, blank=True, null=True)
@@ -113,7 +135,8 @@ class Animal(models.Model):
     necesidades_especiales = models.TextField(blank=True, null=True)
     fecha_ingreso = models.DateField()
     fecha_salida = models.DateField(blank=True, null=True)
-    #estado =
+    estado = models.CharField(
+        max_length=20, choices=ESTADO_CHOICES, default='disponible')
     ubicacion = models.CharField(max_length=100, blank=True, null=True)
     foto_url = models.CharField(max_length=255, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -142,15 +165,31 @@ class AnimalVoluntario(models.Model):
 
 
 class Adopcion(models.Model):
+
+    ESTADO_SOLICITUD_CHOICES = [
+        ('pendiente', 'Pendiente'),
+        ('en_revision', 'En revisión'),
+        ('aprobada', 'Aprobada'),
+        ('rechazada', 'Rechazada'),
+        ('cancelada', 'Cancelada'),
+    ]
+
     adopcion_id = models.BigAutoField(primary_key=True)
     codigo_adopcion = models.CharField(max_length=50, unique=True)
-    #usuario_id =
-    #animal_id =
-    #voluntario_id =
+    usuario_id = models.ForeignKey(
+        Usuario, on_delete=models.PROTECT,
+        related_name='adopciones')
+    animal_id = models.ForeignKey(
+        Animal, on_delete=models.PROTECT,
+        related_name='adopciones')
+    voluntario_id = models.ForeignKey(
+        Voluntario, on_delete=models.SET_NULL, blank=True, null=True,
+        related_name='adopciones_gestionadas')
     fecha_solicitud = models.DateField()
     fecha_aprobacion = models.DateField(blank=True, null=True)
     fecha_adopcion = models.DateField(blank=True, null=True)
-    #estado_solicitud =
+    estado_solicitud = models.CharField(
+        max_length=15, choices=ESTADO_SOLICITUD_CHOICES, default='pendiente')
     estado_adopcion = models.CharField(max_length=20, default="prueba")
     motivo_rechazo = models.TextField(blank=True, null=True)
     condiciones_especiales = models.TextField(blank=True, null=True)
@@ -170,8 +209,12 @@ class Adopcion(models.Model):
 
 class SeguimientoAdopcion(models.Model):
     seguimiento_id = models.BigAutoField(primary_key=True)
-    #adopcion_id =
-    #voluntario_id =
+    adopcion_id = models.ForeignKey(
+        Adopcion, on_delete=models.CASCADE,
+        related_name='seguimientos')
+    voluntario_id = models.ForeignKey(
+        Voluntario, on_delete=models.SET_NULL, blank=True, null=True,
+        related_name='seguimientos_realizados')
     fecha_seguimiento = models.DateField()
     tipo_seguimiento = models.CharField(max_length=20, default="llamada")
     estado_animal = models.CharField(max_length=100, blank=True, null=True)
@@ -196,9 +239,15 @@ class TipoServicio(models.Model):
 class Incidencia(models.Model):
     incidencia_id = models.BigAutoField(primary_key=True)
     codigo_incidencia = models.CharField(max_length=50, unique=True)
-    #animal_id =
-    #voluntario_id =
-    #tipo_servicio_id =
+    animal_id = models.ForeignKey(
+        Animal, on_delete=models.CASCADE,
+        related_name='incidencias')
+    voluntario_id = models.ForeignKey(
+        Voluntario, on_delete=models.SET_NULL, blank=True, null=True,
+        related_name='incidencias_registradas')
+    tipo_servicio_id = models.ForeignKey(
+        TipoServicio, on_delete=models.SET_NULL, blank=True, null=True,
+        related_name='incidencias')
     servicio = models.CharField(max_length=50, blank=True, null=True)
     titulo = models.CharField(max_length=200)
     descripcion = models.TextField(blank=True, null=True)
@@ -241,8 +290,9 @@ class Proveedor(models.Model):
 class Producto(models.Model):
     producto_id = models.BigAutoField(primary_key=True)
     codigo = models.CharField(max_length=50, unique=True)
-    #categoria_id =
-
+    categoria_id = models.ForeignKey(
+        CategoriaProducto, on_delete=models.SET_NULL, blank=True, null=True,
+        related_name='productos')
     nombre = models.CharField(max_length=150)
     descripcion = models.TextField(blank=True, null=True)
     unidad = models.CharField(max_length=50, default="unidad")
@@ -253,7 +303,9 @@ class Producto(models.Model):
         max_digits=10, decimal_places=2, default=0)
     fecha_vencimiento = models.DateField(blank=True, null=True)
     lote = models.CharField(max_length=50, blank=True, null=True)
-    #proveedor_id =
+    proveedor_id = models.ForeignKey(
+        Proveedor, on_delete=models.SET_NULL, blank=True, null=True,
+        related_name='productos')
     ubicacion = models.CharField(max_length=100, blank=True, null=True)
     activo = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -262,14 +314,18 @@ class Producto(models.Model):
 
 class MovimientoInventario(models.Model):
     movimiento_id = models.BigAutoField(primary_key=True)
-    #producto_id =
+    producto_id = models.ForeignKey(
+        Producto, on_delete=models.PROTECT,
+        related_name='movimientos')
     tipo_movimiento = models.CharField(max_length=20)
     cantidad = models.IntegerField()
     stock_anterior = models.IntegerField()
     stock_nuevo = models.IntegerField()
     motivo = models.CharField(max_length=255, blank=True, null=True)
     referencia = models.CharField(max_length=100, blank=True, null=True)
-    #voluntario_id =
+    voluntario_id = models.ForeignKey(
+        Voluntario, on_delete=models.SET_NULL, blank=True, null=True,
+        related_name='movimientos_inventario')
     fecha_movimiento = models.DateTimeField()
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -277,14 +333,20 @@ class MovimientoInventario(models.Model):
 class SalidaDonacion(models.Model):
     salida_id = models.BigAutoField(primary_key=True)
     codigo_salida = models.CharField(max_length=50, unique=True)
-    #voluntario_id =
-    #producto_id =
+    voluntario_id = models.ForeignKey(
+        Voluntario, on_delete=models.SET_NULL, blank=True, null=True,
+        related_name='salidas_donacion')
+    producto_id = models.ForeignKey(
+        Producto, on_delete=models.PROTECT,
+        related_name='salidas_donacion')
     cantidad = models.IntegerField()
     destinatario = models.CharField(max_length=200, blank=True, null=True)
     motivo = models.TextField(blank=True, null=True)
     fecha_salida = models.DateField()
     aprobado = models.BooleanField(default=False)
-    aprobado_por = models.CharField()
+    aprobado_por = models.ForeignKey(
+        Usuario, on_delete=models.SET_NULL, blank=True, null=True,
+        related_name='salidas_aprobadas')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -302,9 +364,15 @@ class TipoDonacion(models.Model):
 class Donacion(models.Model):
     donacion_id = models.BigAutoField(primary_key=True)
     codigo_donacion = models.CharField(max_length=50, unique=True)
-    #usuario_id =
-    ##voluntario_id =
-    #tipo_donacion_id =
+    usuario_id = models.ForeignKey(
+        Usuario, on_delete=models.SET_NULL, blank=True, null=True,
+        related_name='donaciones')
+    voluntario_id = models.ForeignKey(
+        Voluntario, on_delete=models.SET_NULL, blank=True, null=True,
+        related_name='donaciones_gestionadas')
+    tipo_donacion_id = models.ForeignKey(
+        TipoDonacion, on_delete=models.SET_NULL, blank=True, null=True,
+        related_name='donaciones')
     tipo = models.CharField(max_length=20, default="productos")
     monto_monetario = models.DecimalField(
         max_digits=10, decimal_places=2, default=0)
@@ -323,8 +391,12 @@ class Donacion(models.Model):
 
 class DonacionProducto(models.Model):
     donacion_producto_id = models.BigAutoField(primary_key=True)
-    #donacion_id =
-    #producto_id =
+    donacion_id = models.ForeignKey(
+        Donacion, on_delete=models.CASCADE,
+        related_name='productos_donados')
+    producto_id = models.ForeignKey(
+        Producto, on_delete=models.PROTECT,
+        related_name='donaciones_recibidas')
     cantidad = models.IntegerField()
     valor_estimado = models.DecimalField(
         max_digits=10, decimal_places=2, blank=True, null=True)
@@ -344,7 +416,8 @@ class ConfiguracionSistema(models.Model):
     instagram = models.CharField(max_length=255, blank=True, null=True)
     twitter = models.CharField(max_length=255, blank=True, null=True)
     dias_periodo_prueba_default = models.IntegerField(default=30)
-    #costo_adopcion_default =
+    costo_adopcion_default = models.DecimalField(
+        max_digits=10, decimal_places=2, default=0)
     dias_alerta_vencimiento = models.IntegerField(default=30)
     logo_url = models.CharField(max_length=255, blank=True, null=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -362,7 +435,9 @@ class Estadistica(models.Model):
 
 class Notificacion(models.Model):
     notificacion_id = models.BigAutoField(primary_key=True)
-    #usuario_id =
+    usuario_id = models.ForeignKey(
+        Usuario, on_delete=models.CASCADE,
+        related_name='notificaciones')
     tipo = models.CharField(max_length=20)
     titulo = models.CharField(max_length=200, blank=True, null=True)
     mensaje = models.TextField(blank=True, null=True)
@@ -379,7 +454,9 @@ class Reporte(models.Model):
     descripcion = models.TextField(blank=True, null=True)
     fecha_inicio = models.DateField(blank=True, null=True)
     fecha_fin = models.DateField(blank=True, null=True)
-    #generado_por =
+    generado_por = models.ForeignKey(
+        Usuario, on_delete=models.SET_NULL, blank=True, null=True,
+        related_name='reportes_generados')
     fecha_generacion = models.DateTimeField()
     formato = models.CharField(max_length=10, blank=True, null=True)
     archivo_url = models.CharField(max_length=255, blank=True, null=True)
