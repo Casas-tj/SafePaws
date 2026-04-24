@@ -1,0 +1,99 @@
+{% extends "layouts/base.html" %} {% block title %}SafePaws - Registrar Nuevo
+Rol{% endblock %} {% block content %}
+<div class="form-view">
+  <div class="form-header">
+    <h2 class="form-title">Información del Rol</h2>
+    <p style="color: #64748b; font-size: 0.875rem; margin-top: 0.5rem">
+      Completa todos los campos para registrar un nuevo rol en el sistema
+    </p>
+  </div>
+
+  <form id="formNuevoRol" class="animal-form">
+    <!-- Sección 1: Nombre, Apellidos, Email, Teléfono -->
+    <fieldset class="form-row">
+      <legend>Datos Personales</legend>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="nombre">Nombre *</label>
+          <input
+            type="text"
+            id="nombre"
+            name="nombre"
+            class="form-control-list"
+            placeholder="Nombre"
+            autocomplete="given-name"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="apellidos">Apellidos *</label>
+          <input
+            type="text"
+            id="apellidos"
+            name="apellidos"
+            class="form-control-list"
+            placeholder="Apellidos"
+            autocomplete="family-name"
+            required
+          />
+        </div>
+      </div>
+    </fieldset>
+
+    <!-- Sección 2: Usuario, Contraseña, Tipo usuario, Estado -->
+    <fieldset>
+      <legend>Datos de Cuenta</legend>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="tipo">Tipo de Rol *</label>
+          <select id="tipo" name="tipo" class="form-control-list" required>
+            <option value="">Selecciona el tipo de rol</option>
+            <option value="Administrador">👑 Administrador</option>
+            <option value="Veterinario">🩺 Veterinario</option>
+            <option value="Cuidador">🐾 Cuidador</option>
+            <option value="Recepcionista">📋 Recepcionista</option>
+            <option value="Voluntario">🤝 Voluntario</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="estado">Estado *</label>
+          <select id="estado" name="estado" class="form-control-list" required>
+            <option value="">Selecciona un estado</option>
+            <option value="Activo">✅ Activo</option>
+            <option value="Inactivo">⏸️ Inactivo</option>
+            <option value="Suspendido">🚫 Suspendido</option>
+          </select>
+        </div>
+      </div>
+    </fieldset>
+
+    <!-- Sección 3: Descripción del rol -->
+    <fieldset>
+      <legend>Descripción</legend>
+      <div class="form-row">
+        <div class="form-group form-group-full">
+          <textarea
+            id="observaciones"
+            name="observaciones"
+            class="form-control-list form-textarea"
+            placeholder="Descripción del rol"
+          ></textarea>
+        </div>
+      </div>
+    </fieldset>
+
+    <!-- Botones -->
+    <div class="form-buttons">
+      <button type="submit" class="btn-success">✅ Registrar Rol</button>
+
+      <button type="reset" class="btn-danger" style="background-color: #f59e0b">
+        🔄 Limpiar Formulario
+      </button>
+
+      {% include 'layouts/partials/btn-back.html' %}
+    </div>
+  </form>
+</div>
+{% endblock %}
