@@ -12,93 +12,107 @@
     </div>
 
     <form id="formNuevoAnimal" class="animal-form">
-        <!-- Fila 1: Nombre, Especie, Raza -->
-        <div class="form-row">
-            <div class="form-group">
-                <label for="animalNombre">Nombre *</label>
-                <input type="text" id="animalNombre" class="form-control-list" placeholder="Nombre del animal" required>
-            </div>
-            <div class="form-group">
-                <label for="animalEspecie">Especie *</label>
-                <select id="animalEspecie" class="form-control-list" required>
-                    <option value="" disabled selected>Selecciona la especie</option>
-                    <option value="Perro">Perro</option>
-                    <option value="Gato">Gato</option>
-                    <option value="Conejo">Conejo</option>
-                    <option value="Hamster">Hamster</option>
-                    <option value="Pájaro">Pájaro</option>
-                    <option value="Otro">Otro</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="animalRaza">Raza *</label>
-                <input type="text" id="animalRaza" class="form-control-list" placeholder="Raza o mezcla" required>
-            </div>
-        </div>
+        <!-- Sección 1: Nombre, Especie, Raza -->
+        <fieldset>
+            <legend>Datos del Animal</legend>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="animalNombre">Nombre *</label>
+                    <input type="text" id="animalNombre" class="form-control-list" placeholder="Nombre del animal"
+                        required>
+                </div>
 
-        <!-- Fila 2: Edad, Sexo, Estado -->
-        <div class="form-row">
-            <div class="form-group">
-                <label for="animalEdad">Edad *</label>
-                <input type="text" id="animalEdad" class="form-control-list" placeholder="Ej: 3 años, 6 meses, cachorro"
-                    required>
-            </div>
+                <div class="form-group">
+                    <label for="animalEspecie">Especie *</label>
+                    <select id="animalEspecie" class="form-control-list" required>
+                        <option value="" disabled selected>Selecciona la especie</option>
+                        <option value="Perro">Perro</option>
+                        <option value="Gato">Gato</option>
+                        <option value="Conejo">Conejo</option>
+                        <option value="Hamster">Hamster</option>
+                        <option value="Pájaro">Pájaro</option>
+                        <option value="Otro">Otro</option>
+                    </select>
+                </div>
 
-            <div class="form-group">
-                <label for="animalSexo">Sexo</label>
-                <select id="animalSexo" class="form-control-list">
-                    <option value="" disabled selected>Selecciona el sexo</option>
-                    <option value="Macho">Macho</option>
-                    <option value="Hembra">Hembra</option>
-                </select>
+                <div class="form-group">
+                    <label for="animalRaza">Raza *</label>
+                    <input type="text" id="animalRaza" class="form-control-list" placeholder="Raza o mezcla" required>
+                </div>
             </div>
+        </fieldset>
 
-            <div class="form-group">
-                <label for="animalEstado">Estado *</label>
-                <select id="animalEstado" class="form-control-list" required>
-                    <option value="" disabled selected>Selecciona un estado</option>
-                    <option value="En Adopción">En Adopción</option>
-                    <option value="En Acogida">En Acogida</option>
-                    <option value="Adoptado">Adoptado</option>
-                </select>
-            </div>
-        </div>
+        <!-- Sección 2: Edad, Sexo, Estado -->
+        <fieldset>
+            <legend>Características del Animal</legend>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="animalEdad">Edad *</label>
+                    <input type="text" id="animalEdad" class="form-control-list"
+                        placeholder="Ej: 3 años, 6 meses, cachorro" required>
+                </div>
 
-        <!-- Fila 3: Fecha de Ingreso, Características de salud  -->
-        <div class="form-row">
-            <div class="form-group">
-                <label for="animalFechaIngreso">Fecha de Ingreso *</label>
-                <input type="date" id="animalFechaIngreso" class="form-control-list" required>
-            </div>
+                <div class="form-group">
+                    <label for="animalSexo">Sexo</label>
+                    <select id="animalSexo" class="form-control-list">
+                        <option value="" disabled selected>Selecciona el sexo</option>
+                        <option value="Macho">Macho</option>
+                        <option value="Hembra">Hembra</option>
+                    </select>
+                </div>
 
-            <div class="form-group">
-                <label for="animalVacunado">¿Vacunado?</label>
-                <select id="animalVacunado" class="form-control-list">
-                    <option value="" disabled selected>Selecciona...</option>
-                    <option value="Sí">Sí</option>
-                    <option value="No">No</option>
-                    <option value="Parcialmente">Parcialmente</option>
-                </select>
+                <div class="form-group">
+                    <label for="animalEstado">Estado *</label>
+                    <select id="animalEstado" class="form-control-list" required>
+                        <option value="" disabled selected>Selecciona un estado</option>
+                        <option value="En Adopción">En Adopción</option>
+                        <option value="En Acogida">En Acogida</option>
+                        <option value="Adoptado">Adoptado</option>
+                    </select>
+                </div>
             </div>
+        </fieldset>
 
-            <div class="form-group">
-                <label for="animalEsterilizado">¿Esterilizado?</label>
-                <select id="animalEsterilizado" class="form-control-list">
-                    <option value="" disabled selected>Seleccionar...</option>
-                    <option value="Sí">Sí</option>
-                    <option value="No">No</option>
-                </select>
-            </div>
-        </div>
+        <!-- Sección 3: Fecha de Ingreso, Características de salud  -->
+        <fieldset>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="animalFechaIngreso">Fecha de Ingreso *</label>
+                    <input type="date" id="animalFechaIngreso" class="form-control-list" required>
+                </div>
 
-        <!-- Fila 4: Historia / Observaciones -->
-        <div class="form-row">
-            <div class="form-group form-group-full">
-                <label for="animalDescripcion">Descripción y Salud</label>
-                <textarea id="animalDescripcion" class="form-control-list form-textarea" rows="4"
-                    placeholder="Cómo llegó al refugio, situación previa, información adicional relevante..."></textarea>
+                <div class="form-group">
+                    <label for="animalVacunado">¿Vacunado?</label>
+                    <select id="animalVacunado" class="form-control-list">
+                        <option value="" disabled selected>Selecciona...</option>
+                        <option value="Sí">Sí</option>
+                        <option value="No">No</option>
+                        <option value="Parcialmente">Parcialmente</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="animalEsterilizado">¿Esterilizado?</label>
+                    <select id="animalEsterilizado" class="form-control-list">
+                        <option value="" disabled selected>Seleccionar...</option>
+                        <option value="Sí">Sí</option>
+                        <option value="No">No</option>
+                    </select>
+                </div>
             </div>
-        </div>
+        </fieldset>
+
+        <!-- Sección 4: Historia / Observaciones -->
+        <fieldset>
+            <legend>Historia y Observaciones</legend>
+            <div class="form-row">
+                <div class="form-group form-group-full">
+                    <label for="animalDescripcion">Descripción y Salud</label>
+                    <textarea id="animalDescripcion" class="form-control-list form-textarea" rows="4"
+                        placeholder="Cómo llegó al refugio, situación previa, información adicional relevante..."></textarea>
+                </div>
+            </div>
+        </fieldset>
 
         <!-- Botones -->
         <div class="form-buttons">
