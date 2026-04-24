@@ -12,87 +12,91 @@
     </div>
 
     <form id="formNuevaDonacion" class="animal-form">
-        <!-- Fila 1: Donante, Email, Teléfono -->
-        <div class="form-row">
-            <div class="form-group">
-                <label for="donante">Donante *</label>
-                <input type="text" id="donante" class="form-control-list" placeholder="Nombre del donante o 'Anónimo'"
-                    required>
+        <!-- Sección 1: Donante, Email, Teléfono -->
+        <fieldset>
+            <legend>Datos del Donante</legend>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="donante">Donante *</label>
+                    <input type="text" id="donante" class="form-control-list"
+                        placeholder="Nombre del donante o 'Anónimo'" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" class="form-control-list" placeholder="correo@ejemplo.com">
+                </div>
+                <div class="form-group">
+                    <label for="telefono">Teléfono</label>
+                    <input type="tel" id="telefono" class="form-control-list" placeholder="555-0000">
+                </div>
             </div>
-            <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" id="email" class="form-control-list" placeholder="correo@ejemplo.com">
-            </div>
-            <div class="form-group">
-                <label for="telefono">Teléfono</label>
-                <input type="tel" id="telefono" class="form-control-list" placeholder="555-0000">
-            </div>
-        </div>
+        </fieldset>
 
-        <!-- Fila 2: Fecha, Tipo, Estado -->
-        <div class="form-row">
-            <div class="form-group">
-                <label for="fecha">Fecha *</label>
-                <input type="date" id="fecha" class="form-control-list" required>
+        <!-- Sección 2: Fecha, Tipo, Estado -->
+        <fieldset>
+            <legend>Detalles de la Donación</legend>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="fecha">Fecha *</label>
+                    <input type="date" id="fecha" class="form-control-list" required>
+                </div>
+                <div class="form-group">
+                    <label for="tipo">Tipo de Donación *</label>
+                    <select id="tipo" class="form-control-list" required>
+                        <option value="">Seleccionar...</option>
+                        <option value="Monetaria">Monetaria</option>
+                        <option value="Material">Material</option>
+                        <option value="Otra">Otro tipo</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="estado">Estado *</label>
+                    <select id="estado" class="form-control-list" required>
+                        <option value="">Seleccionar...</option>
+                        <option value="Procesada">Procesada</option>
+                        <option value="Recibida">Recibida</option>
+                        <option value="Pendiente" selected>Pendiente</option>
+                        <option value="Cancelada">Cancelada</option>
+                    </select>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="tipo">Tipo de Donación *</label>
-                <select id="tipo" class="form-control-list" required>
-                    <option value="">Seleccionar...</option>
-                    <option value="Monetaria">Monetaria</option>
-                    <option value="Material">Material</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="estado">Estado *</label>
-                <select id="estado" class="form-control-list" required>
-                    <option value="">Seleccionar...</option>
-                    <option value="Procesada">Procesada</option>
-                    <option value="Recibida">Recibida</option>
-                    <option value="Pendiente" selected>Pendiente</option>
-                    <option value="Cancelada">Cancelada</option>
-                </select>
-            </div>
-        </div>
+        </fieldset>
 
-        <!-- Fila 3: Monto (solo para monetaria) -->
-        <div class="form-row" id="montoRow" style="display: none;">
-            <div class="form-group">
-                <label for="monto">Monto ($) *</label>
-                <input type="number" id="monto" class="form-control-list" placeholder="0.00" step="0.01" min="0">
+        <!-- Sección 3: Monto (solo para monetaria) -->
+        <fieldset id="montoFieldset" style="display: none;">
+            <legend>Detalles Monetarios</legend>
+            <div class="form-row" id="montoRow" style="display: none;">
+                <div class="form-group">
+                    <label for="monto">Monto ($) *</label>
+                    <input type="number" id="monto" class="form-control-list" placeholder="0.00" step="0.01" min="0">
+                </div>
+                <div class="form-group">
+                    <label for="metodoPago">Método de Pago *</label>
+                    <select id="metodoPago" class="form-control-list">
+                        <option value="">Seleccionar...</option>
+                        <option value="Efectivo">Efectivo</option>
+                        <option value="Transferencia">Transferencia</option>
+                        <option value="Tarjeta">Tarjeta</option>
+                        <option value="Cheque">Cheque</option>
+                        <option value="PayPal">PayPal</option>
+                        <option value="Otro">Otro</option>
+                    </select>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="metodoPago">Método de Pago *</label>
-                <select id="metodoPago" class="form-control-list">
-                    <option value="">Seleccionar...</option>
-                    <option value="Efectivo">Efectivo</option>
-                    <option value="Transferencia">Transferencia</option>
-                    <option value="Tarjeta">Tarjeta</option>
-                    <option value="Cheque">Cheque</option>
-                    <option value="PayPal">PayPal</option>
-                    <option value="Otro">Otro</option>
-                </select>
-            </div>
-        </div>
+        </fieldset>
 
-        <!-- Fila 4: Descripción -->
-        <div class="form-row">
-            <div class="form-group form-group-full">
-                <label for="descripcion">Descripción *</label>
-                <textarea id="descripcion" class="form-control-list form-textarea"
-                    placeholder="Describe la donación (materiales donados, concepto del pago, etc.)"
-                    required></textarea>
+        <!-- Sección 4: Descripción -->
+        <fieldset>
+            <legend>Descripción</legend>
+            <div class="form-row">
+                <div class="form-group form-group-full">
+                    <label for="descripcion">Descripción *</label>
+                    <textarea id="descripcion" class="form-control-list form-textarea"
+                        placeholder="Información adicional (materiales donados, concepto del pago, etc.)"
+                        required></textarea>
+                </div>
             </div>
-        </div>
-
-        <!-- Fila 5: Observaciones -->
-        <div class="form-row">
-            <div class="form-group form-group-full">
-                <label for="observaciones">Observaciones</label>
-                <textarea id="observaciones" class="form-control-list form-textarea"
-                    placeholder="Información adicional, notas especiales..."></textarea>
-            </div>
-        </div>
+        </fieldset>
 
         <!-- Botones -->
         <div class="form-buttons">
