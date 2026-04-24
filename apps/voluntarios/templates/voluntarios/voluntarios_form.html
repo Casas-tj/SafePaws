@@ -12,77 +12,65 @@
     </div>
 
     <form id="formNuevoVoluntario" class="animal-form">
-        <!-- Fila 1: Nombre, Email, Teléfono -->
-        <div class="form-row">
-            <div class="form-group">
-                <label for="nombre">Nombre *</label>
-                <input type="text" id="nombre" class="form-control-list" placeholder="Nombre y apellidos" required>
-            </div>
-            <div class="form-group">
-                <label for="email">Email *</label>
-                <input type="email" id="email" class="form-control-list" placeholder="correo@ejemplo.com" required>
-            </div>
-            <div class="form-group">
-                <label for="telefono">Teléfono *</label>
-                <input type="tel" id="telefono" class="form-control-list" placeholder="555-0000" required>
-            </div>
-        </div>
+        <!-- Sección 1: Nombre, Apellidos, Email, Teléfono -->
+        <fieldset>
+            <legend>Datos Personales</legend>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="nombre">Nombre *</label>
+                    <input type="text" id="nombre" name="nombre" class="form-control-list" placeholder="Nombre"
+                        autocomplete="given-name" required>
+                </div>
 
-        <!-- Fila 2: Rol, Estado, Fecha de Ingreso -->
-        <div class="form-row">
+                <div class="form-group">
+                    <label for="apellidos">Apellidos *</label>
+                    <input type="text" id="apellidos" name="apellidos" class="form-control-list" placeholder="Apellidos"
+                        autocomplete="family-name" required>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="email">Email *</label>
+                    <input type="email" id="email" name="email" class="form-control-list"
+                        placeholder="correo@dominio.com" autocomplete="email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="telephone">Teléfono *</label>
+                    <input type="tel" id="telephone" name="telefono" class="form-control-list"
+                        placeholder="Ej: 123456789" pattern="[0-9]{8,15}" autocomplete="tel" required>
+                </div>
+            </div>
+        </fieldset>
+
+        <!-- Sección 2: Funciones -->
+        <fieldset>
+            <legend>Funciones a desempeñar</legend>
             <div class="form-group">
-                <label for="rol">Funciones a desempeñar *</label>
                 <select id="rol" class="form-control-list" required>
                     <option value="">Seleccionar...</option>
-                    <option value="Cuidador">Cuidador</option>
-                    <option value="Veterinario">Veterinario</option>
                     <option value="Administrador">Administrador</option>
                     <option value="Coordinador">Coordinador</option>
+                    <option value="Veterinario">Veterinario</option>
+                    <option value="Cuidador">Cuidador</option>
+                    <option value="Adiestrador">Adiestrador</option>
+                    <option value="Rescatista">Rescatista</option>
+                    <option value="Redes Sociales">Redes Sociales</option>
                 </select>
             </div>
-            <div class="form-group">
-                <label for="estado">Estado *</label>
-                <select id="estado" class="form-control-list" required>
-                    <option value="" disabled selected>Selecciona un estado</option>
-                    <option value="Activo">Activo</option>
-                    <option value="Inactivo">Inactivo</option>
-                    <option value="En Espera">En Espera</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="fechaIngreso">Fecha de Ingreso *</label>
-                <input type="date" id="fechaIngreso" class="form-control-list" required>
-            </div>
-        </div>
+        </fieldset>
 
-        <!-- Fila 3: Dirección, Disponibilidad -->
-        <div class="form-row">
-            <div class="form-group">
-                <label for="direccion">Dirección</label>
-                <input type="text" id="direccion" class="form-control-list" placeholder="Calle, número, ciudad">
+        <!-- Sección 3: Información adicional -->
+        <fieldset>
+            <legend>Información Adicional</legend>
+            <div class="form-row">
+                <div class="form-group form-group-full">
+                    <textarea id="información adicional" class="form-control-list form-textarea"
+                        placeholder="Experiencia previa, disponibilidad, habilidades (primeros auxilios, adiestramiento, redes sociales), etc."></textarea>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="disponibilidad">Disponibilidad</label>
-                <select id="disponibilidad" class="form-control-list">
-                    <option value="">Seleccionar...</option>
-                    <option value="Tiempo completo">Tiempo completo</option>
-                    <option value="Medio tiempo">Medio tiempo</option>
-                    <option value="Fines de semana">Fines de semana</option>
-                    <option value="Lunes a Viernes">Lunes a Viernes</option>
-                    <option value="Tardes">Tardes</option>
-                    <option value="Mañanas">Mañanas</option>
-                </select>
-            </div>
-        </div>
-
-        <!-- Fila 4: Información adicional -->
-        <div class="form-row">
-            <div class="form-group form-group-full">
-                <label for="información adicional">Información adicional</label>
-                <textarea id="información adicional" class="form-control-list form-textarea"
-                    placeholder="Experiencia previa, habilidades (primeros auxilios, adiestramiento, redes sociales), etc."></textarea>
-            </div>
-        </div>
+        </fieldset>
 
         <!-- Botones -->
         <div class="form-buttons">
