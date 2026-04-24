@@ -180,7 +180,8 @@ body {
 }
 
 .btn-back {
-    background-color: var(--danger); /* Usa el rojo definido en :root */
+    background-color: var(--danger);
+    /* Usa el rojo definido en :root */
     color: white;
     border: none;
     padding: 8px 16px;
@@ -195,7 +196,8 @@ body {
 }
 
 .btn-back:hover {
-    background-color: var(--danger-hover); /* Oscurece al pasar el ratón */
+    background-color: var(--danger-hover);
+    /* Oscurece al pasar el ratón */
     transform: translateY(-1px);
 }
 
@@ -887,5 +889,101 @@ body {
 
     .subcards-container {
         grid-template-columns: 1fr;
+    }
+}
+
+/* --- Fieldset base -------------------------------------------- */
+fieldset {
+    border: none !important;
+    border-radius: 10px;
+    padding: 0 1.25rem 1.25rem 1.25rem !important;
+    margin-bottom: 1.5rem;
+    background: #f1f5f9;
+}
+
+fieldset:last-of-type {
+    margin-bottom: 0;
+}
+
+/* Fix clearfix */
+fieldset::after {
+    content: '';
+    display: table;
+    clear: both;
+}
+
+/* --- Legend ---------------------------------------------------- */
+legend {
+    display: flex !important;
+    align-items: center;
+    gap: 6px;
+    width: 100% !important;
+    padding: 0.5rem 1rem !important;
+    margin-bottom: 1.25rem;
+    background: #3d4f5c !important;
+    color: #ffffff !important;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    border-radius: 8px;
+    box-sizing: border-box !important;
+    float: none !important;
+}
+
+/* Línea decorativa */
+legend::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.25);
+    margin-left: 8px;
+    display: block;
+}
+
+/* --- Variantes de color por sección --------------------------- */
+fieldset:nth-of-type(1) legend {
+    background: linear-gradient(135deg, #3d4f5c 0%, #374151 100%) !important;
+}
+
+fieldset:nth-of-type(2) legend {
+    background: #4f46e5 !important;
+}
+
+fieldset:nth-of-type(3) legend {
+    background: #0d9488 !important;
+}
+
+fieldset:nth-of-type(4) legend {
+    background: #b45309 !important;
+}
+
+/* --- Hover ---------------------------------------------------- */
+fieldset:hover {
+    background-color: #e8edf2;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transition: background-color 0.2s, box-shadow 0.2s;
+}
+
+/* --- Ajustes form-row ----------------------------------------- */
+fieldset .form-row {
+    margin-bottom: 1.25rem;
+}
+
+fieldset .form-row:last-child {
+    margin-bottom: 0;
+}
+
+/* --- Responsive ----------------------------------------------- */
+@media (max-width: 768px) {
+    fieldset {
+        padding: 1.25rem 1rem 0.25rem;
+        margin-bottom: 1.25rem;
+        border-radius: 0.5rem;
+    }
+
+    legend {
+        font-size: 0.75rem;
+        padding: 0.4rem 0.75rem;
     }
 }
