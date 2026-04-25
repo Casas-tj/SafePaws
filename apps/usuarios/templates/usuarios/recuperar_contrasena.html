@@ -12,21 +12,28 @@
             <p>Recuperación de Contraseña</p>
         </div>
 
-        <form id="recoveryForm" class="login-card" novalidate>
-            <div class="form-group">
-                <label for="username">Usuario</label>
-                <input type="text" id="recovery-username" placeholder="Ingrese su usuario" autocomplete="username"
-                    required>
-            </div>
+        <form id="recoveryForm" class="login-card" method="POST">
+            {% csrf_token %}
 
             <div class="form-group">
                 <label for="email">Correo Electrónico</label>
-                <input type="text" id="recovery-email" placeholder="correo@dominio.com" autocomplete="email" required>
+                <input type="text" name="email" id="recovery-email" placeholder="correo@dominio.com"
+                    autocomplete="email" required>
             </div>
 
-            <button type="submit" id="recoveryBtn">Solicitar Recuperación</button>
+            <div class="form-group">
+                <label for="telefono">Motivo de la Solicitud</label>
+                <input type="text" name="motivo" id="recovery-reason" placeholder="Ejemplo: He olvidado mi contraseña"
+                    required>
+            </div>
 
-            <div id="message" class="message-display"></div>
+            <button type="submit" id="recoveryBtn">Crear ticket de recuperación</button>
+
+            <div id="message" class="message-display">
+                {% if ticket_creado %}
+                Ticket creado: {{ ticket_id }}
+                {% endif %}
+            </div>
 
             <a href="{% url 'login' %}" class="btn-secondary">Volver al Inicio de Sesión</a>
         </form>
