@@ -3,8 +3,8 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('donaciones/donaciones', views.donaciones, name="donaciones"),
-    path('donaciones/donaciones_form',
+    
+    path('donaciones', views.donaciones, name="donaciones"),
+    path('donaciones_form',
          views.donaciones_form, name="donaciones_form"),
 ]

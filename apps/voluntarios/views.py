@@ -23,14 +23,3 @@ def voluntarios_form(request):
         # "headtitlebtn": "Nuevo Gasto",
         # "headlink": 'gastos-add'
     })
-
-
-def funciones(request):
-    return render(request, 'voluntarios/funciones.html', {
-        "headertitle": "Gestión de Voluntarios",
-        "headersubtitle": "Tareas que hace cada voluntario",
-        "btn_back": "Volver",
-        "back_url": "home",
-        # "headtitlebtn": "Nuevo Gasto",
-        # "headlink": 'gastos-add'
-    })

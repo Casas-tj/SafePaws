@@ -3,10 +3,10 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('inventario/suministros', views.suministros, name="suministros"),
-    path('inventario/inventario',
+    
+    path('suministros', views.suministros, name="suministros"),
+    path('inventario',
          views.inventario, name="inventario"),
-    path('inventario/stock',
+    path('stock',
          views.stock, name="stock"),
 ]

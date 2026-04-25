@@ -3,14 +3,14 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('usuarios/usuarios', views.usuarios, name="usuarios"),
-    path('usuarios/usuarios_form',
+    
+    path('usuarios', views.usuarios, name="usuarios"),
+    path('usuarios_form',
          views.usuarios_form, name="usuarios_form"),
-    path('usuarios/roles',
+    path('roles',
          views.roles, name="roles"),
-    path('usuarios/roles_form',
+    path('roles_form',
          views.roles_form, name="roles_form"),
-    path('usuarios/recuperar_contrasena',
+    path('recuperar_contrasena',
          views.recuperar_contrasena, name="recuperar_contrasena"),
 ]
