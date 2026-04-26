@@ -99,26 +99,24 @@
             <legend>Descripción Detallada</legend>
             <div class="form-row">
                 <div class="form-group form-group-full">
-                    <label for="descripcion">Descripción *</label>
                     <textarea id="descripcion" class="form-control-list form-textarea"
                         placeholder="Describe detalladamente la incidencia..." required></textarea>
                 </div>
             </div>
-            </fieldset>
+        </fieldset>
 
-            <!-- Botones -->
-            <div class="form-buttons">
-                <button type="submit" class="btn-success" id="btnGuardar">
-                    ✅ Registrar Incidencia
-                </button>
+        <!-- Botones -->
+        <div class="form-buttons">
+            <button type="submit" class="btn-success" id="btnGuardar">
+                ✅ Registrar Incidencia
+            </button>
 
-                <button type="reset" class="btn-danger" style="background-color: #f59e0b;">
-                    🔄 Limpiar Formulario
-                </button>
+            <button type="reset" class="btn-danger" style="background-color: #f59e0b;">
+                🔄 Limpiar Formulario
+            </button>
 
-                {% include 'layouts/partials/btn-back.html' %}
-            </div>
-        
+            {% include 'layouts/partials/btn-back.html' %}
+        </div>
     </form>
 </div>
 {% endblock %}
