@@ -9,8 +9,6 @@ def voluntarios(request):
         "form_url": "voluntarios_form",
         "btn_back": "Volver",
         "back_url": "home",
-        # "headtitlebtn": "Nuevo Gasto",
-        # "headlink": 'gastos-add'
     })
 
 
@@ -20,6 +18,4 @@ def voluntarios_form(request):
         "headersubtitle": "Registrar Nuevo Voluntario",
         "btn_back": "Cancelar",
         "back_url": "voluntarios"
-        # "headtitlebtn": "Nuevo Gasto",
-        # "headlink": 'gastos-add'
     })

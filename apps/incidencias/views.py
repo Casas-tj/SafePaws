@@ -18,6 +18,4 @@ def incidencias_form(request):
         "headersubtitle": "Registro de Incidencias",
         "btn_back": "Cancelar",
         "back_url": "incidencias"
-        # "headtitlebtn": "Nuevo Gasto",
-        # "headlink": 'gastos-add'
     })

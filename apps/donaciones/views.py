@@ -18,6 +18,4 @@ def donaciones_form(request):
         "headersubtitle": "Registrar Nueva Donación",
         "btn_back": "Cancelar",
         "back_url": "donaciones"
-        # "headtitlebtn": "Nuevo Gasto",
-        # "headlink": 'gastos-add'
     })
