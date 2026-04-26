@@ -9,8 +9,6 @@ def adopciones(request):
         "form_url": 'adopciones_form',
         "btn_back": "Volver",
         "back_url": "home",
-        # "headtitlebtn": "Nuevo Gasto",
-        # "headlink": 'gastos-add'
     })
 
 
@@ -20,6 +18,4 @@ def adopciones_form(request):
         "headersubtitle": "Nueva Solicitud de Adopción",
         "btn_back": "Cancelar",
         "back_url": "adopciones"
-        # "headtitlebtn": "Nuevo Gasto",
-        # "headlink": 'gastos-add'
     })

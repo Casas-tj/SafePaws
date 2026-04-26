@@ -19,8 +19,6 @@ def reporte_inventario(request):
         "btn_back": "Cancelar",
         "back_url": "reportes",
         "show_report_buttons": True
-        # "headtitlebtn": "Nuevo Gasto",
-        # "headlink": 'gastos-add'
     })
 
 
@@ -33,6 +31,4 @@ def reporte_adopciones(request):
         "btn_back": "Cancelar",
         "back_url": "reportes",
         "show_report_buttons": True
-        # "headtitlebtn": "Nuevo Gasto",
-        # "headlink": 'gastos-add'
     })

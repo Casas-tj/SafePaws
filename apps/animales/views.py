@@ -9,8 +9,6 @@ def animales(request):
         "form_url": 'animales_form',
         "btn_back": "Volver",
         "back_url": "home",
-        # "headtitlebtn": "Nuevo Gasto",
-        # "headlink": 'gastos-add'
     })
 
 
@@ -20,6 +18,4 @@ def animales_form(request):
         "headersubtitle": "Registrar Nuevo Animal",
         "btn_back": "Cancelar",
         "back_url": "animales"
-        # "headtitlebtn": "Nuevo Gasto",
-        # "headlink": 'gastos-add'
     })
