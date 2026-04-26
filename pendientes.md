@@ -1,11 +1,6 @@
 - Revisar colores fieldset donaciones_form y campo de formulario fuera de margen
 - Revisar incidencias_form: campo de formulario fuera de margen
--  Recuperar_contrasena: Falta revisar la funcionalidad y crear un archivo para la recepción de tickets.
-
-
-
-
-
+- 
 
 
 
