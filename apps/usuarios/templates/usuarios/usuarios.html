@@ -1,62 +1,125 @@
-{% extends "layouts/base.html" %}
-
-{% block title %}SafePaws - Usuarios{% endblock %}
-
-{% block content %}
+{% extends "layouts/base.html" %} {% block title %} SafePaws - Usuarios
+{%endblock %} {% block content %}
 <div class="list-header">
-    <h1 class="section-title">Listado de Usuarios</h1>
+  <h1 class="section-title">Listado de Usuarios</h1>
 
-    {% include 'layouts/partials/btn-back.html' %}
+  {% include 'layouts/partials/btn-back.html' %}
 </div>
 
 <div class="main-container-flex">
-    <div class="search-section-container">
-        <div class="search-bar-container">
-            <div class="search-input-wrapper">
-                <span class="search-icon">🔍</span>
-                <input type="text" id="searchInput" class="search-input-list"
-                    placeholder="Buscar por nombre, apellidos, email, tipo, estado o año" oninput="filterTable()">
-            </div>
+  <div class="search-section-container">
+    <div class="search-bar-container">
+      <div class="search-input-wrapper">
+        <span class="search-icon">🔍</span>
+        <input
+          type="text"
+          id="searchInput"
+          class="search-input-list"
+          placeholder="Buscar por nombre, apellidos, email, tipo, estado o año"
+          oninput="filterTable()"
+        />
+      </div>
 
-            <div class="filter-buttons">
-                <div style="position: relative; display: inline-block;">
-                    <button id="btnSortDate" class="btn-filter">📅 Fecha</button>
-                </div>
-            </div>
-
-            <div class="filter-dropdown-container">
-                <button id="btnFilterStatus" class="btn-filter">🔽 Filtros</button>
-                <div id="filterMenu" class="filter-dropdown-content">
-                    <a href="#" onclick="filterByStatus('Todos')">Todos</a>
-                    <a href="#" onclick="filterByStatus('Activo')">Activo</a>
-                    <a href="#" onclick="filterByStatus('Inactivo')">Inactivo</a>
-                    <a href="#" onclick="filterByStatus('Suspendido')">Suspendido</a>
-                </div>
-            </div>
+      <div class="filter-buttons">
+        <div style="position: relative; display: inline-block">
+          <button id="btnSortDate" class="btn-filter">📅 Fecha</button>
         </div>
+      </div>
+
+      <div class="filter-dropdown-container">
+        <button id="btnFilterStatus" class="btn-filter">🔽 Filtros</button>
+        <div id="filterMenu" class="filter-dropdown-content">
+          <a href="#" onclick="filterByStatus('Todos')">Todos</a>
+          <a href="#" onclick="filterByStatus('Activo')">Activo</a>
+          <a href="#" onclick="filterByStatus('Inactivo')">Inactivo</a>
+          <a href="#" onclick="filterByStatus('Suspendido')">Suspendido</a>
+        </div>
+      </div>
     </div>
+  </div>
 </div>
 
 <div class="result-count">
-    <span id="resultCount">Cargando registros...</span>
+  <span id="resultCount">Cargando registros...</span>
 </div>
 
 <div class="table-wrapper">
-    <table class="data-table-list">
-        <thead>
-            <tr>
-                <th onclick="sortTable('id')">ID <span class="sort-icon">↕</span></th>
-                <th onclick="sortTable('nombre')">Nombre <span class="sort-icon">↕</span></th>
-                <th onclick="sortTable('apellidos')">Apellidos <span class="sort-icon">↕</span></th>
-                <th onclick="sortTable('email')">Email <span class="sort-icon">↕</span></th>
-                <th onclick="sortTable('tipo')">Tipo <span class="sort-icon">↕</span></th>
-                <th onclick="sortTable('estado')">Estado <span class="sort-icon">↕</span></th>
-                <th onclick="sortTable('fechaCreacion')">Fecha de creación <span class="sort-icon">↕</span></th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody id="tableBody">
-        </tbody>
-    </table>
+  <table class="data-table-list">
+    <thead>
+      <tr>
+        <th onclick="sortTable('id')">ID <span class="sort-icon">↕</span></th>
+        <th onclick="sortTable('nombre')">
+          Nombre <span class="sort-icon">↕</span>
+        </th>
+        <th onclick="sortTable('apellidos')">
+          Apellidos <span class="sort-icon">↕</span>
+        </th>
+        <th onclick="sortTable('email')">
+          Email <span class="sort-icon">↕</span>
+        </th>
+        <th onclick="sortTable('tipo')">
+          Tipo <span class="sort-icon">↕</span>
+        </th>
+        <th onclick="sortTable('estado')">
+          Estado <span class="sort-icon">↕</span>
+        </th>
+        <th onclick="sortTable('fechaCreacion')">
+          Fecha de creación <span class="sort-icon">↕</span>
+        </th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody id="tableBody"></tbody>
+  </table>
+
+  <table class="data-table-list">
+    <thead>
+      <tr>
+        <th onclick="sortTable('id')">ID <span class="sort-icon">↕</span></th>
+        <th onclick="sortTable('Username')">
+          Nombre <span class="sort-icon">↕</span>
+        </th>
+        <th onclick="sortTable('lastname')">
+          Apellido <span class="sort-icon">↕</span>
+        </th>
+        <th onclick="sortTable('Estado')">
+          Estado <span class="sort-icon">↕</span>
+        </th>
+        <th onclick="sortTable('roles')">
+          Rol <span class="sort-icon">↕</span>
+        </th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody id="tableBody">
+      {% for user in users %}
+      <tr>
+        <td>{{ user.id }}</td>
+        <td>{{ user.username }}</td>
+        <td>{{ user.last_name }}</td>
+        <td>{{ user.is_active}}</td>
+        <td>{{ user.groups.first.name|default:"Sin rol" }}</td>
+        <td>
+          <form method="POST" action="{% url 'usuarios_delete' user.id %}">
+            {% csrf_token %}
+
+            <button
+              type="submit"
+              onclick="return confirm('¿Eliminar usuario?');"
+              style="
+                background: none;
+                border: none;
+                color: red;
+                cursor: pointer;
+              "
+            >
+              Eliminar
+            </button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 </div>
 {% endblock %}
