@@ -1,5 +1,6 @@
 - Revisar colores fieldset donaciones_form y campo de formulario fuera de margen
 - Revisar incidencias_form: campo de formulario fuera de margen
+- Roles.html: Arreglar opciones boton filtrar
 - 
 
 
