@@ -1,31 +1,29 @@
-{% extends "layouts/base.html" %}
-
-{% block title %}SafePaws - Registrar Nuevo Usuario{% endblock %}
-
-{% block content %}
+{% extends "layouts/base.html" %} {% block title %}SafePaws - Registrar Nuevo
+Usuario{% endblock %} {% block content %}
 <div class="form-view">
     <div class="form-header">
         <h2 class="form-title">Información del Usuario</h2>
-        <p style="color: #64748b; font-size: 0.875rem; margin-top: 0.5rem;">
+        <p style="color: #64748b; font-size: 0.875rem; margin-top: 0.5rem">
             Completa todos los campos para registrar un nuevo usuario en el sistema
         </p>
     </div>
 
-    <form id="formNuevoUsuario" class="animal-form">
+    <form method="POST" id="formNuevoUsuario" class="animal-form" action="">
+        {% csrf_token %}
         <!-- Sección 1: Nombre, Apellidos, Email, Teléfono -->
         <fieldset>
             <legend>Datos Personales</legend>
             <div class="form-row">
                 <div class="form-group">
                     <label for="nombre">Nombre *</label>
-                    <input type="text" id="nombre" name="nombre" class="form-control-list" placeholder="Nombre"
-                        autocomplete="given-name" required>
+                    <input type="text" id="nombre" name="first_name" class="form-control-list" placeholder="Nombre"
+                        autocomplete="given-name" required value="{{ user.first_name|default:'' }}" />
                 </div>
 
                 <div class="form-group">
                     <label for="apellidos">Apellidos *</label>
-                    <input type="text" id="apellidos" name="apellidos" class="form-control-list" placeholder="Apellidos"
-                        autocomplete="family-name" required>
+                    <input type="text" id="apellidos" name="last_name" class="form-control-list" placeholder="Apellidos"
+                        autocomplete="family-name" required value="{{ user.last_name|default:'' }}" />
                 </div>
             </div>
 
@@ -33,13 +31,15 @@
                 <div class="form-group">
                     <label for="email">Email *</label>
                     <input type="email" id="email" name="email" class="form-control-list"
-                        placeholder="correo@dominio.com" autocomplete="email" required>
+                        placeholder="correo@dominio.com" autocomplete="email" required
+                        value="{{ user.email|default:'' }}" />
                 </div>
 
                 <div class="form-group">
                     <label for="telephone">Teléfono *</label>
                     <input type="tel" id="telephone" name="telefono" class="form-control-list"
-                        placeholder="Ej: 123456789" pattern="[0-9]{8,15}" autocomplete="tel" required>
+                        placeholder="Ej: 123456789" pattern="[0-9]{8,15}" autocomplete="tel"
+                        value="{{ user.telefono|default:'' }}" required />
                 </div>
             </div>
         </fieldset>
@@ -51,26 +51,38 @@
                 <div class="form-group">
                     <label for="username">Usuario *</label>
                     <input type="text" id="username" name="username" class="form-control-list"
-                        placeholder="Nombre de usuario" autocomplete="username" required>
+                        placeholder="Nombre de usuario" autocomplete="username" required
+                        value="{{ user.username|default:'' }}" />
                 </div>
 
                 <div class="form-group">
                     <label for="password">Contraseña *</label>
                     <input type="password" id="password" name="password" class="form-control-list"
-                        placeholder="Contraseña" autocomplete="new-password" required>
+                        placeholder="Contraseña" autocomplete="new-password" required
+                        value="{{ user.password|default:'' }}" />
                 </div>
             </div>
 
             <div class="form-row">
                 <div class="form-group">
                     <label for="tipo">Tipo de Usuario *</label>
-                    <select id="tipo" name="tipo" class="form-control-list" required>
+                    <select id="tipo" name="role" class="form-control-list" required>
                         <option value="">Selecciona el tipo de usuario</option>
-                        <option value="Administrador">👑 Administrador</option>
-                        <option value="Veterinario">🩺 Veterinario</option>
-                        <option value="Cuidador">🐾 Cuidador</option>
-                        <option value="Recepcionista"> 📋 Recepcionista</option>
-                        <option value="Voluntario">🤝 Voluntario</option>
+                        <option value="Administrador" {% if user.role_name == "Administrador" %}selected{% endif %}>
+                            👑 Administrador
+                        </option>
+                        <option value="Veterinario" {% if user.role_name == "Veterinario" %}selected{% endif %}>
+                            🩺 Veterinario
+                        </option>
+                        <option value="Cuidador" {% if user.role_name == "Cuidador" %}selected{% endif %}>
+                            🐾 Cuidador
+                        </option>
+                        <option value="Recepcionista" {% if user.role_name == "Recepcionista" %}selected{% endif %}>
+                            📋 Recepcionista
+                        </option>
+                        <option value="Voluntario" {% if user.role_name == "Voluntario" %}selected{% endif %}>
+                            🤝 Voluntario
+                        </option>
                     </select>
                 </div>
 
@@ -78,9 +90,12 @@
                     <label for="estado">Estado *</label>
                     <select id="estado" name="estado" class="form-control-list" required>
                         <option value="">Selecciona un estado</option>
-                        <option value="Activo">✅ Activo</option>
-                        <option value="Inactivo">⏸️ Inactivo</option>
-                        <option value="Suspendido">🚫 Suspendido</option>
+                        <option value="Activo" {% if user.is_active == True %}selected{% endif %}>
+                            ✅ Activo
+                        </option>
+                        <option value="Inactivo" {% if user.is_active == False %}selected{% endif %}>
+                            ⏸️ Inactivo
+                        </option>
                     </select>
                 </div>
             </div>
@@ -91,19 +106,18 @@
             <legend>Descripción</legend>
             <div class="form-row">
                 <div class="form-group form-group-full">
-                    <textarea id="observaciones" name="observaciones" class="form-control-list form-textarea"
-                        placeholder="Descripción del usuario"></textarea>
+                    <textarea id="observaciones" name="descripcion" class="form-control-list form-textarea"
+                        placeholder="Descripción del usuario">
+                    {{ user.descripcion|default:'' }}</textarea>
                 </div>
             </div>
         </fieldset>
 
         <!-- Botones -->
         <div class="form-buttons">
-            <button type="submit" class="btn-success">
-                ✅ Registrar Usuario
-            </button>
+            <button type="submit" class="btn-success">✅ Registrar Usuario</button>
 
-            <button type="reset" class="btn-danger" style="background-color: #f59e0b;">
+            <button type="reset" class="btn-danger" style="background-color: #f59e0b">
                 🔄 Limpiar Formulario
             </button>
 

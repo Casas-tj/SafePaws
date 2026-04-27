@@ -97,9 +97,12 @@
         <td>{{ user.id }}</td>
         <td>{{ user.username }}</td>
         <td>{{ user.last_name }}</td>
-        <td>{{ user.is_active}}</td>
+        <td>{{ user.status_label}}</td>
         <td>{{ user.groups.first.name|default:"Sin rol" }}</td>
         <td>
+          <a href="{% url 'usuarios_form_edit' user.id %}" class="btn-edit"
+            >Modificar</a
+          >
           <form method="POST" action="{% url 'usuarios_delete' user.id %}">
             {% csrf_token %}
 

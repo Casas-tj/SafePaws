@@ -38,15 +38,35 @@ class UserService:
     # =========================
     @staticmethod
     def get_user_by_id(user_id):
-        return User.objects.filter(id=user_id).first()
+        user=User.objects.filter(id=user_id).first()
+
+        if user:
+            user.status_label = "Activo" if user.is_active else "Inactivo"
+            user.role_name = user.groups.first().name if user.groups.exists() else ""
+
+        return user
 
     # =========================
-    # 🔵 READ (lista)
+    # 🔵 READ (lista) activos
     # =========================
     @staticmethod
     def list_users():
-        return User.objects.all().prefetch_related('groups')
+        users= User.objects.filter(is_active=True).prefetch_related('groups')
+        for user in users:
+            user.status_label = "Activo" if user.is_active else "Inactivo"
+            user.role_name = user.groups.first().name if user.groups.exists() else ""
+        return users
 
+    # =========================
+    # 🔵 READ (lista) inactivos
+    # =========================
+    @staticmethod
+    def list_users_inactive():
+        users= User.objects.filter(is_active=False).prefetch_related('groups')
+        for user in users:
+            user.status_label = "Inactivo"
+            user.role_name = user.groups.first().name if user.groups.exists() else ""
+        return users
     # =========================
     # 🟡 UPDATE
     # =========================
