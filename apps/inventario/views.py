@@ -7,8 +7,6 @@ def suministros(request):
         "headersubtitle": "Lista de Suministros",
         "btn_back": "Volver",
         "back_url": "home",
-        # "headtitlebtn": "Nuevo Gasto",
-        # "headlink": 'gastos-add'
     })
 
 
@@ -20,8 +18,6 @@ def inventario(request):
         "form_url": 'inventario',
         "btn_back": "Cancelar",
         "back_url": "suministros",
-        # "headtitlebtn": "Nuevo Gasto",
-        # "headlink": 'gastos-add'
     })
 
 
@@ -33,6 +29,4 @@ def stock(request):
         "form_url": 'stock',
         "btn_back": "Cancelar",
         "back_url": "suministros",
-        # "headtitlebtn": "Nuevo Gasto",
-        # "headlink": 'gastos-add'
     })

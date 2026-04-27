@@ -16,7 +16,7 @@
 - git status  usar  verificar que se agregara 
 - Se agrega elementos editados
 - git add .
-- Realizar comit usar uno de estos formatos
+- Realizar commit usar uno de estos formatos
 - git commit -m "feat(auth): implementa login con validación"
     git commit -m "feat(incidencias): agrega formulario de creación"
     git commit -m "feat(users): añade perfil de usuario"
