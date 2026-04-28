@@ -26,3 +26,10 @@ Enviar lo modificado en la rama creada a develop
     hacer el Pull Request en github
     aprobar el PR en github
 
+
+
+- Listar todos los branch
+    git branch 
+
+- Eliminar un branch
+   git branch -d feature/nombre-funcionalidad
