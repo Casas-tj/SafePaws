@@ -14,7 +14,7 @@ class UserService:
     @transaction.atomic
     def create_user(username, password, email=None, first_name=None, last_name=None, telefono=None, descripcion=None, is_active=True, roles=None):
         user = User.objects.create_user(
-            
+
             username=username,
             password=password,
             email=email,
@@ -38,7 +38,7 @@ class UserService:
     # =========================
     @staticmethod
     def get_user_by_id(user_id):
-        user=User.objects.filter(id=user_id).first()
+        user = User.objects.filter(id=user_id).first()
 
         if user:
             user.status_label = "Activo" if user.is_active else "Inactivo"
@@ -51,7 +51,7 @@ class UserService:
     # =========================
     @staticmethod
     def list_users():
-        users= User.objects.filter(is_active=True).prefetch_related('groups')
+        users = User.objects.filter(is_active=True).prefetch_related('groups')
         for user in users:
             user.status_label = "Activo" if user.is_active else "Inactivo"
             user.role_name = user.groups.first().name if user.groups.exists() else ""
@@ -62,7 +62,7 @@ class UserService:
     # =========================
     @staticmethod
     def list_users_inactive():
-        users= User.objects.filter(is_active=False).prefetch_related('groups')
+        users = User.objects.filter(is_active=False).prefetch_related('groups')
         for user in users:
             user.status_label = "Inactivo"
             user.role_name = user.groups.first().name if user.groups.exists() else ""
@@ -70,6 +70,7 @@ class UserService:
     # =========================
     # 🟡 UPDATE
     # =========================
+
     @staticmethod
     @transaction.atomic
     def update_user(user_id, **kwargs):
@@ -118,9 +119,10 @@ class UserService:
 
         if not user:
             return False
-        #DELETE
-        #user.delete()
-        #SOFTDELETE
+
+        # DELETE
+        # user.delete()
+        # SOFTDELETE
         user.is_active = False
         user.save(update_fields=["is_active"])
 

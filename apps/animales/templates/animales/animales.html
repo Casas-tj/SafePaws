@@ -53,6 +53,27 @@
                 <th>Acciones</th>
             </tr>
         </thead>
+
+        <tbody id="tableBody">
+            {% for animal in animales %}
+            <tr>
+                <td>{{ animal.id }}</td>
+                <td>{{ animal.name }}</td>
+                <td>{{ animal.species }}</td>
+                <td>{{ animal.breed }}</td>
+                <td>{{ animal.gender }}</td>
+                <td>{{ animal.status }}</td>
+                <td>{{ animal.admission_date }}</td>
+                <td>
+                    <a href="{% url 'animal_detail' animal.id %}" class="btn-edit">Modificar</a>
+                    <form method="post" action="{% url 'animal_delete' animal.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn-delete" onclick="return confirm('¿Eliminar animal?');"
+                            style="background: none; border: none; color: red; cursor: pointer;">Eliminar</button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
     </table>
 </div>
 {% endblock %}

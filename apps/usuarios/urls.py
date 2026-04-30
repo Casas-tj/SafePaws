@@ -12,7 +12,10 @@ urlpatterns = [
      #Eliminar usuario
      path('usuarios_delete/<int:user_id>/', views.usuarios_delete, name="usuarios_delete"),
 
+
      path('roles/', views.roles, name="roles"),
      path('roles_form/', views.roles_form, name="roles_form"),
+     path('roles_form/<int:role_id>/', views.roles_form, name="roles_form_edit"),
+     path('roles_delete/<int:role_id>/', views.roles_delete, name="roles_delete"),
      path('recuperar_contrasena/', views.recuperar_contrasena, name="recuperar_contrasena"),
 ]

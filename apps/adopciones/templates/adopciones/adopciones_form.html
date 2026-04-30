@@ -9,17 +9,20 @@
         <h1 class="form-title">Nueva Solicitud de Adopción</h1>
     </div>
 
-    <form id="formNuevaAdopcion">
+    <form method="POST" id="formNuevaAdopcion" class="animal-form" action="">
+        {% csrf_token %}
         <fieldset>
             <legend>Información de la Adopción</legend>
             <div class="form-row">
                 <div class="form-group">
                     <label for="animal">Nombre del Animal *</label>
-                    <input type="text" id="animal" class="form-control-list" placeholder="Ej: Max" required>
+                    <input type="text" id="animal" name="animal_name" class="form-control-list" placeholder="Ej: Max"
+                        required>
                 </div>
+
                 <div class="form-group">
                     <label for="estado">Estado de la Solicitud *</label>
-                    <select id="estado" class="form-control-list" required>
+                    <select id="estado" name="status" class="form-control-list" required>
                         <option value="" disabled selected>Selecciona el estado</option>
                         <option value="En Proceso">En Proceso</option>
                         <option value="Aprobada">Aprobada</option>
@@ -27,31 +30,36 @@
                         <option value="Rechazada">Rechazada</option>
                     </select>
                 </div>
+
                 <div class="form-group">
                     <label for="fecha">Fecha de Registro *</label>
-                    <input type="date" id="fecha" class="form-control-list" required>
+                    <input type="date" id="fecha" name="registration_date" class="form-control-list" required>
                 </div>
             </div>
 
             <div class="form-row">
                 <div class="form-group">
                     <label for="adoptante">Nombre del Adoptante *</label>
-                    <input type="text" id="adoptante" class="form-control-list" placeholder="Nombre completo" required>
+                    <input type="text" id="adoptante" name="adopter_name" class="form-control-list"
+                        placeholder="Nombre completo" required>
                 </div>
                 <div class="form-group">
                     <label for="telefono">Teléfono *</label>
-                    <input type="tel" id="telefono" class="form-control-list" placeholder="555-0101" required>
+                    <input type="tel" id="telefono" name="phone" class="form-control-list" placeholder="555-0101"
+                        required>
                 </div>
                 <div class="form-group">
                     <label for="email">Email *</label>
-                    <input type="email" id="email" class="form-control-list" placeholder="ejemplo@correo.com" required>
+                    <input type="email" id="email" name="email" class="form-control-list"
+                        placeholder="ejemplo@correo.com" required>
                 </div>
             </div>
 
             <div class="form-row">
                 <div class="form-group form-group-full">
                     <label for="direccion">Dirección del Domicilio</label>
-                    <input type="text" id="direccion" class="form-control-list" placeholder="Calle, número, ciudad...">
+                    <input type="text" id="direccion" name="address" class="form-control-list"
+                        placeholder="Calle, número, ciudad...">
                 </div>
             </div>
         </fieldset>
@@ -60,7 +68,7 @@
             <legend>Observaciones</legend>
             <div class="form-row">
                 <div class="form-group form-group-full">
-                    <textarea id="observaciones" class="form-control-list form-textarea" rows="4"
+                    <textarea id="observaciones" name="observations" class="form-control-list form-textarea" rows="4"
                         placeholder="Detalles adicionales..."></textarea>
                 </div>
             </div>
@@ -81,3 +89,4 @@
     </form>
 </div>
 {% endblock %}
+

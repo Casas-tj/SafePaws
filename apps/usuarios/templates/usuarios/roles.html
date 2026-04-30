@@ -42,14 +42,26 @@
         <thead>
             <tr>
                 <th onclick="sortTable('id')">ID <span class="sort-icon">↕</span></th>
-                <th onclick="sortTable('nombre')">Nombre <span class="sort-icon">↕</span></th>
-                <th onclick="sortTable('apellidos')">Apellidos <span class="sort-icon">↕</span></th>
                 <th onclick="sortTable('tipo')">Rol <span class="sort-icon">↕</span></th>
-                <th onclick="sortTable('estado')">Estado <span class="sort-icon">↕</span></th>
                 <th>Acciones</th>
             </tr>
         </thead>
         <tbody id="tableBody">
+        <tr>
+            {% for role in roles %}
+             <td>{{ role.id }}</td>
+            <td>{{ role.name }}</td>
+            <td>
+            <a href="{% url 'roles_form_edit' role.id %}">Editar</a>
+            <form method="POST" action="{% url 'roles_delete' role.id %}">
+                {% csrf_token %}
+                <button type="submit" onclick="return confirm('¿Eliminar rol?');">
+                Eliminar
+                </button>
+            </form>
+            </td>
+            </tr>
+            {% endfor %}
         </tbody>
     </table>
 </div>

@@ -20,8 +20,8 @@ class Adopcion(models.Model):
         verbose_name='Animal'
     )
 
-    # Estado del proceso
-    estado = models.CharField(
+    # Estado del proceso de adopción
+    status = models.CharField(
         max_length=20,
         choices=ESTADO_CHOICES,
         default='En Proceso'

@@ -11,50 +11,67 @@
     </p>
   </div>
 
-  <form id="formNuevoRol" class="animal-form">
+  <form id="formNuevoRol" class="animal-form"  method="POST">
+  {% csrf_token %}
     <!-- Sección 1: Nombre, Apellidos, Email, Teléfono -->
     <fieldset class="form-row">
-      <legend>Datos Personales</legend>
+      <legend>Datos Rol</legend>
       <div class="form-row">
         <div class="form-group">
           <label for="nombre">Nombre *</label>
-          <input type="text" id="nombre" name="nombre" class="form-control-list" placeholder="Nombre"
-            autocomplete="given-name" required />
-        </div>
-
-        <div class="form-group">
-          <label for="apellidos">Apellidos *</label>
-          <input type="text" id="apellidos" name="apellidos" class="form-control-list" placeholder="Apellidos"
-            autocomplete="family-name" required />
+          <input type="text" id="nombre" name="name" class="form-control-list" placeholder="Nombre"
+            autocomplete="given-name" value="{{ role.name|default:'' }}" required />
         </div>
       </div>
     </fieldset>
 
     <!-- Sección 2: Usuario, Contraseña, Tipo usuario, Estado -->
     <fieldset>
-      <legend>Datos de Cuenta</legend>
+      <legend>Permisos de Rol</legend>
       <div class="form-row">
-        <div class="form-group">
-          <label for="tipo">Tipo de Rol *</label>
-          <select id="tipo" name="tipo" class="form-control-list" required>
-            <option value="">Selecciona el tipo de rol</option>
-            <option value="Administrador">👑 Administrador</option>
-            <option value="Veterinario">🩺 Veterinario</option>
-            <option value="Cuidador">🐾 Cuidador</option>
-            <option value="Recepcionista">📋 Recepcionista</option>
-            <option value="Voluntario">🤝 Voluntario</option>
-          </select>
-        </div>
+      <div class="form-group">
+          <label for="tipo">Seleccione los Permisos*</label>
+            {% for key, group in permissions.items %}
+                <fieldset>
+                    <legend>
+                        {{ group.icon }} {{ group.label }}
+                    </legend>
+                        <!-- 👁 VER -->
+                        {% if group.perms.view %}
+                        <label>
+                            <input type="checkbox" name="permissions" value="{{ group.perms.view.id }}"
+                                {% if role and group.perms.view in role.permissions_list %}checked{% endif %}>
+                            Ver
+                        </label>
+                        {% endif %}
+                        <!-- ➕ CREAR -->
+                        {% if group.perms.create %}
+                        <label>
+                            <input type="checkbox" name="permissions" value="{{ group.perms.create.id }}"
+                                {% if role and group.perms.create in role.permissions_list %}checked{% endif %}>
+                            Crear
+                        </label>
+                        {% endif %}
 
-        <div class="form-group">
-          <label for="estado">Estado *</label>
-          <select id="estado" name="estado" class="form-control-list" required>
-            <option value="">Selecciona un estado</option>
-            <option value="Activo">✅ Activo</option>
-            <option value="Inactivo">⏸️ Inactivo</option>
-            <option value="Suspendido">🚫 Suspendido</option>
-          </select>
-        </div>
+                        <!-- ✏️ EDITAR -->
+                        {% if group.perms.update %}
+                        <label>
+                            <input type="checkbox" name="permissions" value="{{ group.perms.update.id }}"
+                                {% if role and group.perms.update in role.permissions_list %}checked{% endif %}>
+                            Editar
+                        </label>
+                        {% endif %}
+                        <!-- 🗑 ELIMINAR -->
+                        {% if group.perms.delete %}
+                        <label>
+                            <input type="checkbox" name="permissions" value="{{ group.perms.delete.id }}"
+                                {% if role and group.perms.delete in role.permissions_list %}checked{% endif %}>
+                            Eliminar
+                        </label>
+                        {% endif %}
+                </fieldset>
+            {% endfor %}
+            </div>
       </div>
     </fieldset>
 
@@ -68,6 +85,7 @@
         </div>
       </div>
     </fieldset>
+
 
     <!-- Botones -->
     <div class="form-buttons">

@@ -24,13 +24,15 @@ DEBUG = os.getenv("DEBUG") == "True"
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-sb9r*fa%@d6(sijul=u@lxn5%e3e&-s()4-#ve5k^a$q%)j0_h'
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+
 
 ALLOWED_HOSTS = []
-
+LOGIN_URL = "accounts:login"
+LOGIN_REDIRECT_URL = "home"
+LOGOUT_REDIRECT_URL = "accounts:login"
 
 # Application definition
 
@@ -52,6 +54,7 @@ INSTALLED_APPS = [
     'apps.reportes',
     'apps.usuarios',
     'apps.voluntarios',
+    'apps.accounts',
 ]
 
 MIDDLEWARE = [

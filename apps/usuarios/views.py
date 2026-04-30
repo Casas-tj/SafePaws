@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from .services.user_service import UserService
+from .services.role_services import RoleService
 from django.contrib.auth import get_user_model
+
 
 
 def usuarios(request):
@@ -41,9 +43,9 @@ def usuarios_form(request, user_id=None):
         return render(request, "usuarios/usuarios_form.html", {
             "user": user,
             "headertitle": "Gestión de Usuarios",
-        "headersubtitle": "Registrar Nuevo Usuario",
-        "btn_back": "Cancelar",
-        "back_url": "usuarios"
+            "headersubtitle": "Registrar Nuevo Usuario",
+            "btn_back": "Cancelar",
+            "back_url": "usuarios"
         })
 
     # =========================
@@ -102,7 +104,12 @@ def usuarios_form(request, user_id=None):
 
 
 def roles(request):
+
+    roles = RoleService.list_roles()
+
+
     return render(request, 'usuarios/roles.html', {
+        "roles":roles,
         "headertitle": "Gestión de Usuarios",
         "headersubtitle": "Roles del Sistema",
         "btn_nuevo": "Nuevo Rol",
@@ -111,8 +118,56 @@ def roles(request):
         "back_url": "home",
     })
 
+def roles_delete(request, role_id):
+    if request.method == "POST":
+        RoleService.delete_role(role_id)
 
-def roles_form(request):
+    return redirect("roles")
+
+
+
+
+def roles_form(request, role_id=None):
+
+    # =========================
+    # 📋 GET → mostrar formulario
+    # =========================
+    if request.method == "GET":
+
+        role = None
+        if role_id:
+            role = RoleService.get_role_by_id(role_id)
+
+        permissions = RoleService.list_permissions_structured()
+        
+
+        return render(request, "usuarios/roles_form.html", {
+            "role": role,
+            "permissions": permissions,
+            "headertitle": "Gestión de Roles",
+            "headersubtitle": "Crear / Editar Rol",
+            "btn_back": "Cancelar",
+            "back_url": "roles"
+        })
+
+    # =========================
+    # 💾 POST → guardar
+    # =========================
+    if request.method == "POST":
+
+        name = request.POST.get("name")
+        permissions = request.POST.getlist("permissions")
+
+        if role_id:
+            # ✏️ UPDATE
+            RoleService.update_role(role_id, name, permissions)
+        else:
+            # 🆕 CREATE
+            RoleService.create_role(name, permissions)
+
+        return redirect("roles")
+
+
     return render(request, 'usuarios/roles_form.html', {
         "headertitle": "Gestión de Roles",
         "headersubtitle": "Registrar Nuevo Rol",
@@ -125,3 +180,4 @@ def recuperar_contrasena(request):
         "headertitle": "SafePaws",
         "headersubtitle": "Recuperación de Contraseña",
     })
+
