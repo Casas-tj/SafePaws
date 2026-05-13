@@ -1,0 +1,157 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}SafePaws - {% if animal %}Editar Animal{% else %}Registrar Nuevo Animal{% endif %}{% endblock %}
+
+{% block content %}
+<div class="form-view">
+    <div class="form-header">
+        <h2 class="form-title">Información del Animal</h2>
+        <p style="color: #64748b; font-size: 0.875rem; margin-top: 0.5rem;">
+            Completa todos los campos para {% if animal %}actualizar{% else %}registrar{% endif %} un animal en el
+            sistema
+        </p>
+    </div>
+
+    <form method="POST" id="formNuevoAnimal" class="animal-form" action="">
+        {% csrf_token %}
+
+        <!-- Sección 1: Nombre, Propietario, Especie -->
+        <fieldset>
+            <legend>Datos del Animal</legend>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="animalNombre">Nombre *</label>
+                    <input type="text" id="animalNombre" name="name" class="form-control-list"
+                        placeholder="Nombre del animal" required value="{{ animal.name|default:'' }}" />
+                </div>
+
+                <div class="form-group">
+                    <label for="animal_owner">Cuidador *</label>
+                    <select id="animal_id" name="owner_id" class="form-control-list" required>
+                        <option value="">Selecciona el cuidador</option>
+                        {% for o in owners %}
+                        <option value="{{ o.id }}" {% if owner.id == o.id %}selected{%endif %}>
+                            {{ o.name }} {{ o.last_name }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="animalEspecie">Especie *</label>
+                    <select id="animalEspecie" name="species" class="form-control-list" required>
+                        <option value="">Selecciona la especie</option>
+                        <option value="Perro" {% if animal.species == 'Perro' %}selected{% endif %}>Perro</option>
+                        <option value="Gato" {% if animal.species == 'Gato' %}selected{% endif %}>Gato</option>
+                        <option value="Conejo" {% if animal.species == 'Conejo' %}selected{% endif %}>Conejo</option>
+                        <option value="Hamster" {% if animal.species == 'Hamster' %}selected{% endif %}>Hamster</option>
+                        <option value="Pajaro" {% if animal.species == 'Pajaro' %}selected{% endif %}>Pájaro</option>
+                        <option value="Otro" {% if animal.species == 'Otro' %}selected{% endif %}>Otro</option>
+                    </select>
+                </div>
+            </div>
+        </fieldset>
+
+        <!-- Sección 2: Raza, Edad, Sexo -->
+        <fieldset>
+            <legend>Características del Animal</legend>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="animalRaza">Raza</label>
+                    <input type="text" id="animalRaza" name="breed" class="form-control-list"
+                        placeholder="Raza o mezcla" value="{{ animal.breed|default:'' }}" />
+                </div>
+
+                <div class="form-group">
+                    <label for="animalSexo">Sexo</label>
+                    <select id="animalSexo" name="sex" class="form-control-list">
+                        <option value="" {% if not animal.sex %}selected{% endif %}>Selecciona el sexo</option>
+                        <option value="Macho" {% if animal.sex == 'Macho' %}selected{% endif %}>Macho</option>
+                        <option value="Hembra" {% if animal.sex == 'Hembra' %}selected{% endif %}>Hembra</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="animalEdad">Edad (años)</label>
+                    <input type="number" id="animalEdad" name="age_years" class="form-control-list" placeholder="Ej: 3"
+                        min="0" value="{{ animal.age_years|default:'0' }}" />
+                </div>
+
+                <div class="form-group">
+                    <label for="animalEdad">Edad (meses)</label>
+                    <input type="number" id="animalEdad" name="age_months" class="form-control-list" placeholder="Ej: 3"
+                        min="0" value="{{ animal.age_months|default:'0' }}" />
+                </div>
+                
+                <div class="form-group">
+                    <label for="estado">Estado *</label>
+                    <select id="estado" name="status" class="form-control-list" required>
+                        <option value="">Selecciona un estado</option>
+                        <option value="Activo" {% if animal.is_active == True %}selected{% endif %}>
+                            ✅ Activo
+                        </option>
+
+                        <option value="Inactivo" {% if animal.is_active == False %}selected{% endif %}>
+                            ⏸️ Inactivo
+                        </option>
+                    </select>
+                </div>
+            </div>
+        </fieldset>
+
+        <!-- Sección 3: Fecha, Vacunado, Esterilizado -->
+        <fieldset>
+            <legend>Detalles de Ingreso y Salud</legend>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="animalFechaIngreso">Fecha de Ingreso *</label>
+                    <input type="date" id="animalFechaIngreso" name="admission_date" class="form-control-list" required
+                        value="{{ animal.admission_date|default:'' }}">
+                </div>
+
+                <div class="form-group">
+                    <label for="animalVacunado">¿Vacunado?</label>
+                    <select id="animalVacunado" name="vaccinated" class="form-control-list">
+                        <option value="">Selecciona una opción</option>
+                        <option value="Si" {% if animal.vaccinated == True %}selected{% endif %}>Sí</option>
+                        <option value="No" {% if animal.vaccinated == False%}selected{% endif %}>No</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="animalEsterilizado">¿Esterilizado?</label>
+                    <select id="animalEsterilizado" name="sterilized" class="form-control-list">
+                        <option value="">Selecciona una opción</option>
+                        <option value="Si" {% if animal.sterilized %}selected{% endif %}>Sí</option>
+                        <option value="No" {% if animal.sterilized %}selected{% endif %}>No</option>
+                    </select>
+                </div>
+            </div>
+        </fieldset>
+
+        <!-- Sección 4: Descripción -->
+        <fieldset>
+            <legend>Historial y Observaciones</legend>
+            <div class="form-row">
+                <div class="form-group form-group-full">
+                    <textarea id="animalDescripcion" name="description" class="form-control-list form-textarea" rows="4"
+                        placeholder="Cómo llegó al refugio, situación previa, información adicional...">{{ animal.description|default:'' }}</textarea>
+                </div>
+            </div>
+        </fieldset>
+
+        <!-- Botones -->
+        <div class="form-buttons">
+            <button type="submit" class="btn-success">
+                ✅ {% if animal %}Guardar Cambios{% else %}Registrar Animal{% endif %}
+            </button>
+
+            <button type="reset" class="btn-danger" style="background-color: #f59e0b;">
+                🔄 Limpiar Formulario
+            </button>
+
+            {% include 'layouts/partials/btn-back.html' %}
+        </div>
+    </form>
+</div>
+{% endblock %}

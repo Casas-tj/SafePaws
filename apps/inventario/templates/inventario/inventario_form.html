@@ -1,0 +1,72 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}SafePaws - {% if product %}Editar Producto{% else %}Nuevo Producto{% endif %}{% endblock %}
+
+{% block content %}
+<div class="form-view">
+    <div class="form-header">
+        <h2 class="form-title">{% if product %}Editar Producto{% else %}Nuevo Producto{% endif %}</h2>
+    </div>
+
+    <form method="POST" class="animal-form" action="">
+        {% csrf_token %}
+
+        <fieldset>
+            <legend>Datos del Producto</legend>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="name">Nombre *</label>
+                    <input type="text" id="name" name="name" class="form-control-list"
+                        placeholder="Ej: Pienso para perros" required value="{{ product.name|default:'' }}">
+                </div>
+
+                <div class="form-group">
+                    <label for="unit">Unidad</label>
+                    <select id="unit" name="unit" class="form-control-list">
+                        <option value="" {% if not product.unit %}selected{% endif %}>Selecciona unidad</option>
+                        <option value="kg" {% if product.unit == 'kg' %}selected{% endif %}>Kilogramos (kg)</option>
+                        <option value="g" {% if product.unit == 'g' %}selected{% endif %}>Gramos (g)</option>
+                        <option value="L" {% if product.unit == 'L' %}selected{% endif %}>Litros (L)</option>
+                        <option value="ml" {% if product.unit == 'ml' %}selected{% endif %}>Mililitros (ml)</option>
+                        <option value="ud" {% if product.unit == 'ud' %}selected{% endif %}>Unidades (ud)</option>
+                        <option value="caja" {% if product.unit == 'caja' %}selected{% endif %}>Cajas</option>
+                        <option value="bolsa" {% if product.unit == 'bolsa' %}selected{% endif %}>Bolsas</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group form-group-full">
+                    <label for="description">Descripción</label>
+                    <textarea id="description" name="description" class="form-control-list form-textarea" rows="3"
+                        placeholder="Descripción del producto...">{{ product.description|default:'' }}</textarea>
+                </div>
+            </div>
+
+            {% if product %}
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="quantity">Stock actual</label>
+                    <input type="text" class="form-control-list" value="{{ product.quantity }} {{ product.unit }}"
+                        disabled>
+                    <small style="color:#64748b;">El stock se modifica en el módulo de Stock (movimientos)</small>
+                </div>
+            </div>
+            {% endif %}
+        </fieldset>
+
+        <div class="form-buttons">
+
+            <button type="submit" class="btn-success">
+                ✅ {% if product %}Guardar Cambios{% else %}Registrar Producto{% endif %}
+            </button>
+
+            <button type="reset" class="btn-danger" style="background-color: #f59e0b;">
+                🔄 Limpiar Formulario
+            </button>
+
+            {% include 'layouts/partials/btn-back.html' %}
+        </div>
+    </form>
+</div>
+{% endblock %}

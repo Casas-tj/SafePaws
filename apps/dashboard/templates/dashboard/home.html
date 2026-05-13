@@ -1,0 +1,92 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}SafePaws - Panel de Administración{% endblock %}
+
+{% block content %}
+<!-- CARDS -->
+<section id="mainMenu">
+    <h2 style="text-align: center;">Panel de Administración</h2>
+    <div class="card-container">
+        <!-- ANIMALES -->
+        <a class="card-link" href="{% url 'animales' %}">
+            <div class="card" data-section="animales" data-view="animales">
+                <span class="module-icon">🐾</span>
+                <h3>Gestión de Animales</h3>
+                <p>Alta, baja y mantenimiento de fichas de animales.</p>
+            </div>
+        </a>
+
+        <!-- ADOPCIONES -->
+        <a class="card-link" href="{% url 'adopciones' %}">
+            <div class="card" data-section="adopciones" data-view="adopciones">
+                <span class="module-icon">❤️</span>
+                <h3>Gestión de Adopciones</h3>
+                <p>Control de procesos de adopción y familias.</p>
+            </div>
+        </a>
+
+        <!-- OWNERS -->
+        <a class="card-link" href="{% url 'owners' %}">
+            <div class="card">
+                <span class="module-icon">👤</span>
+                <h3>Cuidadores</h3>
+                <p>Propietarios y adoptantes de animales.</p>
+            </div>
+        </a>
+
+        <!-- HEALTH -->
+        <a class="card-link" href="{% url 'health' %}">
+            <div class="card">
+                <span class="module-icon">🩺</span>
+                <h3>Historial Médico</h3>
+                <p>Vacunas, revisiones y eventos médicos.</p>
+            </div>
+        </a>
+
+        <!-- USUARIOS -->
+        <a class="card-link" href="{% url 'usuarios' %}">
+            <div class="card" data-section="usuarios" data-view="usuarios">
+                <span class="module-icon">⚙️</span>
+                <h3>Usuarios</h3>
+                <p>Propietarios y rescatistas</p>
+            </div>
+        </a>
+
+        <!-- SUMINISTROS -->
+        <a class="card-link" href="{% url 'suministros' %}">
+            <div class="card" data-section="inventario" data-view="inventario">
+                <span class="module-icon">🚚</span>
+                <h3>Suministros</h3>
+                <p>Control de productos y movimientos</p>
+            </div>
+        </a>
+
+        <!-- ROLES -->
+        <a class="card-link" href="{% url 'roles' %}">
+            <div class="card" data-section="roles" data-view="roles">
+                <span class="module-icon">🛡️</span>
+                <h3>Roles del Sistema</h3>
+                <p>Gestión de permisos</p>
+            </div>
+        </a>
+
+        <!-- DONACIONES -->
+        <a class="card-link" href="{% url 'donaciones' %}">
+            <div class="card" data-section="donaciones" data-view="donaciones">
+                <span class="module-icon">💰</span>
+                <h3>Donaciones</h3>
+                <p>Registro y seguimiento de donaciones al refugio.</p>
+            </div>
+        </a>
+
+        <!-- DASHBOARD -->
+        <a class="card-link" href="{% url 'dashboard' %}">
+            <div class="card" data-section="dashboard" data-view="dashboard">
+                <span class="module-icon">📈</span>
+                <h3>SafePaws Dashboard</h3>
+                <p>Análisis y gestión de la protectora</p>
+            </div>
+        </a>
+    </div>
+</section>
+{% endblock %}

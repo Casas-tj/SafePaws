@@ -1,0 +1,83 @@
+{% extends "layouts/base.html" %} {% block title %} SafePaws - Usuarios
+{%endblock %} {% block content %}
+<div class="list-header">
+  <h1 class="section-title">Listado de Usuarios</h1>
+
+  {% include 'layouts/partials/btn-back.html' %}
+</div>
+
+<div class="main-container-flex">
+  <div class="search-section-container">
+    <div class="search-bar-container">
+      <div class="search-input-wrapper">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="searchInput" class="search-input-list"
+          placeholder="Buscar por nombre, apellidos, email, tipo, estado o año" oninput="filterTable()" />
+      </div>
+
+      <div class="filter-buttons">
+        <div style="position: relative; display: inline-block">
+          <button id="btnSortDate" class="btn-filter">📅 Fecha</button>
+        </div>
+      </div>
+
+      <div class="filter-dropdown-container">
+        <button id="btnFilterStatus" class="btn-filter">🔽 Filtros</button>
+        <div id="filterMenu" class="filter-dropdown-content">
+          <a href="#" onclick="filterByStatus('Todos')">Todos</a>
+          <a href="#" onclick="filterByStatus('Activo')">Activo</a>
+          <a href="#" onclick="filterByStatus('Inactivo')">Inactivo</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="table-wrapper">
+  <table class="data-table-list">
+    <thead>
+      <tr>
+
+        <th onclick="sortTable('Username')">
+          Nombre de Usuario <span class="sort-icon">↕</span>
+        </th>
+
+        <th onclick="sortTable('status')">
+          Estado <span class="sort-icon">↕</span>
+        </th>
+
+        <th onclick="sortTable('Is_volunteer')">
+          ¿Es voluntario? <span class="sort-icon">↕</span>
+        </th>
+
+        <th onclick="sortTable('roles')">
+          Rol <span class="sort-icon">↕</span>
+        </th>
+
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody id="tableBody">
+      {% for user in users %}
+      <tr>
+        <td>{{ user.username }}</td>
+        <td>{{ user.status_label }}</td>
+        <td>{{ user.volunteer_label }}</td>
+        <td>{{ user.groups.first.name|default:"Sin rol" }}</td>
+        <td>
+          <div class="actions-cell">
+            <a href="{% url 'usuarios_form_edit' user.id %}" class="action-btn action-edit" title="Editar">✏️</a>
+            <form method="POST" action="{% url 'usuarios_delete' user.id %}">
+              {% csrf_token %}
+
+              <button type="submit" class="action-btn action-delete" title="Eliminar"
+                onclick="return confirm('¿Eliminar usuario?');">❌</button>
+            </form>
+          </div>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

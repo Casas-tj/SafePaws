@@ -1,0 +1,82 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}Owners — SafePaws{% endblock %}
+
+<!-- Contenido Principal -->
+{% block content %}
+<div class="list-header">
+    <h1 class="section-title">Propietarios y Rescatistas</h1>
+
+    {% include 'layouts/partials/btn-back.html' %}
+</div>
+
+<div class="main-container-flex">
+    <div class="search-section-container">
+        <div class="search-bar-container">
+            <div class="search-input-wrapper">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="searchInput" class="search-input-list"
+                    placeholder="Buscar por animal, adoptante, ID o estado..." oninput="filterTable()">
+            </div>
+
+            <div class="filter-buttons">
+                <div style="position: relative; display: inline-block;">
+                    <button id="btnSortDate" class="btn-filter">📅 Fecha</button>
+                </div>
+            </div>
+
+            <div class="filter-dropdown-container">
+                <button id="btnFilterStatus" class="btn-filter">🔽 Filtros</button>
+                <div id="filterMenu" class="filter-dropdown-content">
+                    <a href="#" onclick="filterByStatus('Todos')">Todos</a>
+                    <a href="#" onclick="filterByStatus('Si')">Rescatistas</a>
+                    <a href="#" onclick="filterByStatus('No')">Adoptantes</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="table-wrapper">
+    <table class="data-table-list">
+        <thead>
+            <tr>
+                <th onclick="sortTable('name')">Nombre Completo<span class="sort-icon">↕</span></th>
+                <th onclick="sortTable('email')">Email <span class="sort-icon">↕</span></th>
+                <th onclick="sortTable('phone')">Teléfono <span class="sort-icon">↕</span></th>
+                <th onclick="sortTable('is_volunteer')">Voluntario <span class="sort-icon">↕</span></th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+
+        <tbody id="tableBody">
+            {% for owner in owners %}
+            <tr>
+                <td>{{ owner.name }} {{ owner.last_name }}</td>
+                <td>{{ owner.email }}</td>
+                <td>{{ owner.phone }}</td>
+                <td>{{ owner.volunteer_label }}</td>
+
+                <td>
+                    <div class="actions-cell">
+                        <a href="{% url 'owners_details' owner.id %}" class="action-btn action-details"
+                            title="Ver detalles">👁️</a>
+                        <a href="{% url 'owners_form_edit' owner.id %}" class="action-btn action-edit"
+                            title="Editar">✏️</a>
+                        <form action="{% url 'owners_delete' owner.id %}" method="post" style="display: inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="action-btn action-delete" title="Eliminar"
+                                onclick="return confirm('¿Eliminar propietario?');">❌</button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4">No hay propietarios registrados.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

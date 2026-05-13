@@ -1,0 +1,102 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}SafePaws - Detalle de {{ animal.name }} {% endblock %}
+
+{% block content %}
+<div class="form-view">
+    <div class="form-header">
+        <h2 class="form-title">{{ animal.name }}</h2>
+        <p style="color: #64748b; font-size: 0.875rem; margin-top: 0.5rem;">
+            Detalles del animal
+        </p>
+    </div>
+
+    <!-- Sección 1: Nombre, Propietario, Especie -->
+    <fieldset>
+        <legend>Datos del Animal</legend>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="animalNombre">Nombre *</label>
+                <p>{{ animal.name }}</p>
+            </div>
+
+            <div class="form-group">
+                <label for="animal_owner">Propietario/Cuidador *</label>
+                <p>{{ animal.owner.name|default:"-" }} {{ animal.owner.last_name|default:"-" }}</p>
+
+            </div>
+
+            <div class="form-group">
+                <label for="animalEspecie">Especie *</label>
+                <p>{{ animal.species }}</p>
+            </div>
+        </div>
+    </fieldset>
+
+    <!-- Sección 2: Raza, Edad, Sexo -->
+    <fieldset>
+        <legend>Características del Animal</legend>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="animalRaza">Raza</label>
+                <p>{{ animal.breed|default:"-" }}</p>
+            </div>
+
+            <div class="form-group">
+                <label for="animalSexo">Sexo</label>
+                <p>{{ animal.sex|default:"-" }}</p>
+            </div>
+
+            <div class="form-group">
+                <label for="animalEdad">Edad</label>
+                <p>{{ animal.age_display }}</p>
+            </div>
+
+            <div class="form-group">
+                <label for="estado">Estado *</label>
+                <p>{{ animal.status_label }}</p>
+
+            </div>
+        </div>
+    </fieldset>
+
+    <!-- Sección 3: Fecha, Vacunado, Esterilizado -->
+    <fieldset>
+        <legend>Detalles de Ingreso y Salud</legend>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="animalFechaIngreso">Fecha de Ingreso *</label>
+                <p>{{ animal.admission_date }}</p>
+            </div>
+
+            <div class="form-group">
+                <label for="animalVacunado">¿Vacunado?</label>
+                <p>{{ animal.vaccinated_label }}</p>
+            </div>
+
+            <div class="form-group">
+                <label for="animalEsterilizado">¿Esterilizado?</label>
+                <p>{{ animal.sterilized_label }}</p>
+            </div>
+        </div>
+    </fieldset>
+
+    <!-- Sección 4: Descripción -->
+    <fieldset>
+        <legend>Historial y Observaciones</legend>
+        <div class="form-row">
+            <div class="form-group form-group-full">
+                <p>{{ animal.description|default:"Sin descripción" }}</p>
+            </div>
+        </div>
+    </fieldset>
+
+    <!-- Botones -->
+    <div class="form-buttons">
+        <a href="{% url 'animales_form_edit' animal.id %}" class="btn-success">✏️ Editar</a>
+
+        {% include 'layouts/partials/btn-back.html' %}
+    </div>
+    </form>
+</div>
+{% endblock %}

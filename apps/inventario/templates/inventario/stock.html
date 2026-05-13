@@ -1,0 +1,83 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}SafePaws - Historial de Stock{% endblock %}
+
+{% block content %}
+<div class="list-header">
+    <h1 class="section-title">Historial de Movimientos</h1>
+    {% include 'layouts/partials/btn-back.html' %}
+</div>
+
+<div class="main-container-flex">
+    <div class="search-section-container">
+        <div class="search-bar-container">
+            <div class="search-input-wrapper">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="searchInput" class="search-input-list"
+                    placeholder="Buscar por producto o tipo..." oninput="filterTable()">
+            </div>
+
+            <div class="filter-buttons">
+                <div style="position: relative; display: inline-block;">
+                    <button id="btnSortDate" class="btn-filter">📅 Fecha</button>
+                </div>
+            </div>
+
+            <div class="filter-dropdown-container">
+                <button id="btnFilterStatus" class="btn-filter">🔽 Filtros</button>
+                <div id="filterMenu" class="filter-dropdown-content">
+                    <a href="#" onclick="filterByStatus('Todos')">Todos</a>
+                    <a href="#" onclick="filterByStatus('Entrada')">Entradas</a>
+                    <a href="#" onclick="filterByStatus('Salida')">Salidas</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="table-wrapper">
+    <table class="data-table-list">
+        <thead>
+            <tr>
+                <th onclick="sortTable('id')">ID <span class="sort-icon">↕</span></th>
+                <th onclick="sortTable('producto')">Producto <span class="sort-icon">↕</span></th>
+                <th onclick="sortTable('tipo')">Tipo <span class="sort-icon">↕</span></th>
+                <th onclick="sortTable('cantidad')">Cantidad <span class="sort-icon">↕</span></th>
+                <th onclick="sortTable('fecha')">Fecha <span class="sort-icon">↕</span></th>
+                <th onclick="sortTable('motivo')">Motivo <span class="sort-icon">↕</span></th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody id="tableBody">
+            {% for movement in movements %}
+            <tr>
+                <td>{{ movement.id }}</td>
+                <td>{{ movement.product.name }}</td>
+                <td>{{ movement.type }}</td>
+                <td>{{ movement.quantity }}</td>
+                <td>{{ movement.movement_date }}</td>
+                <td>{{ movement.reason }}</td>
+                <td>
+                    <div class="actions-cell">
+                        <a href="{% url 'stock_details' movement.id %}" class="action-btn action-details"
+                            title="Ver detalles">👁️</a>
+                        <a href="{% url 'stock_form_edit' movement.id %}" class="action-btn action-edit"
+                            title="Editar">✏️</a>
+
+                        <form action="{% url 'stock_delete' movement.id %}" method="post" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="action-btn action-delete" title="Eliminar"
+                                onclick="return confirm('¿Eliminar este movimiento?');">❌</button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="7">No hay movimientos registrados.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

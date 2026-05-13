@@ -1,0 +1,76 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}SafePaws - Nuevo Registro Médico{% endblock %}
+
+{% block content %}
+<div class="form-view">
+    <div class="form-header">
+        <h2 class="form-title">{% if event %}Editar Registro Médico{% else %}Nuevo Registro Médico{% endif %}</h2>
+        <p style="color: #64748b; font-size: 0.875rem; margin-top: 0.5rem;">
+            Registra un evento médico asociado a un animal del refugio
+        </p>
+    </div>
+
+    <form method="POST" id="forNuevoRegistroMedico" class="animal-form" action="">
+        {% csrf_token %}
+        <fieldset>
+            <legend>Datos del Evento</legend>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="animal_id">Animal *</label>
+                    <select id="animal_id" name="animal_id" class="form-control-list" required>
+                        <option value="" disabled {% if not event %}selected{% endif %}>Selecciona un animal</option>
+                        {% for animal in animals %}
+                        <option value="{{ animal.id }}" {% if event and event.animal_id == animal.id %}selected{% endif%}>
+                            {{ animal.name }} ({{ animal.species }})
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="type">Tipo de Evento *</label>
+                    <select id="type" name="event_type" class="form-control-list" required>
+                        <option value="" disabled {% if not event %}selected{% endif %}>Selecciona el tipo</option>
+                        <option value="Emergencia" {% if event.event_type == 'Emergencia' %}selected{% endif %}>Emergencia</option>
+                        <option value="Consulta" {% if event.event_type == 'Consulta' %}selected{% endif %}>Consulta</option>
+                        <option value="Control" {% if event.event_type == 'Control' %}selected{% endif %}>Control</option>
+                        <option value="Procedimiento" {% if event.event_type == 'Procedimiento' %}selected{% endif %}>Procedimiento</option>
+                        <option value="Otro" {% if event.type == 'Otro' %}selected{% endif %}>Otro</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="incident_date">Fecha del Evento *</label>
+                    <input type="date" id="incident_date" name="incident_date" class="form-control-list" required
+                        value="{{ event.incident_date|default:'' }}">
+                </div>
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <legend>Descripción</legend>
+            <div class="form-row">
+                <div class="form-group form-group-full">
+                    <textarea id="description" name="description" class="form-control-list form-textarea" rows="4"
+                        placeholder="Describe el evento médico en detalle..."
+                        required>{{ event.description|default:'' }}</textarea>
+                </div>
+            </div>
+        </fieldset>
+
+        <!-- Botones -->
+        <div class="form-buttons">
+            <button type="submit" class="btn-success">
+                {% if event %}✅ Actualizar{% else %}✅ Crear{% endif %} Registro Médico
+            </button>
+
+            <button type="reset" class="btn-danger" style="background-color: #f59e0b;">
+                🔄 Limpiar Formulario
+            </button>
+
+            {% include 'layouts/partials/btn-back.html' %}
+        </div>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,92 @@
+{% extends "layouts/base.html" %}
+{% block title %}SafePaws - {% if movement %}Editar{% else %}Registrar{% endif %} Movimiento{% endblock %}
+
+{% block content %}
+<div class="form-view">
+    <div class="form-header">
+        <h2 class="form-title">
+            {% if movement %}Editar Movimiento{% else %}Registrar Movimiento de Stock{% endif %}
+        </h2>
+        <p style="color:#64748b; font-size:.875rem; margin-top:.5rem;">
+            Las entradas suman stock. Las salidas lo reducen. El stock se recalcula automáticamente.
+        </p>
+    </div>
+
+    <form method="POST" class="animal-form">
+        {% csrf_token %}
+
+        <fieldset>
+            <legend>Datos del Movimiento</legend>
+            <div class="form-row">
+
+                <!-- Producto -->
+                <div class="form-group">
+                    <label for="product_id">Producto *</label>
+                    <select id="product_id" name="product_id" class="form-control-list" required>
+                        <option value="" disabled {% if not movement %}selected{% endif %}>
+                            Selecciona un producto
+                        </option>
+                        {% for product in products %}
+                        <option value="{{ product.id }}" {% if movement and movement.product_id == product.id %}selected
+                            {% elif preselected_product_id == product.id|stringformat:"s" %}selected {% endif %}>
+                            {{ product.name }}
+                            (stock actual: {{ product.quantity }} {{ product.unit }})
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- Tipo de movimiento -->
+                <div class="form-group">
+                    <label for="type">Tipo de Movimiento *</label>
+                    <select id="type" name="type" class="form-control-list" required>
+                        <option value="Entrada" {% if movement and movement.type == 'Entrada' %}selected {% elif not
+                            movement %}selected{% endif %}>
+                            📥 Entrada (suma stock)
+                        </option>
+                        <option value="Salida" {% if movement and movement.type == 'Salida' %}selected{% endif %}>
+                            📤 Salida (resta stock)
+                        </option>
+                    </select>
+                </div>
+
+                <!-- Cantidad -->
+                <div class="form-group">
+                    <label for="quantity">Cantidad *</label>
+                    <input type="number" id="quantity" name="quantity" class="form-control-list" min="1" required
+                        value="{{ movement.quantity|default:'' }}" placeholder="Ej: 10">
+                </div>
+
+                <!-- Fecha -->
+                <div class="form-group">
+                    <label for="movement_date">Fecha del Movimiento *</label>
+                    <input type="date" id="movement_date" name="movement_date" class="form-control-list" required
+                        value="{{ movement.movement_date|default:'' }}">
+                </div>
+
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <legend>Observaciones</legend>
+            <div class="form-row">
+                <div class="form-group form-group-full">
+                    <label for="reason">Motivo / Observaciones</label>
+                    <textarea id="reason" name="reason" class="form-control-list form-textarea" rows="3"
+                        placeholder="Ej: Compra mensual, consumo animales grandes, donación recibida...">{{ movement.reason|default:'' }}</textarea>
+                </div>
+            </div>
+        </fieldset>
+
+        <div class="form-buttons">
+            <button type="submit" class="btn-success">
+                {% if movement %}💾 Actualizar Movimiento{% else %}💾 Registrar Movimiento{% endif %}
+            </button>
+            <button type="reset" class="btn-danger" style="background-color:#f59e0b;">
+                🔄 Limpiar
+            </button>
+            {% include 'layouts/partials/btn-back.html' %}
+        </div>
+    </form>
+</div>
+{% endblock %}

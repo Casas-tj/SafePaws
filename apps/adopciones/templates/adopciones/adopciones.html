@@ -1,0 +1,74 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}SafePaws - Gestión de Adopciones{% endblock %}
+
+{% block content %}
+<div class="list-header">
+    <h1 class="section-title">Listado de Adopciones</h1>
+
+    {% include 'layouts/partials/btn-back.html' %}
+</div>
+
+<div class="main-container-flex">
+    <div class="search-section-container">
+        <div class="search-bar-container">
+            <div class="search-input-wrapper">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="searchInput" class="search-input-list"
+                    placeholder="Buscar por animal, adoptante o fecha..." oninput="filterTable()">
+            </div>
+
+            <div class="filter-buttons">
+                <div style="position: relative; display: inline-block;">
+                    <button id="btnSortDate" class="btn-filter">📅 Fecha</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="table-wrapper">
+    <table class="data-table-list">
+        <thead>
+            <tr>
+                <th onclick="sortTable('id')">ID <span class="sort-icon">↕</span></th>
+                <th onclick="sortTable('nombreAnimal')">Animal <span class="sort-icon">↕</span></th>
+                <th onclick="sortTable('especie')">Especie <span class="sort-icon">↕</span></th>
+                <th onclick="sortTable('nombreAdoptante')">Adoptante <span class="sort-icon">↕</span></th>
+                <th onclick="sortTable('fecha')">Fecha Adopción <span class="sort-icon">↕</span></th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+
+        <tbody id="tableBody">
+            {% for adopcion in adopciones %}
+            <tr>
+                <td>{{ adopcion.id }}</td>
+                <td>{{ adopcion.animal.name }}</td>
+                <td>{{ adopcion.animal.species }}</td>
+                <td>{{ adopcion.owner.name }} {{ adopcion.owner.last_name }}</td>
+                <td>{{ adopcion.adoption_date|default:"—" }}</td>
+                <td>
+                    <div class="actions-cell">
+                        <a href="{% url 'adopciones_details' adopcion.id %}" class="action-btn action-details"
+                            title="Ver detalles">👁️</a>
+                        <a href="{% url 'adopciones_form_edit' adopcion.id %}" class="action-btn action-edit"
+                            title="Editar">✏️</a>
+
+                        <form action="{% url 'adopciones_delete' adopcion.id %}" method="post" style="display: inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="action-btn action-delete" title="Eliminar"
+                                onclick="return confirm('¿Eliminar esta adopción?');">❌</button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="6">No hay adopciones registradas.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

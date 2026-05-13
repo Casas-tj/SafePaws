@@ -1,0 +1,77 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}SafePaws - Detalle de Adopción #{{ adopcion.id }}{% endblock %}
+
+{% block content %}
+<div class="form-view">
+    <div class="form-header">
+        <h2 class="form-title">Adopción #{{ adopcion.id }}</h2>
+        <p style="color: #64748b; font-size: 0.875rem; margin-top: 0.5rem;">
+            Detalles de la adopción
+        </p>
+    </div>
+
+    <fieldset>
+        <legend>Animal</legend>
+        <div class="form-row">
+            <div class="form-group">
+                <label>Nombre</label>
+                <p>{{ adopcion.animal.name }}</p>
+            </div>
+            <div class="form-group">
+                <label>Especie</label>
+                <p>{{ adopcion.animal.species }}</p>
+            </div>
+            <div class="form-group">
+                <label>Raza</label>
+                <p>{{ adopcion.animal.breed|default:"-" }}</p>
+            </div>
+            <div class="form-group">
+                <label>Estado</label>
+                <p>{{ adopcion.animal.status }}</p>
+            </div>
+        </div>
+    </fieldset>
+
+    <fieldset>
+        <legend>Adoptante</legend>
+        <div class="form-row">
+            <div class="form-group">
+                <label>Nombre</label>
+                <p>{{ adopcion.owner.name }} {{ adopcion.owner.last_name }}</p>
+            </div>
+            <div class="form-group">
+                <label>Email</label>
+                <p>{{ adopcion.owner.email|default:"-" }}</p>
+            </div>
+            <div class="form-group">
+                <label>Teléfono</label>
+                <p>{{ adopcion.owner.phone|default:"-" }}</p>
+            </div>
+        </div>
+    </fieldset>
+
+    <fieldset>
+        <legend>Información de la Adopción</legend>
+        <div class="form-row">
+            <div class="form-group">
+                <label>Fecha de Adopción</label>
+                <p>{{ adopcion.adoption_date|default:"-" }}</p>
+            </div>
+            <div class="form-group">
+                <label>Estado</label>
+                <p>
+                    <span class="badge {% if adopcion.status == 'Completada' %}badge-success{% elif adopcion.status == 'Pendiente' %}badge-warning{% else %}badge-info{% endif %}">
+                        {{ adopcion.status }}
+                    </span>
+                </p>
+            </div>
+        </div>
+    </fieldset>
+
+    <div class="form-buttons">
+        <a href="{% url 'adopciones_form_edit' adopcion.id %}" class="btn-success">✏️ Editar</a>
+        {% include 'layouts/partials/btn-back.html' %}
+    </div>
+</div>
+{% endblock %}

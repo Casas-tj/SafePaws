@@ -1,0 +1,104 @@
+{% extends "layouts/base.html" %}
+{% block title %}Atenciones de {{ animal.name }} — SafePaws{% endblock %}
+
+{% block content %}
+<div class="list-header">
+    <h1 class="section-title">Atenciones de {{ animal.name }}</h1>
+
+    {% include 'layouts/partials/btn-back.html' %}
+</div>
+
+<!-- Info del animal -->
+<div class="animal-info-bar"
+    style=" background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1rem 1.5rem; margin-bottom: 1.5rem; display: flex; gap: 2rem; align-items: center; flex-wrap: wrap;">
+    <div><span style="color:#64748b; font-size:.8rem;">ANIMAL</span><br>
+        <strong>{{ animal.name }}</strong>
+    </div>
+    <div><span style="color:#64748b; font-size:.8rem;">ESPECIE</span><br>
+        <strong>{{ animal.species }}</strong>
+    </div>
+    <div><span style="color:#64748b; font-size:.8rem;">DUEÑO / CUIDADOR</span><br>
+        <strong>{{ owner_display }}</strong>
+    </div>
+    <div><span style="color:#64748b; font-size:.8rem;">ESTADO</span><br>
+        <span class="badge {% if animal.is_active %}badge-success{% else %}badge-danger{% endif %}">
+            {% if animal.is_active %}Activo{% else %}Inactivo{% endif %}
+        </span>
+    </div>
+</div>
+
+<!-- Cards de atenciones -->
+<div style="display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2rem;">
+    {% for event in events %}
+    <div
+        style="
+        background: #fff;
+        border: 1px solid #e2e8f0;
+        border-left: 4px solid
+            {% if event.event_type == 'Emergencia' %}#ef4444
+            {% elif event.event_type == 'Consulta' %}#3b82f6
+            {% elif event.event_type == 'Control' %}#10b981
+            {% else %}#8b5cf6{% endif %};
+        border-radius: 8px; padding: 1.2rem 1.5rem; display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem; ">
+        <div style="flex: 1;">
+            <div style="display:flex; align-items:center; gap:.75rem; margin-bottom:.5rem;">
+                <span
+                    style="
+                    background:
+                        {% if event.event_type == 'Emergencia' %}#fee2e2
+                        {% elif event.event_type == 'Consulta' %}#dbeafe
+                        {% elif event.event_type == 'Control' %}#d1fae5
+                        {% else %}#ede9fe{% endif %};
+                    color:
+                        {% if event.event_type == 'Emergencia' %}#991b1b
+                        {% elif event.event_type == 'Consulta' %}#1d4ed8
+                        {% elif event.event_type == 'Control' %}#065f46
+                        {% else %}#5b21b6{% endif %};
+                    padding: .25rem .75rem; border-radius: 999px; font-size: .75rem; font-weight: 600; text-transform: uppercase; letter-spacing: .05em;">
+                    {{ event.type_label }}</span>
+                <span style="color:#64748b; font-size:.875rem;">{{ event.incident_date }}</span>
+            </div>
+            <p style="margin:0; color:#374151; font-size:.925rem; line-height:1.5;">
+                {{ event.description }}
+            </p>
+        </div>
+        <div class="actions-cell" style="flex-shrink:0;">
+            <a href="{% url 'health_form_edit' event.id %}" class="action-btn action-edit" title="Editar">✏️</a>
+
+            <form method="post" action="{% url 'health_delete' event.id %}" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit" class="action-btn action-delete" title="Eliminar"
+                    onclick="return confirm('¿Eliminar esta atención?');">❌</button>
+            </form>
+        </div>
+    </div>
+    {% empty %}
+    <div style="text-align:center; padding:3rem; color:#64748b; background:#f8fafc;
+                border-radius:8px; border:1px dashed #cbd5e1;">
+        <p style="margin:0; font-size:1rem;">No hay atenciones registradas para {{ animal.name }}.</p>
+
+        <a href="{% url 'health_form' %}?animal_id={{ animal.id }}" class="btn-success"
+            style="display:inline-block; margin-top:1rem;">
+            + Registrar primera atención
+        </a>
+    </div>
+    {% endfor %}
+</div>
+
+<!-- Footer: acciones -->
+<div class="table-footer-actions" style="display:flex; gap:1rem; flex-wrap:wrap;">
+
+    {% if not show_all and events %}
+    <a href="{% url 'health_detail' animal.id %}?show=all" class="btn-filter"
+        style="text-decoration:none; padding:.5rem 1.2rem;">
+        📋 Ver todas las atenciones
+    </a>
+
+    {% elif show_all %}
+    <a href="{% url 'health_detail' animal.id %}" class="btn-filter"
+        style="text-decoration:none; padding:.5rem 1.2rem;">
+        🔼 Ver solo las últimas 5
+    </a>
+    {% endif %}
+</div>
+{% endblock %}

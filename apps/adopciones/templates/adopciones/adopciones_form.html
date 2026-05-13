@@ -1,0 +1,65 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}SafePaws - {% if adoption %}Editar Adopción{% else %}Nueva Adopción{% endif %}{% endblock %}
+
+{% block content %}
+<div class="form-view animal-form" style="margin: 0 auto;">
+    <div class="form-header">
+        <h1 class="form-title">{% if adoption %}Editar Adopción{% else %}Nueva Solicitud de Adopción{% endif %}</h1>
+    </div>
+
+    <form method="POST" id="formNuevaAdopcion" class="animal-form" action="">
+        {% csrf_token %}
+
+        <fieldset>
+            <legend>Información de la Adopción</legend>
+            <div class="form-row">
+
+                <div class="form-group">
+                    <label for="animal_id">Animal *</label>
+                    <select id="animal_id" name="animal_id" class="form-control-list" required>
+                        <option value="" disabled {% if not adoption %}selected{% endif %}>Selecciona el animal</option>
+                        {% for animal in animals %}
+                        <option value="{{ animal.id }}" {% if adoption and adoption.animal_id == animal.id%}selected{%endif %}>
+                            {{ animal.name }} ({{ animal.species }})
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="owner_id">Adoptante *</label>
+                    <select id="owner_id" name="owner_id" class="form-control-list" required>
+                        <option value="" disabled {% if not adoption %}selected{% endif %}>Selecciona el adoptante</option>
+                        {% for owner in owners %}
+                        <option value="{{ owner.id }}" {% if adoption and adoption.owner_id == owner.id %}selected{%endif%}>
+                            {{ owner.name }} {{ owner.last_name }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="adoption_date">Fecha de Adopción</label>
+                    <input type="date" id="adoption_date" name="adoption_date" class="form-control-list"
+                        value="{{ adoption.adoption_date|default:'' }}">
+                </div>
+
+            </div>
+        </fieldset>
+
+        <!-- Botones -->
+        <div class="form-buttons">
+            <button type="submit" class="btn-success">
+                ✅ {% if adoption %}Guardar Cambios{% else %}Registrar Adopción{% endif %}
+            </button>
+
+            <button type="reset" class="btn-danger" style="background-color: #f59e0b;">
+                🔄 Limpiar Formulario
+            </button>
+
+            {% include 'layouts/partials/btn-back.html' %}
+        </div>
+    </form>
+</div>
+{% endblock %}

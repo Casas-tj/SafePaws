@@ -1,0 +1,112 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}SafePaws - Detalle de {{ owner.name }}{% endblock %}
+
+{% block content %}
+<div class="form-view">
+    <div class="form-header">
+        <h2 class="form-title">{{ owner.name }} {{ owner.last_name }}</h2>
+        <p style="color: #64748b; font-size: 0.875rem; margin-top: 0.5rem;">
+            Detalles del propietario
+        </p>
+    </div>
+
+    <fieldset>
+        <legend>Información de Contacto</legend>
+        <div class="form-row">
+            <div class="form-group">
+                <label>Email</label>
+                <p>{{ owner.email|default:"-" }}</p>
+            </div>
+            <div class="form-group">
+                <label>Teléfono</label>
+                <p>{{ owner.phone|default:"-" }}</p>
+            </div>
+            <div class="form-group">
+                <label>Tipo</label>
+                <p>
+                    <span class="badge {% if owner.is_volunteer %}badge-success{% else %}badge-info{% endif %}">
+                        {% if owner.is_volunteer %}Voluntario{% else %}Propietario{% endif %}
+                    </span>
+                </p>
+            </div>
+        </div>
+    </fieldset>
+
+    <fieldset>
+        <legend>Dirección</legend>
+        <div class="form-row">
+            <div class="form-group form-group-full">
+                <p>{{ owner.address|default:"-" }}</p>
+            </div>
+        </div>
+    </fieldset>
+
+    <fieldset>
+        <legend>Animales Asignados</legend>
+        <div class="form-row">
+            <div class="form-group form-group-full">
+                {% if owner.animals_list %}
+                <table class="data-table-list">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Especie</th>
+                            <th>Raza</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for animal in owner.animals_list %}
+                        <tr>
+                            <td>{{ animal.name }}</td>
+                            <td>{{ animal.species }}</td>
+                            <td>{{ animal.breed|default:"-" }}</td>
+                            <td>{{ animal.status }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}
+                <p style="color: #64748b;">No hay animales asignados.</p>
+                {% endif %}
+            </div>
+        </div>
+    </fieldset>
+
+    <fieldset>
+        <legend>Historial de Adopciones</legend>
+        <div class="form-row">
+            <div class="form-group form-group-full">
+                {% if owner.adoptions_list %}
+                <table class="data-table-list">
+                    <thead>
+                        <tr>
+                            <th>Animal</th>
+                            <th>Fecha</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for adopcion in owner.adoptions_list %}
+                        <tr>
+                            <td>{{ adopcion.animal.name }}</td>
+                            <td>{{ adopcion.adoption_date|default:"-" }}</td>
+                            <td>{{ adopcion.status }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}
+                <p style="color: #64748b;">No hay adopciones registradas.</p>
+                {% endif %}
+            </div>
+        </div>
+    </fieldset>
+
+    <div class="form-buttons">
+        <a href="{% url 'owners_form_edit' owner.id %}" class="btn-success">✏️ Editar</a>
+        {% include 'layouts/partials/btn-back.html' %}
+    </div>
+</div>
+{% endblock %}

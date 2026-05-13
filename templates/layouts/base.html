@@ -1,0 +1,278 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="icon" href="{% static 'img/Logo.jpg' %}">
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <link rel="stylesheet" href="{% static 'css/tables.css' %}">
+    {% block css %}{% endblock %}
+</head>
+
+<body>
+    {% include 'layouts/partials/header.html' %}
+
+    {% block sidebar %}{% endblock %}
+    {% block login %}{% endblock %}
+    {% block reset_password %}{% endblock %}
+
+    <main class="main-content">
+        {% block content %}
+
+        {% block btn_back %}{% endblock %}
+
+        {% endblock %}
+    </main>
+
+    {% include 'layouts/partials/footer.html' %}
+
+    {% block js %}
+<script>
+let currentSortColumn = null;
+let sortDirection = 'asc';
+let currentFilter = 'Todos';
+let selectedDate = null;
+
+function filterTable() {
+    applyAllFilters();
+}
+
+function filterByStatus(status) {
+    currentFilter = status;
+    applyAllFilters();
+    document.getElementById('filterMenu')?.classList.remove('show');
+}
+
+function applyAllFilters() {
+    const table = document.querySelector('.data-table-list');
+    if (!table) return;
+    
+    const tbody = table.querySelector('tbody');
+    const rows = tbody.querySelectorAll('tr');
+    const searchFilter = document.getElementById('searchInput').value.toLowerCase();
+    
+    rows.forEach(row => {
+        const text = row.textContent.toLowerCase();
+        const matchesSearch = searchFilter === '' || text.includes(searchFilter);
+        
+        let matchesFilter = true;
+        if (currentFilter !== 'Todos') {
+            matchesFilter = text.includes(currentFilter.toLowerCase());
+        }
+        
+        let matchesDate = true;
+        if (selectedDate) {
+            const dateCell = row.querySelector('td:nth-child(5)') || row.querySelector('td:nth-child(2)');
+            if (dateCell) {
+                const cellDateText = dateCell.textContent.trim();
+                const cellDate = parseDate(cellDateText);
+                if (cellDate) {
+                    matchesDate = isSameDate(cellDate, selectedDate);
+                } else {
+                    matchesDate = true;
+                }
+            }
+        }
+        
+        row.style.display = (matchesSearch && matchesFilter && matchesDate) ? '' : 'none';
+    });
+}
+
+function parseDate(dateStr) {
+    if (!dateStr) return null;
+    const parts = dateStr.split('/');
+    if (parts.length === 3) {
+        return new Date(parts[2], parts[1] - 1, parts[0]);
+    }
+    const iso = Date.parse(dateStr);
+    return isNaN(iso) ? null : new Date(iso);
+}
+
+function isSameDate(date1, date2) {
+    return date1 && date2 && 
+           date1.getFullYear() === date2.getFullYear() &&
+           date1.getMonth() === date2.getMonth() &&
+           date1.getDate() === date2.getDate();
+}
+
+function sortTable(column) {
+    const table = document.querySelector('.data-table-list');
+    if (!table) return;
+    
+    const tbody = table.querySelector('tbody');
+    const rows = Array.from(tbody.querySelectorAll('tr'));
+
+    if (currentSortColumn === column) {
+        sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
+    } else {
+        currentSortColumn = column;
+        sortDirection = 'asc';
+    }
+
+    // Update sort icons
+    document.querySelectorAll('.sort-icon').forEach(icon => {
+        icon.textContent = '↕';
+    });
+    const activeHeader = document.querySelector(`th[onclick="sortTable('${column}')"] .sort-icon`);
+    if (activeHeader) {
+        activeHeader.textContent = sortDirection === 'asc' ? '↑' : '↓';
+    }
+
+    rows.sort((a, b) => {
+        let aText = a.querySelector(`td:nth-child(${getColumnIndex(column)})`)?.textContent || '';
+        let bText = b.querySelector(`td:nth-child(${getColumnIndex(column)})`)?.textContent || '';
+        
+        if (column === 'addmission_date' || column === 'date' || column === 'admission_date' || column === 'fecha') {
+            const aDate = parseDate(aText);
+            const bDate = parseDate(bText);
+            if (aDate && bDate) {
+                return sortDirection === 'asc' ? aDate - bDate : bDate - aDate;
+            }
+            return 0;
+        }
+        
+        if (!isNaN(parseFloat(aText)) && !isNaN(parseFloat(bText)) && aText.trim() !== '' && bText.trim() !== '') {
+            return sortDirection === 'asc' ? parseFloat(aText) - parseFloat(bText) : parseFloat(bText) - parseFloat(aText);
+        }
+        
+        return sortDirection === 'asc' ? aText.localeCompare(bText) : bText.localeCompare(aText);
+    });
+
+    rows.forEach(row => tbody.appendChild(row));
+}
+
+function getColumnIndex(column) {
+    const map = {
+        'animal_name': 1,
+        'owner_name': 2,
+        'specie': 3,
+        'sex': 3,
+        'addmission_date': 5,
+        'date': 3,
+        'name': 1,
+        'amount': 4,
+        'status': 3,
+        'email': 2,
+    };
+    return map[column] || 1;
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const dateBtn = document.getElementById('btnSortDate');
+    if (dateBtn) {
+        dateBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            let datePicker = document.getElementById('datePickerContainer');
+            if (!datePicker) {
+                datePicker = document.createElement('div');
+                datePicker.id = 'datePickerContainer';
+                datePicker.innerHTML = `
+                    <input type="date" id="datePicker" class="date-picker-input">
+                    <button onclick="clearDateFilter()" class="btn-clear-date">✕ Limpiar</button>
+                `;
+                datePicker.style.cssText = `
+                    position: absolute;
+                    top: 100%;
+                    right: 0;
+                    margin-top: 8px;
+                    background: white;
+                    padding: 12px;
+                    border-radius: 8px;
+                    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+                    z-index: 1000;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 8px;
+                `;
+                dateBtn.parentElement.appendChild(datePicker);
+                
+                document.getElementById('datePicker').addEventListener('change', function(e) {
+                    if (e.target.value) {
+                        selectedDate = new Date(e.target.value + 'T00:00:00');
+                        applyAllFilters();
+                        datePicker.style.display = 'none';
+                    }
+                });
+            }
+            datePicker.style.display = datePicker.style.display === 'none' ? 'flex' : 'none';
+        });
+    }
+    
+    document.getElementById('btnFilterStatus')?.addEventListener('click', function(e) {
+        e.stopPropagation();
+        document.getElementById('filterMenu').classList.toggle('show');
+    });
+});
+
+function clearDateFilter() {
+    selectedDate = null;
+    document.getElementById('datePicker').value = '';
+    applyAllFilters();
+    document.getElementById('datePickerContainer').style.display = 'none';
+}
+
+document.addEventListener('click', function(e) {
+    const dropdown = document.getElementById('filterMenu');
+    const btn = document.getElementById('btnFilterStatus');
+    if (dropdown && !dropdown.contains(e.target) && !btn?.contains(e.target)) {
+        dropdown.classList.remove('show');
+    }
+    
+    const datePicker = document.getElementById('datePickerContainer');
+    const dateBtn = document.getElementById('btnSortDate');
+    if (datePicker && !datePicker.contains(e.target) && !dateBtn?.contains(e.target)) {
+        datePicker.style.display = 'none';
+    }
+});
+</script>
+<style>
+.filter-dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #fff;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    right: 0;
+    border-radius: 8px;
+    overflow: hidden;
+}
+.filter-dropdown-content.show {
+    display: block;
+}
+.filter-dropdown-content a {
+    color: #333;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+.filter-dropdown-content a:hover {
+    background-color: #f1f1f1;
+}
+.date-picker-input {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+    width: 180px;
+}
+.btn-clear-date {
+    padding: 8px;
+    background: #f59e0b;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 12px;
+}
+.btn-clear-date:hover {
+    background: #d97706;
+}
+</style>
+{% endblock %}
+</body>
+
+</html>

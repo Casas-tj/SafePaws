@@ -1,0 +1,86 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}SafePaws - Detalle de {{ product.name }}{% endblock %}
+
+{% block content %}
+<div class="form-view">
+    <div class="form-header">
+        <h2 class="form-title">{{ product.name }}</h2>
+        <p style="color: #64748b; font-size: 0.875rem; margin-top: 0.5rem;">
+            Detalles del producto
+        </p>
+    </div>
+
+    <fieldset>
+        <legend>Información del Producto</legend>
+        <div class="form-row">
+            <div class="form-group">
+                <label>Cantidad Actual</label>
+                <p>{{ product.quantity }} {{ product.unit }}</p>
+            </div>
+            <div class="form-group">
+                <label>Unidad</label>
+                <p>{{ product.unit|default:"-" }}</p>
+            </div>
+            <div class="form-group">
+                <label>Estado</label>
+                <p>
+                    <span class="badge {% if product.stock_bajo %}badge-warning{% else %}badge-success{% endif %}">
+                        {{ product.stock_label }}
+                    </span>
+                </p>
+            </div>
+        </div>
+    </fieldset>
+
+    <fieldset>
+        <legend>Descripción</legend>
+        <div class="form-row">
+            <div class="form-group form-group-full">
+                <p>{{ product.description|default:"-" }}</p>
+            </div>
+        </div>
+    </fieldset>
+
+    <fieldset>
+        <legend>Últimos Movimientos</legend>
+        <div class="form-row">
+            <div class="form-group form-group-full">
+                {% if product.movements_list %}
+                <table class="data-table-list">
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Tipo</th>
+                            <th>Cantidad</th>
+                            <th>Motivo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for movement in product.movements_list %}
+                        <tr>
+                            <td>{{ movement.movement_date }}</td>
+                            <td>
+                                <span class="badge {% if movement.type == 'Entrada' %}badge-success{% else %}badge-info{% endif %}">
+                                    {{ movement.type }}
+                                </span>
+                            </td>
+                            <td>{{ movement.quantity }}</td>
+                            <td>{{ movement.reason|default:"-" }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}
+                <p style="color: #64748b;">No hay movimientos registrados.</p>
+                {% endif %}
+            </div>
+        </div>
+    </fieldset>
+
+    <div class="form-buttons">
+        <a href="{% url 'inventario_form_edit' product.id %}" class="btn-success">✏️ Editar</a>
+        {% include 'layouts/partials/btn-back.html' %}
+    </div>
+</div>
+{% endblock %}

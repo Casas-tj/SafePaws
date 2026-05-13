@@ -1,0 +1,86 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}Historial Médico — SafePaws{% endblock %}
+
+{% block content %}
+<div class="list-header">
+    <h1 class="section-title">Historial Médico</h1>
+
+    {% include 'layouts/partials/btn-back.html' %}
+</div>
+
+<!-- Barra de búsqueda y filtros -->
+<div class="main-container-flex">
+    <div class="search-section-container">
+        <div class="search-bar-container">
+
+            <div class="search-input-wrapper">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="searchInput" class="search-input-list" placeholder="Buscar animal por nombre..."
+                    oninput="filterTable()">
+            </div>
+
+            <div class="filter-buttons">
+                <div style="position: relative; display: inline-block;">
+                    <button id="btnSortDate" class="btn-filter">📅 Fecha</button>
+                </div>
+            </div>
+
+            <div class="filter-dropdown-container">
+                <button id="btnFilterStatus" class="btn-filter">🔽 Filtros</button>
+                <div id="filterMenu" class="filter-dropdown-content">
+                    <a href="#" onclick="filterByStatus('Todos')">Todos</a>
+                    <a href="#" onclick="filterByStatus('Perro')">Perros</a>
+                    <a href="#" onclick="filterByStatus('Gato')">Gatos</a>
+                    <a href="#" onclick="filterByStatus('Conejo')">Conejos</a>
+                    <a href="#" onclick="filterByStatus('Pajaro')">Pájaros</a>
+                    <a href="#" onclick="filterByStatus('Hamster')">Hamsters</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Tabla de animales -->
+<div class="table-wrapper">
+    <table class="data-table-list">
+        <thead>
+            <tr>
+                <th onclick="sortTable('nombre')">Nombre <span class="sort-icon">⇅</span></th>
+                <th onclick="sortTable('especie')">Especie <span class="sort-icon">⇅</span></th>
+                <th onclick="sortTable('dueno')">Dueño / Cuidador <span class="sort-icon">⇅</span></th>
+                <th onclick="sortTable('atenciones')">Atenciones <span class="sort-icon">⇅</span></th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+
+        <tbody id="tableBody">
+            {% for animal in animals %}
+            <tr>
+                <td>{{ animal.name }}</td>
+                <td>{{ animal.species }}</td>
+                <td>{{ animal.owner_display }}</td>
+                <td>
+                    <span
+                        class="badge {% if animal.total_atenciones > 0 %}badge-info{% else %}badge-neutral{% endif %}">
+                        {{ animal.total_atenciones }}
+                    </span>
+                </td>
+                <td>
+                    <div class="actions-cell">
+                        <a href="{% url 'health_detail' animal.id %}" class="action-btn action-details"
+                            title="Ver detalles">👁️</a>
+                    </div>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5" style="text-align:center; color:#64748b; padding:2rem;">
+                    No hay animales registrados en el refugio.
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

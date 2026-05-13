@@ -1,0 +1,226 @@
+/* General */
+body {
+    margin: 0;
+    font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: linear-gradient(135deg, #2d4154 0%, #3e5871 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    color: #333;
+    padding: 20px;
+    overflow: hidden;
+}
+
+.page-wrapper {
+    background-color: white;
+    width: 100%;
+    max-width: 450px;
+    border-radius: 25px;
+    padding: 20px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    height: auto;
+    max-height: calc(100vh - 40px);
+    overflow-y: auto;
+}
+
+.login-container {
+    width: 100%;
+    max-width: 400px;
+    padding: 15px 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Sección del Logo y Títulos */
+.logo-section {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.logo-section img {
+    width: 80px;
+    height: 80px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    object-fit: cover;
+    margin-bottom: 10px;
+    border: 1px solid #eee;
+    padding: 5px;
+    background: white;
+}
+
+.logo-section h1 {
+    margin: 0;
+    font-size: 32px;
+    color: #2d4154;
+    font-weight: 700;
+}
+
+.logo-section p {
+    margin: 5px 0 0;
+    color: #7f8c8d;
+    font-size: 16px;
+}
+
+/* Tarjeta de Formulario */
+.login-card {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group label {
+    font-weight: 600;
+    font-size: 14px;
+    color: #2d4154;
+}
+
+/* Inputs */
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    padding: 10px 15px;
+    border: 1.5px solid #dcdde1;
+    border-radius: 10px;
+    font-size: 15px;
+    background-color: #fff;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+}
+
+input:focus {
+    outline: none;
+    border-color: #7d5aba;
+    /* Color púrpura del foco */
+}
+
+/* Contenedor de contraseña con el icono de ojo */
+.password-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+#togglePassword {
+    position: absolute;
+    right: 15px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+}
+
+/* Recordarme y Olvidé mi contraseña */
+.options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+    margin-top: 6px;
+    margin-bottom: 8px;
+}
+
+.remember-me {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #555;
+}
+
+.options a {
+    color: #6c5ce7;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+/* Botón Iniciar Sesión */
+#loginBtn,
+#recoveryBtn {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    background-color: #27ae60;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.1s ease;
+    margin-top: 10px;
+}
+
+#loginBtn {
+    margin-top: 14px;
+}
+
+#loginBtn:active,
+#recoveryBtn:active {
+    transform: scale(0.98);
+}
+
+/* Botón volver a iniciar sesión */
+.btn-secondary {
+    display: inline-block;
+    width: 100%;
+    padding: 10px;
+    margin-top: 8px;
+    border: 2px solid;
+    border-radius: 10px;
+    background: #e74c3c;
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 600;
+    text-align: center;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+}
+
+.btn-secondary:hover {
+    transform: translateY(-2px);
+}
+
+.btn-secondary:active {
+    transform: scale(0.98);
+}
+
+/* Sección de Credenciales de Prueba */
+.demo-credentials {
+    background-color: #f9f9f9;
+    border-left: 4px solid #27ae60;
+    border-radius: 6px;
+    text-align: left;
+    line-height: 1.4;
+    margin-top: 5px;
+    padding: 10px;
+    font-size: 12px;
+}
+
+.demo-credentials h4 {
+    margin: 0 0 4px 0;
+    color: #2c3e50;
+}
+
+.divider {
+    margin: 25px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.demo-credentials p {
+    margin: 5px 0;
+    color: #444;
+}
+
+.demo-credentials strong {
+    color: #2c3e50;
+}

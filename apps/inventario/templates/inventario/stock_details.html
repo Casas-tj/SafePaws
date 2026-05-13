@@ -1,0 +1,56 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}SafePaws - Detalle de Movimiento #{{ movement.id }}{% endblock %}
+
+{% block content %}
+<div class="form-view">
+    <div class="form-header">
+        <h2 class="form-title">Movimiento #{{ movement.id }}</h2>
+        <p style="color: #64748b; font-size: 0.875rem; margin-top: 0.5rem;">
+            Detalles del movimiento
+        </p>
+    </div>
+
+    <fieldset>
+        <legend>Información del Movimiento</legend>
+        <div class="form-row">
+            <div class="form-group">
+                <label>Producto</label>
+                <p>{{ movement.product.name }}</p>
+            </div>
+            <div class="form-group">
+                <label>Tipo</label>
+                <p>
+                    <span class="badge {% if movement.type == 'Entrada' %}badge-success{% else %}badge-info{% endif %}">
+                        {{ movement.type }}
+                    </span>
+                </p>
+            </div>
+            <div class="form-group">
+                <label>Cantidad</label>
+                <p>{{ movement.quantity }} {{ movement.product.unit }}</p>
+            </div>
+            <div class="form-group">
+                <label>Fecha</label>
+                <p>{{ movement.movement_date }}</p>
+            </div>
+        </div>
+    </fieldset>
+
+    {% if movement.reason %}
+    <fieldset>
+        <legend>Motivo</legend>
+        <div class="form-row">
+            <div class="form-group form-group-full">
+                <p>{{ movement.reason }}</p>
+            </div>
+        </div>
+    </fieldset>
+    {% endif %}
+
+    <div class="form-buttons">
+        <a href="{% url 'stock_form_edit' movement.id %}" class="btn-success">✏️ Editar</a>
+        {% include 'layouts/partials/btn-back.html' %}
+    </div>
+</div>
+{% endblock %}
