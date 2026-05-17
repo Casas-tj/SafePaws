@@ -28,32 +28,33 @@ class Command(BaseCommand):
         self.stdout.write("  [USUARIOS]")
 
         # === 1. CREAR GRUPOS CON PERMISOS ===
+        view_all = [
+            'animales.view_animal',
+            'adopciones.view_adopcion',
+            'donaciones.view_donacion',
+            'health.view_medicalevent',
+            'inventario.view_product', 'inventario.view_movement',
+            'owners.view_owner',
+            'usuarios.view_user',
+            'auth.view_group',
+        ]
+
         grupo_permisos = {
             'Administrador': [],
-            'Veterinario': [
-                'animales.view_animal',
-                'health.view_medicalevent', 'health.add_medicalevent',
+            'Veterinario': view_all + [
+                'health.add_medicalevent',
                 'health.change_medicalevent', 'health.delete_medicalevent',
             ],
-            'Cuidador de Animales': [
-                'animales.view_animal', 'animales.add_animal', 'animales.change_animal',
-                'health.view_medicalevent',
-                'inventario.view_product', 'inventario.view_movement', 'inventario.add_movement',
+            'Cuidador de Animales': view_all + [
+                'animales.add_animal', 'animales.change_animal',
+                'inventario.add_movement',
             ],
-            'Atención al Cliente': [
-                'owners.view_owner', 'owners.add_owner', 'owners.change_owner',
-                'adopciones.view_adopcion', 'adopciones.add_adopcion',
-                'donaciones.view_donacion', 'donaciones.add_donacion',
+            'Atención al Cliente': view_all + [
+                'owners.add_owner', 'owners.change_owner',
+                'adopciones.add_adopcion',
+                'donaciones.add_donacion',
             ],
-            'Voluntario': [
-                'animales.view_animal',
-                'adopciones.view_adopcion',
-                'donaciones.view_donacion',
-                'health.view_medicalevent',
-                'inventario.view_product', 'inventario.view_movement',
-                'owners.view_owner',
-                'auth.view_user', 'auth.view_group',
-            ],
+            'Voluntario': view_all,
         }
 
         for nombre_grupo, codenames in grupo_permisos.items():
@@ -101,20 +102,20 @@ class Command(BaseCommand):
 
         for username, first, last, email, is_vol, grupo_nombre in usuarios:
             user, created = User.objects.get_or_create(username=username)
-            if created:
-                user.set_password('123456')
-                user.first_name = first
-                user.last_name = last
-                user.email = email
-                user.is_volunteer = is_vol
-                user.is_active = True
-                user.save()
-                if grupo_nombre:
-                    grupo = Group.objects.get(name=grupo_nombre)
-                    user.groups.add(grupo)
-                else:
-                    user.groups.add(random.choice(roles_disponibles))
-                self.stdout.write(f"    + {username}")
+            user.set_password('123456')
+            user.first_name = first
+            user.last_name = last
+            user.email = email
+            user.is_volunteer = is_vol
+            user.is_active = True
+            user.save()
+            user.groups.clear()
+            if grupo_nombre:
+                grupo = Group.objects.get(name=grupo_nombre)
+                user.groups.add(grupo)
+            else:
+                user.groups.add(random.choice(roles_disponibles))
+            self.stdout.write(f"    {'+' if created else '~'} {username}")
 
     def seed_owners(self):
         self.stdout.write("  [OWNERS]")
