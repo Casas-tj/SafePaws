@@ -1,0 +1,17 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}SafePaws - Acceso Denegado{% endblock %}
+
+{% block content %}
+<div class="error-container" style="text-align: center; padding: 80px 20px;">
+    <h1 style="font-size: 72px; color: #e74c3c; margin-bottom: 0;">403</h1>
+    <h2 style="color: #555; margin-top: 10px;">Acceso Denegado</h2>
+    <p style="color: #888; font-size: 18px; max-width: 500px; margin: 20px auto;">
+        No tienes permisos suficientes para acceder a esta página.
+        Contacta al administrador del sistema si crees que esto es un error.
+    </p>
+    <a href="{% url 'home' %}" class="btn-success card-link" style="display: inline-block; padding: 12px 30px; margin-top: 20px; text-decoration: none;">
+        Volver al Inicio
+    </a>
+</div>
+{% endblock %}
