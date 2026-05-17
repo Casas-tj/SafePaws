@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
 from django.contrib.auth import get_user_model
-from django.contrib.auth.models import Group
+from django.contrib.auth.models import Group, Permission
 from django.utils import timezone
 from datetime import timedelta
 import random
@@ -26,37 +26,80 @@ class Command(BaseCommand):
 
     def seed_users(self):
         self.stdout.write("  [USUARIOS]")
-        
-        grupos = ['Administrador', 'Veterinario', 'Cuidador de Animales', 'Atención al Cliente', 'Voluntario']
-        for g in grupos:
-            Group.objects.get_or_create(name=g)
-        
-        roles = list(Group.objects.all())
-        
+
+        # === 1. CREAR GRUPOS CON PERMISOS ===
+        grupo_permisos = {
+            'Administrador': [],
+            'Veterinario': [
+                'animales.view_animal',
+                'health.view_medicalevent', 'health.add_medicalevent',
+                'health.change_medicalevent', 'health.delete_medicalevent',
+            ],
+            'Cuidador de Animales': [
+                'animales.view_animal', 'animales.add_animal', 'animales.change_animal',
+                'health.view_medicalevent',
+                'inventario.view_product', 'inventario.view_movement', 'inventario.add_movement',
+            ],
+            'Atención al Cliente': [
+                'owners.view_owner', 'owners.add_owner', 'owners.change_owner',
+                'adopciones.view_adopcion', 'adopciones.add_adopcion',
+                'donaciones.view_donacion', 'donaciones.add_donacion',
+            ],
+            'Voluntario': [
+                'animales.view_animal',
+                'adopciones.view_adopcion',
+                'donaciones.view_donacion',
+                'health.view_medicalevent',
+                'inventario.view_product', 'inventario.view_movement',
+                'owners.view_owner',
+                'auth.view_user', 'auth.view_group',
+            ],
+        }
+
+        for nombre_grupo, codenames in grupo_permisos.items():
+            grupo, _ = Group.objects.get_or_create(name=nombre_grupo)
+            if codenames:
+                permisos = []
+                for codename in codenames:
+                    app_label, perm_codename = codename.split('.')
+                    try:
+                        perm = Permission.objects.get(
+                            content_type__app_label=app_label,
+                            codename=perm_codename
+                        )
+                        permisos.append(perm)
+                    except Permission.DoesNotExist:
+                        self.stdout.write(f"    ! Permiso no encontrado: {codename}")
+                grupo.permissions.set(permisos)
+
+        # === 2. CREAR USUARIOS ===
         usuarios = [
-            ('admin', 'Zuriñe', 'Casas', 'admin@safepaws.es', True),
-            ('vet1', 'Dr. Mario', 'García', 'vet1@safepaws.es', False),
-            ('vet2', 'Dra. Laura', 'López', 'vet2@safepaws.es', False),
-            ('vol1', 'Carlos', 'Martín', 'vol1@safepaws.es', True),
-            ('vol2', 'Ana', 'Rodríguez', 'vol2@safepaws.es', True),
-            ('vol3', 'Pedro', 'Sánchez', 'vol3@safepaws.es', True),
-            ('vol4', 'María', 'Fernández', 'vol4@safepaws.es', True),
-            ('vol5', 'Juan', 'Gómez', 'vol5@safepaws.es', True),
-            ('cuidador1', 'Lucía', 'Torres', 'cuidador1@safepaws.es', False),
-            ('cuidador2', 'Jorge', 'Ruiz', 'cuidador2@safepaws.es', False),
-            ('user11', 'Sofia', 'Benito', 'user11@test.com', False),
-            ('user12', 'Miguel', 'Castro', 'user12@test.com', True),
-            ('user13', 'Elena', 'Mora', 'user13@test.com', True),
-            ('user14', 'David', 'Herrera', 'user14@test.com', False),
-            ('user15', 'Carmen', 'Vega', 'user15@test.com', True),
-            ('user16', 'Alejandro', 'Navarro', 'user16@test.com', False),
-            ('user17', 'Patricia', 'Suárez', 'user17@test.com', True),
-            ('user18', 'Fernando', 'Reyes', 'user18@test.com', True),
-            ('user19', 'Isabel', 'Mendez', 'user19@test.com', False),
-            ('user20', 'Roberto', 'Campos', 'user20@test.com', True),
+            ('admin', 'Zuriñe', 'Casas', 'admin@safepaws.es', True, 'Administrador'),
+            ('vet1', 'Dr. Mario', 'García', 'vet1@safepaws.es', False, 'Veterinario'),
+            ('vet2', 'Dra. Laura', 'López', 'vet2@safepaws.es', False, 'Veterinario'),
+            ('cuidador1', 'Lucía', 'Torres', 'cuidador1@safepaws.es', False, 'Cuidador de Animales'),
+            ('cuidador2', 'Jorge', 'Ruiz', 'cuidador2@safepaws.es', False, 'Cuidador de Animales'),
+            ('atencion1', 'Atención', 'Cliente', 'atencion1@safepaws.es', False, 'Atención al Cliente'),
+            ('vol1', 'Carlos', 'Martín', 'vol1@safepaws.es', True, 'Voluntario'),
+            ('vol2', 'Ana', 'Rodríguez', 'vol2@safepaws.es', True, 'Voluntario'),
+            ('vol3', 'Pedro', 'Sánchez', 'vol3@safepaws.es', True, 'Voluntario'),
+            ('vol4', 'María', 'Fernández', 'vol4@safepaws.es', True, 'Voluntario'),
+            ('vol5', 'Juan', 'Gómez', 'vol5@safepaws.es', True, 'Voluntario'),
+            ('user11', 'Sofia', 'Benito', 'user11@test.com', False, None),
+            ('user12', 'Miguel', 'Castro', 'user12@test.com', True, None),
+            ('user13', 'Elena', 'Mora', 'user13@test.com', True, None),
+            ('user14', 'David', 'Herrera', 'user14@test.com', False, None),
+            ('user15', 'Carmen', 'Vega', 'user15@test.com', True, None),
+            ('user16', 'Alejandro', 'Navarro', 'user16@test.com', False, None),
+            ('user17', 'Patricia', 'Suárez', 'user17@test.com', True, None),
+            ('user18', 'Fernando', 'Reyes', 'user18@test.com', True, None),
+            ('user19', 'Isabel', 'Mendez', 'user19@test.com', False, None),
+            ('user20', 'Roberto', 'Campos', 'user20@test.com', True, None),
         ]
-        
-        for username, first, last, email, is_vol in usuarios:
+
+        roles_disponibles = list(Group.objects.all())
+
+        for username, first, last, email, is_vol, grupo_nombre in usuarios:
             user, created = User.objects.get_or_create(username=username)
             if created:
                 user.set_password('123456')
@@ -66,37 +109,37 @@ class Command(BaseCommand):
                 user.is_volunteer = is_vol
                 user.is_active = True
                 user.save()
-                if username == 'admin':
-                    admin_group = Group.objects.get(name='Administrador')
-                    user.groups.add(admin_group)
+                if grupo_nombre:
+                    grupo = Group.objects.get(name=grupo_nombre)
+                    user.groups.add(grupo)
                 else:
-                    user.groups.add(random.choice(roles))
+                    user.groups.add(random.choice(roles_disponibles))
                 self.stdout.write(f"    + {username}")
 
     def seed_owners(self):
         self.stdout.write("  [OWNERS]")
         
         owners = [
-            ('Juan', 'Pérez García', 'juan.perez@email.com', '+34611111111', True),
-            ('María', 'López Martínez', 'maria.lopez@email.com', '+34622222222', True),
-            ('Carlos', 'Rodríguez Sánchez', 'carlos.r@email.com', '+34633333333', False),
-            ('Ana', 'Fernández Torres', 'ana.f@email.com', '+34644444444', True),
-            ('Pedro', 'Gómez Ruiz', 'pedro.g@email.com', '+34655555555', True),
-            ('Laura', 'Martín Castro', 'laura.m@email.com', '+34666666666', False),
-            ('Miguel', 'López Hidalgo', 'miguel.l@email.com', '+34677777777', True),
-            ('Sofía', 'Ramírez Ortega', 'sofia.r@email.com', '+34688888888', True),
+            ('Juan', 'PÃƒÂ©rez GarcÃƒÂ­a', 'juan.perez@email.com', '+34611111111', True),
+            ('MarÃƒÂ­a', 'LÃƒÂ³pez MartÃƒÂ­nez', 'maria.lopez@email.com', '+34622222222', True),
+            ('Carlos', 'RodrÃƒÂ­guez SÃƒÂ¡nchez', 'carlos.r@email.com', '+34633333333', False),
+            ('Ana', 'FernÃƒÂ¡ndez Torres', 'ana.f@email.com', '+34644444444', True),
+            ('Pedro', 'GÃƒÂ³mez Ruiz', 'pedro.g@email.com', '+34655555555', True),
+            ('Laura', 'MartÃƒÂ­n Castro', 'laura.m@email.com', '+34666666666', False),
+            ('Miguel', 'LÃƒÂ³pez Hidalgo', 'miguel.l@email.com', '+34677777777', True),
+            ('SofÃƒÂ­a', 'RamÃƒÂ­rez Ortega', 'sofia.r@email.com', '+34688888888', True),
             ('Javier', 'Morales Serrano', 'javier.m@email.com', '+34699999999', False),
             ('Elena', 'Castillo Vega', 'elena.c@email.com', '+34700000000', True),
-            ('David', 'Navarro Gutiérrez', 'david.n@email.com', '+34711111111', True),
-            ('Carmen', 'Jiménez Flores', 'carmen.j@email.com', '+34722222222', False),
-            ('Alejandro', 'Muñoz Romero', 'alex.m@email.com', '+34733333333', True),
+            ('David', 'Navarro GutiÃƒÂ©rrez', 'david.n@email.com', '+34711111111', True),
+            ('Carmen', 'JimÃƒÂ©nez Flores', 'carmen.j@email.com', '+34722222222', False),
+            ('Alejandro', 'MuÃƒÂ±oz Romero', 'alex.m@email.com', '+34733333333', True),
             ('Patricia', 'Serrano Delgano', 'patricia.s@email.com', '+34744444444', True),
-            ('Fernando', 'Hernández Morales', 'fernando.h@email.com', '+34755555555', False),
+            ('Fernando', 'HernÃƒÂ¡ndez Morales', 'fernando.h@email.com', '+34755555555', False),
             ('Isabel', 'Garrido Ruiz', 'isabel.g@email.com', '+34766666666', True),
             ('Roberto', 'Aguilar Torres', 'roberto.a@email.com', '+34777777777', True),
-            ('Cristina', 'Vargas López', 'cristina.v@email.com', '+34788888888', False),
-            ('Antonio', 'Cabrera Sánchez', 'antonio.c@email.com', '+34799999999', True),
-            ('María José', 'Peña Gutiérrez', 'mariaj.p@email.com', '+34800000000', True),
+            ('Cristina', 'Vargas LÃƒÂ³pez', 'cristina.v@email.com', '+34788888888', False),
+            ('Antonio', 'Cabrera SÃƒÂ¡nchez', 'antonio.c@email.com', '+34799999999', True),
+            ('MarÃƒÂ­a JosÃƒÂ©', 'PeÃƒÂ±a GutiÃƒÂ©rrez', 'mariaj.p@email.com', '+34800000000', True),
         ]
         
         for name, last, email, phone, is_vol in owners:
@@ -125,12 +168,12 @@ class Command(BaseCommand):
             ('Coco', 'Pajaro', 'Canario', 1, 6, 'Macho', False, False, 'Disponible'),
             ('Rocky', 'Perro', 'Beagle', 5, 0, 'Macho', True, True, 'En Tratamiento'),
             ('Bella', 'Gato', 'Persa', 4, 0, 'Hembra', True, False, 'Sano'),
-            ('Thor', 'Perro', 'Pastor Alemán', 2, 0, 'Macho', True, True, 'Disponible'),
-            ('Mía', 'Gato', 'Siamés', 1, 2, 'Hembra', True, True, 'Sano'),
+            ('Thor', 'Perro', 'Pastor AlemÃƒÂ¡n', 2, 0, 'Macho', True, True, 'Disponible'),
+            ('MÃƒÂ­a', 'Gato', 'SiamÃƒÂ©s', 1, 2, 'Hembra', True, True, 'Sano'),
             ('Simba', 'Perro', 'Labrador', 4, 0, 'Macho', False, True, 'Critico'),
             ('Nala', 'Gato', 'European', 3, 0, 'Hembra', True, True, 'Disponible'),
             ('Duke', 'Perro', 'Boxer', 6, 0, 'Macho', True, False, 'En Tratamiento'),
-            ('Pipo', 'Conejo', 'Holandés', 1, 0, 'Macho', False, True, 'Disponible'),
+            ('Pipo', 'Conejo', 'HolandÃƒÂ©s', 1, 0, 'Macho', False, True, 'Disponible'),
             ('Oreo', 'Conejo', 'Enano', 0, 8, 'Hembra', True, True, 'Disponible'),
             ('Chispas', 'Hamster', 'Sirio', 0, 4, 'Macho', False, False, 'Disponible'),
             ('Kiko', 'Pajaro', 'Loro', 2, 0, 'Macho', False, True, 'Disponible'),
@@ -139,7 +182,7 @@ class Command(BaseCommand):
             ('Pelusa', 'Gato', 'Carey', 2, 6, 'Hembra', True, False, 'Sano'),
             ('Toby', 'Perro', 'Podenco', 4, 0, 'Macho', True, True, 'En Tratamiento'),
             ('Frida', 'Gato', 'Azul Ruso', 1, 0, 'Hembra', True, True, 'Disponible'),
-            ('Rex', 'Perro', 'Dóberman', 5, 0, 'Macho', True, True, 'Sano'),
+            ('Rex', 'Perro', 'DÃƒÂ³berman', 5, 0, 'Macho', True, True, 'Sano'),
         ]
         
         base_date = timezone.now().date()
@@ -172,26 +215,26 @@ class Command(BaseCommand):
         self.stdout.write("  [DONACIONES]")
         
         donors = [
-            ('Fundación Amigos de los Animales', 'fundacion@amigos.es', '+34600000100', 'Monetaria', 5000, 'Transferencia'),
-            ('María Gómez Sánchez', 'maria.g@email.com', '+34600000101', 'Monetaria', 250, 'Tarjeta'),
+            ('FundaciÃƒÂ³n Amigos de los Animales', 'fundacion@amigos.es', '+34600000100', 'Monetaria', 5000, 'Transferencia'),
+            ('MarÃƒÂ­a GÃƒÂ³mez SÃƒÂ¡nchez', 'maria.g@email.com', '+34600000101', 'Monetaria', 250, 'Tarjeta'),
             ('Pet Store Co.', 'contacto@petstore.es', '+34600000102', 'Monetaria', 1200, 'Transferencia'),
-            ('Anónimo', '', '', 'Monetaria', 500, 'Efectivo'),
-            ('Juan Rodríguez', 'juan.r@email.com', '+34600000103', 'Monetaria', 100, 'PayPal'),
+            ('AnÃƒÂ³nimo', '', '', 'Monetaria', 500, 'Efectivo'),
+            ('Juan RodrÃƒÂ­guez', 'juan.r@email.com', '+34600000103', 'Monetaria', 100, 'PayPal'),
             ('ONG Protectora Animal', 'ong@protectora.es', '+34600000104', 'Monetaria', 2500, 'Transferencia'),
             ('Carmen Vega', 'carmen.v@email.com', '+34600000105', 'Monetaria', 75, 'Tarjeta'),
             ('Empresas Nat SA', 'rrhh@empresasnat.es', '+34600000106', 'Monetaria', 3000, 'Transferencia'),
-            ('Luis Martínez', 'luis.m@email.com', '+34600000107', 'Monetaria', 150, 'Efectivo'),
-            ('Ana Belén Torres', 'ana.t@email.com', '+34600000108', 'Monetaria', 200, 'Tarjeta'),
+            ('Luis MartÃƒÂ­nez', 'luis.m@email.com', '+34600000107', 'Monetaria', 150, 'Efectivo'),
+            ('Ana BelÃƒÂ©n Torres', 'ana.t@email.com', '+34600000108', 'Monetaria', 200, 'Tarjeta'),
             ('Distribuidora Pet', 'compras@distripet.es', '+34600000109', 'Material', 0, ''),
             ('Veterinaria PetCare', 'vet@petcare.es', '+34600000110', 'Material', 0, ''),
             ('Coordinadora Animal', 'info@coordanimal.es', '+34600000111', 'Monetaria', 800, 'Transferencia'),
-            ('Beatriz Sánchez', 'beatriz.s@email.com', '+34600000112', 'Monetaria', 50, 'Tarjeta'),
+            ('Beatriz SÃƒÂ¡nchez', 'beatriz.s@email.com', '+34600000112', 'Monetaria', 50, 'Tarjeta'),
             ('Club de Mascotas', 'club@mascotas.es', '+34600000113', 'Monetaria', 450, 'Transferencia'),
-            ('Raúl Fernández', 'raul.f@email.com', '+34600000114', 'Monetaria', 100, 'PayPal'),
+            ('RaÃƒÂºl FernÃƒÂ¡ndez', 'raul.f@email.com', '+34600000114', 'Monetaria', 100, 'PayPal'),
             ('Tienda Animalandia', 'tienda@animalandia.es', '+34600000115', 'Material', 0, ''),
             ('Silvia Crespo', 'silvia.c@email.com', '+34600000116', 'Monetaria', 300, 'Tarjeta'),
             ('Alberto Velasco', 'alberto.v@email.com', '+34600000117', 'Monetaria', 175, 'Efectivo'),
-            ('Fundación Huellas', 'fundacion@huellas.es', '+34600000118', 'Monetaria', 1500, 'Transferencia'),
+            ('FundaciÃƒÂ³n Huellas', 'fundacion@huellas.es', '+34600000118', 'Monetaria', 1500, 'Transferencia'),
         ]
         
         base_date = timezone.now().date()
@@ -222,7 +265,7 @@ class Command(BaseCommand):
             ('Comida para perros', 50, 'kg'),
             ('Comida para gatos', 45, 'kg'),
             ('Comida para conejos', 20, 'kg'),
-            ('Comida para pájaros', 15, 'kg'),
+            ('Comida para pÃƒÂ¡jaros', 15, 'kg'),
             ('Arena para gatos', 30, 'bolsa'),
             ('Pienso cachorro', 25, 'kg'),
             ('Pienso adulto', 40, 'kg'),
@@ -233,14 +276,14 @@ class Command(BaseCommand):
             ('Collares', 20, 'ud'),
             ('Camas para perros', 6, 'ud'),
             ('Camas para gatos', 5, 'ud'),
-            ('Bolsas de plástico', 100, 'bolsa'),
+            ('Bolsas de plÃƒÂ¡stico', 100, 'bolsa'),
             ('Guantes desechables', 50, 'caja'),
             ('Desinfectante', 10, 'L'),
-            ('Champú neutro', 8, 'L'),
-            ('Medicamentos básicos', 2, 'caja'),
+            ('ChampÃƒÂº neutro', 8, 'L'),
+            ('Medicamentos bÃƒÂ¡sicos', 2, 'caja'),
             ('Vitaminas', 5, 'caja'),
             ('Almohadillas absorbentes', 20, 'bolsa'),
-            ('Bebederos automáticos', 4, 'ud'),
+            ('Bebederos automÃƒÂ¡ticos', 4, 'ud'),
             ('Comederos', 12, 'ud'),
             ('Transportines', 3, 'ud'),
             ('Ropa de cama', 15, 'bolsa'),
@@ -262,7 +305,7 @@ class Command(BaseCommand):
         self.seed_movements()
         
         stock_bajo = [
-            ('Antibióticos', 2, 'caja'),
+            ('AntibiÃƒÂ³ticos', 2, 'caja'),
             ('Sueros', 4, 'ud'),
         ]
         
@@ -291,26 +334,26 @@ class Command(BaseCommand):
             return
         
         movimientos = [
-            (productos[0], 'Entrada', 20, 'Donación de empresa pet friendly'),
+            (productos[0], 'Entrada', 20, 'DonaciÃƒÂ³n de empresa pet friendly'),
             (productos[0], 'Salida', 5, 'Consumo diario gatos'),
             (productos[1], 'Entrada', 15, 'Compra mensual'),
             (productos[1], 'Salida', 8, 'Consumo diario perros'),
-            (productos[2], 'Entrada', 10, 'Donación particular'),
+            (productos[2], 'Entrada', 10, 'DonaciÃƒÂ³n particular'),
             (productos[2], 'Salida', 3, 'Consumo conejos'),
-            (productos[3], 'Entrada', 5, 'Reposición'),
+            (productos[3], 'Entrada', 5, 'ReposiciÃƒÂ³n'),
             (productos[4], 'Entrada', 25, 'Pedido proveedores'),
             (productos[4], 'Salida', 10, 'Uso limpieza'),
             (productos[5], 'Entrada', 30, 'Compra granel'),
-            (productos[5], 'Salida', 12, 'Cachorros alimentación'),
-            (productos[6], 'Entrada', 20, 'Reposición almacen'),
-            (productos[6], 'Salida', 15, 'Adultos alimentación'),
-            (productos[7], 'Entrada', 10, 'Donación tienda'),
+            (productos[5], 'Salida', 12, 'Cachorros alimentaciÃƒÂ³n'),
+            (productos[6], 'Entrada', 20, 'ReposiciÃƒÂ³n almacen'),
+            (productos[6], 'Salida', 15, 'Adultos alimentaciÃƒÂ³n'),
+            (productos[7], 'Entrada', 10, 'DonaciÃƒÂ³n tienda'),
             (productos[8], 'Entrada', 8, 'Proveedor'),
-            (productos[9], 'Entrada', 5, 'Donación'),
+            (productos[9], 'Entrada', 5, 'DonaciÃƒÂ³n'),
             (productos[9], 'Salida', 2, 'Juego libre'),
             (productos[10], 'Entrada', 12, 'Pedido'),
             (productos[10], 'Salida', 4, 'Paseos diarios'),
-            (productos[11], 'Entrada', 15, 'Reposición'),
+            (productos[11], 'Entrada', 15, 'ReposiciÃƒÂ³n'),
         ]
         
         base_date = timezone.now().date()
@@ -328,42 +371,42 @@ class Command(BaseCommand):
             self.stdout.write(f"    + {tipo}: {product.name} ({cantidad})")
 
     def seed_health(self):
-        self.stdout.write("  [EVENTOS MÉDICOS]")
+        self.stdout.write("  [EVENTOS MÃƒâ€°DICOS]")
         
         from apps.animales.models import Animal
         animales = Animal.objects.all()[:15]
         
         eventos = [
-            ('Emergencia', 'Golpe en la cabeza por caída', 'Alta', 'Resolved'),
+            ('Emergencia', 'Golpe en la cabeza por caÃƒÂ­da', 'Alta', 'Resolved'),
             ('Consulta', 'Revision anual de salud', 'Baja', 'Resolved'),
             ('Control', 'Control post-operatorio', 'Media', 'Resolved'),
-            ('Procedimiento', 'Castración', 'Media', 'Resolved'),
+            ('Procedimiento', 'CastraciÃƒÂ³n', 'Media', 'Resolved'),
             ('Consulta', 'Problemas digestivos', 'Media', 'Resolved'),
-            ('Emergencia', 'Intoxicación alimentaria', 'Alta', 'Resolved'),
-            ('Control', 'Vacunación', 'Baja', 'Resolved'),
+            ('Emergencia', 'IntoxicaciÃƒÂ³n alimentaria', 'Alta', 'Resolved'),
+            ('Control', 'VacunaciÃƒÂ³n', 'Baja', 'Resolved'),
             ('Procedimiento', 'Limpieza dental', 'Baja', 'Resolved'),
             ('Consulta', 'Problemas de piel', 'Media', 'En Proceso'),
             ('Emergencia', 'Herida en pata', 'Alta', 'Abierto'),
-            ('Control', 'Desparasitación', 'Baja', 'Resolved'),
-            ('Procedimiento', 'Esterilización', 'Media', 'Resolved'),
+            ('Control', 'DesparasitaciÃƒÂ³n', 'Baja', 'Resolved'),
+            ('Procedimiento', 'EsterilizaciÃƒÂ³n', 'Media', 'Resolved'),
             ('Consulta', 'Revision ocular', 'Baja', 'Resolved'),
             ('Emergencia', 'Alergia severa', 'Alta', 'En Proceso'),
-            ('Control', 'Análisis de sangre', 'Baja', 'Resolved'),
-            ('Procedimiento', 'Corte de uñas', 'Baja', 'Resolved'),
+            ('Control', 'AnÃƒÂ¡lisis de sangre', 'Baja', 'Resolved'),
+            ('Procedimiento', 'Corte de uÃƒÂ±as', 'Baja', 'Resolved'),
             ('Consulta', 'Problemas dentales', 'Media', 'En Proceso'),
             ('Emergencia', 'Golpe de calor', 'Alta', 'Abierto'),
             ('Control', 'Chequeo cardiovascular', 'Baja', 'Resolved'),
-            ('Procedimiento', 'Extracción de tumor benigno', 'Alta', 'Resolved'),
+            ('Procedimiento', 'ExtracciÃƒÂ³n de tumor benigno', 'Alta', 'Resolved'),
             ('Consulta', 'Otitis Infection', 'Media', 'Resolved'),
-            ('Control', 'Vacunación antirrábica', 'Baja', 'Resolved'),
+            ('Control', 'VacunaciÃƒÂ³n antirrÃƒÂ¡bica', 'Baja', 'Resolved'),
             ('Procedimiento', 'Limpieza de orejas', 'Baja', 'Resolved'),
             ('Consulta', 'Cojera persistente', 'Media', 'Resolved'),
             ('Emergencia', 'Atragantamiento', 'Alta', 'Resolved'),
-            ('Control', 'Revisión de peso', 'Baja', 'Resolved'),
+            ('Control', 'RevisiÃƒÂ³n de peso', 'Baja', 'Resolved'),
             ('Procedimiento', 'Tratamiento antiparasitario', 'Baja', 'Resolved'),
-            ('Consulta', 'Infección urinaria', 'Media', 'Resolved'),
-            ('Emergencia', 'Reacción аллергическая', 'Alta', 'Abierto'),
-            ('Control', 'Radiografía torácica', 'Media', 'Resolved'),
+            ('Consulta', 'InfecciÃƒÂ³n urinaria', 'Media', 'Resolved'),
+            ('Emergencia', 'ReacciÃƒÂ³n ÃÂ°ÃÂ»ÃÂ»ÃÂµÃ‘â‚¬ÃÂ³ÃÂ¸Ã‘â€¡ÃÂµÃ‘ÂÃÂºÃÂ°Ã‘Â', 'Alta', 'Abierto'),
+            ('Control', 'RadiografÃƒÂ­a torÃƒÂ¡cica', 'Media', 'Resolved'),
         ]
         
         base_date = timezone.now().date()
