@@ -66,17 +66,13 @@
         <td>{{ user.groups.first.name|default:"Sin rol" }}</td>
         <td>
           <div class="actions-cell">
-            {% if perms.auth.change_user %}
             <a href="{% url 'usuarios_form_edit' user.id %}" class="action-btn action-edit" title="Editar">✏️</a>
-            {% endif %}
-            {% if perms.auth.delete_user %}
             <form method="POST" action="{% url 'usuarios_delete' user.id %}">
               {% csrf_token %}
 
               <button type="submit" class="action-btn action-delete" title="Eliminar"
                 onclick="return confirm('¿Eliminar usuario?');">❌</button>
             </form>
-            {% endif %}
           </div>
         </td>
       </tr>

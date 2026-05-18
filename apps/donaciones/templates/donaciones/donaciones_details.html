@@ -71,9 +71,7 @@
     {% endif %}
 
     <div class="form-buttons">
-        {% if perms.donaciones.change_donacion %}
         <a href="{% url 'donaciones_form_edit' donation.id %}" class="btn-success">✏️ Editar</a>
-        {% endif %}
         {% include 'layouts/partials/btn-back.html' %}
     </div>
 </div>

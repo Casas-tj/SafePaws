@@ -70,17 +70,13 @@
                     <div class="actions-cell">
                         <a href="{% url 'donaciones_details' donacion.id %}" class="action-btn action-details"
                             title="Ver detalles">👁️</a>
-                        {% if perms.donaciones.change_donacion %}
                         <a href="{% url 'donaciones_form_edit' donacion.id %}" class="action-btn action-edit"
                             title="Editar">✏️</a>
-                        {% endif %}
-                        {% if perms.donaciones.delete_donacion %}
                         <form method="post" action="{% url 'donaciones_delete' donacion.id %}">
                             {% csrf_token %}
                             <button type="submit" class="action-btn action-delete" title="Eliminar"
                                 onclick="return confirm('¿Eliminar donación?');">❌</button>
                         </form>
-                        {% endif %}
                     </div>
                 </td>
             </tr>
