@@ -61,8 +61,10 @@
                 <td>
                     {% if donacion.amount %}
                     {{ donacion.amount }} €
-                    {% else %}
+                    {% elif donacion.description %}
                     {{ donacion.description|truncatechars:40 }}
+                    {% else %}
+                    —
                     {% endif %}
                 </td>
                 <td>{{ donacion.status }}</td>

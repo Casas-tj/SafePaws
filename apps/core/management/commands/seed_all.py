@@ -44,16 +44,16 @@ class Command(BaseCommand):
             ('vol5', 'Juan', 'Gómez', 'vol5@safepaws.es', True),
             ('cuidador1', 'Lucía', 'Torres', 'cuidador1@safepaws.es', False),
             ('cuidador2', 'Jorge', 'Ruiz', 'cuidador2@safepaws.es', False),
-            ('user11', 'Sofia', 'Benito', 'user11@test.com', False),
-            ('user12', 'Miguel', 'Castro', 'user12@test.com', True),
-            ('user13', 'Elena', 'Mora', 'user13@test.com', True),
-            ('user14', 'David', 'Herrera', 'user14@test.com', False),
-            ('user15', 'Carmen', 'Vega', 'user15@test.com', True),
-            ('user16', 'Alejandro', 'Navarro', 'user16@test.com', False),
-            ('user17', 'Patricia', 'Suárez', 'user17@test.com', True),
-            ('user18', 'Fernando', 'Reyes', 'user18@test.com', True),
-            ('user19', 'Isabel', 'Mendez', 'user19@test.com', False),
-            ('user20', 'Roberto', 'Campos', 'user20@test.com', True),
+            ('user1', 'Sofia', 'Benito', 'user1@test.com', False),
+            ('user2', 'Miguel', 'Castro', 'user2@test.com', True),
+            ('user3', 'Elena', 'Mora', 'user3@test.com', True),
+            ('user4', 'David', 'Herrera', 'user4@test.com', False),
+            ('user5', 'Carmen', 'Vega', 'user5@test.com', True),
+            ('user6', 'Alejandro', 'Navarro', 'user6@test.com', False),
+            ('user7', 'Patricia', 'Suárez', 'user7@test.com', True),
+            ('user8', 'Fernando', 'Reyes', 'user8@test.com', True),
+            ('user9', 'Isabel', 'Mendez', 'user9@test.com', False),
+            ('user10', 'Roberto', 'Campos', 'user10@test.com', True),
         ]
         
         for username, first, last, email, is_vol in usuarios:
@@ -77,35 +77,36 @@ class Command(BaseCommand):
         self.stdout.write("  [OWNERS]")
         
         owners = [
-            ('Juan', 'Pérez García', 'juan.perez@email.com', '+34611111111', True),
-            ('María', 'López Martínez', 'maria.lopez@email.com', '+34622222222', True),
-            ('Carlos', 'Rodríguez Sánchez', 'carlos.r@email.com', '+34633333333', False),
-            ('Ana', 'Fernández Torres', 'ana.f@email.com', '+34644444444', True),
-            ('Pedro', 'Gómez Ruiz', 'pedro.g@email.com', '+34655555555', True),
-            ('Laura', 'Martín Castro', 'laura.m@email.com', '+34666666666', False),
-            ('Miguel', 'López Hidalgo', 'miguel.l@email.com', '+34677777777', True),
-            ('Sofía', 'Ramírez Ortega', 'sofia.r@email.com', '+34688888888', True),
-            ('Javier', 'Morales Serrano', 'javier.m@email.com', '+34699999999', False),
-            ('Elena', 'Castillo Vega', 'elena.c@email.com', '+34700000000', True),
-            ('David', 'Navarro Gutiérrez', 'david.n@email.com', '+34711111111', True),
-            ('Carmen', 'Jiménez Flores', 'carmen.j@email.com', '+34722222222', False),
-            ('Alejandro', 'Muñoz Romero', 'alex.m@email.com', '+34733333333', True),
-            ('Patricia', 'Serrano Delgano', 'patricia.s@email.com', '+34744444444', True),
-            ('Fernando', 'Hernández Morales', 'fernando.h@email.com', '+34755555555', False),
-            ('Isabel', 'Garrido Ruiz', 'isabel.g@email.com', '+34766666666', True),
-            ('Roberto', 'Aguilar Torres', 'roberto.a@email.com', '+34777777777', True),
-            ('Cristina', 'Vargas López', 'cristina.v@email.com', '+34788888888', False),
-            ('Antonio', 'Cabrera Sánchez', 'antonio.c@email.com', '+34799999999', True),
-            ('María José', 'Peña Gutiérrez', 'mariaj.p@email.com', '+34800000000', True),
+            ('Juan', 'Pérez García', 'juan.perez@email.com', '+34611111111', True, 'Calle Mayor 12, Madrid'),
+            ('María', 'López Martínez', 'maria.lopez@email.com', '+34622222222', True, 'Avda. de la Paz 45, Barcelona'),
+            ('Carlos', 'Rodríguez Sánchez', 'carlos.r@email.com', '+34633333333', False, 'Calle Sol 8, Valencia'),
+            ('Ana', 'Fernández Torres', 'ana.f@email.com', '+34644444444', True, 'Plaza España 3, Sevilla'),
+            ('Pedro', 'Gómez Ruiz', 'pedro.g@email.com', '+34655555555', True, 'Calle Luna 22, Bilbao'),
+            ('Laura', 'Martín Castro', 'laura.m@email.com', '+34666666666', False, 'Avda. del Mar 67, Málaga'),
+            ('Miguel', 'López Hidalgo', 'miguel.l@email.com', '+34677777777', True, 'Calle Sierra 15, Zaragoza'),
+            ('Sofía', 'Ramírez Ortega', 'sofia.r@email.com', '+34688888888', True, 'Gran Vía 90, Murcia'),
+            ('Javier', 'Morales Serrano', 'javier.m@email.com', '+34699999999', False, 'Calle Olmo 5, Palma'),
+            ('Elena', 'Castillo Vega', 'elena.c@email.com', '+34700000000', True, 'Avda. Constitución 34, Alicante'),
+            ('David', 'Navarro Gutiérrez', 'david.n@email.com', '+34711111111', True, 'Calle Real 11, La Coruña'),
+            ('Carmen', 'Jiménez Flores', 'carmen.j@email.com', '+34722222222', False, 'Calle del Prado 78, Granada'),
+            ('Alejandro', 'Muñoz Romero', 'alex.m@email.com', '+34733333333', True, 'Avda. América 50, Valladolid'),
+            ('Patricia', 'Serrano Delgano', 'patricia.s@email.com', '+34744444444', True, 'Calle Jardín 9, Santander'),
+            ('Fernando', 'Hernández Morales', 'fernando.h@email.com', '+34755555555', False, 'Plaza Mayor 2, Toledo'),
+            ('Isabel', 'Garrido Ruiz', 'isabel.g@email.com', '+34766666666', True, 'Calle San Juan 14, Pamplona'),
+            ('Roberto', 'Aguilar Torres', 'roberto.a@email.com', '+34777777777', True, 'Avda. de la Vega 28, Huelva'),
+            ('Cristina', 'Vargas López', 'cristina.v@email.com', '+34788888888', False, 'Calle Norte 6, León'),
+            ('Antonio', 'Cabrera Sánchez', 'antonio.c@email.com', '+34799999999', True, 'Calle del Sol 33, Cádiz'),
+            ('María José', 'Peña Gutiérrez', 'mariaj.p@email.com', '+34800000000', True, 'Avda. Andalucía 55, Almería'),
         ]
         
-        for name, last, email, phone, is_vol in owners:
+        for name, last, email, phone, is_vol, address in owners:
             from apps.owners.models import Owner
             owner, created = Owner.objects.get_or_create(
                 name=name, last_name=last,
                 defaults={
                     'email': email,
                     'phone': phone,
+                    'address': address,
                     'is_volunteer': is_vol,
                     'is_active': True
                 }
@@ -120,85 +121,169 @@ class Command(BaseCommand):
         owners = list(Owner.objects.all()[:10])
         
         animales = [
-            ('Luna', 'Gato', 'Atigrado', 2, 3, 'Hembra', True, True, 'Disponible'),
-            ('Max', 'Perro', 'Golden Retriever', 3, 0, 'Macho', True, True, 'Sano'),
-            ('Coco', 'Pajaro', 'Canario', 1, 6, 'Macho', False, False, 'Disponible'),
-            ('Rocky', 'Perro', 'Beagle', 5, 0, 'Macho', True, True, 'En Tratamiento'),
-            ('Bella', 'Gato', 'Persa', 4, 0, 'Hembra', True, False, 'Sano'),
-            ('Thor', 'Perro', 'Pastor Alemán', 2, 0, 'Macho', True, True, 'Disponible'),
-            ('Mía', 'Gato', 'Siamés', 1, 2, 'Hembra', True, True, 'Sano'),
-            ('Simba', 'Perro', 'Labrador', 4, 0, 'Macho', False, True, 'Critico'),
-            ('Nala', 'Gato', 'European', 3, 0, 'Hembra', True, True, 'Disponible'),
-            ('Duke', 'Perro', 'Boxer', 6, 0, 'Macho', True, False, 'En Tratamiento'),
-            ('Pipo', 'Conejo', 'Holandés', 1, 0, 'Macho', False, True, 'Disponible'),
-            ('Oreo', 'Conejo', 'Enano', 0, 8, 'Hembra', True, True, 'Disponible'),
-            ('Chispas', 'Hamster', 'Sirio', 0, 4, 'Macho', False, False, 'Disponible'),
-            ('Kiko', 'Pajaro', 'Loro', 2, 0, 'Macho', False, True, 'Disponible'),
-            ('Shadow', 'Gato', 'Negro', 5, 0, 'Macho', True, True, 'Sano'),
-            ('Lucky', 'Perro', 'Chihuahua', 3, 0, 'Hembra', True, True, 'Disponible'),
-            ('Pelusa', 'Gato', 'Carey', 2, 6, 'Hembra', True, False, 'Sano'),
-            ('Toby', 'Perro', 'Podenco', 4, 0, 'Macho', True, True, 'En Tratamiento'),
-            ('Frida', 'Gato', 'Azul Ruso', 1, 0, 'Hembra', True, True, 'Disponible'),
-            ('Rex', 'Perro', 'Dóberman', 5, 0, 'Macho', True, True, 'Sano'),
+            ('Luna', 'Gato', 'Atigrado', 2, 3, 'Hembra', True, True, 'Disponible',
+             'Llegó al refugio tras ser encontrada en la calle por una vecina que la alimentaba desde hacía semanas. '
+             'Vivía en la vía pública, sin hogar ni cuidados veterinarios. Es una gata muy sociable y cariñosa '
+             'que busca un hogar donde la cuiden. Se lleva bien con otros gatos y con niños.'),
+            ('Max', 'Perro', 'Golden Retriever', 3, 0, 'Macho', True, True, 'Sano',
+             'Entregado por su familia debido a un cambio de residencia al extranjero donde no podían llevarlo. '
+             'Vivía en una casa con jardín y estaba bien cuidado. Es un perro tranquilo, obediente y excelente '
+             'con niños. Necesita un hogar con espacio para correr y actividad moderada diaria.'),
+            ('Coco', 'Pajaro', 'Canario', 1, 6, 'Macho', False, False, 'Disponible',
+             'Encontrado en un parque público por un paseante que lo vio en el suelo sin poder volar. '
+             'Posiblemente escapó de una jaula o fue abandonado. Es un canario cantor de color amarillo '
+             'intenso, sano y activo. Se adapta bien a cualquier ambiente tranquilo.'),
+            ('Rocky', 'Perro', 'Beagle', 5, 0, 'Macho', True, True, 'En Tratamiento',
+             'Rescatado de un criadero ilegal que fue desmantelado por las autoridades. Vivía hacinado '
+             'con otros perros en condiciones insalubres, sin alimentación adecuada ni atención veterinaria. '
+             'Llegó al refugio con desnutrición severa y sarna. Está en tratamiento veterinario y responde '
+             'bien. Es un perro cariñoso pero asustadizo, necesita paciencia y un hogar tranquilo.'),
+            ('Bella', 'Gato', 'Persa', 4, 0, 'Hembra', True, False, 'Sano',
+             'Abandonada durante una mudanza. Los vecinos avisaron al refugio cuando vieron que la habían '
+             'dejado atrás en el piso vacío. Estuvo varios días sola hasta que fue rescatada. Es una gata '
+             'persa de pelo largo, tranquila y acostumbrada a vivir en interiores. Buena con niños y otras '
+             'mascotas. Necesita cepillado regular por su tipo de pelo.'),
+            ('Thor', 'Perro', 'Pastor Alemán', 2, 0, 'Macho', True, True, 'Disponible',
+             'Entregado por sus dueños porque no podían cubrir sus necesidades de ejercicio y espacio en un piso. '
+             'Provenía de un hogar donde lo tenían en un apartamento pequeño sin salidas suficientes. '
+             'Es un perro joven muy activo, inteligente y leal. Necesita un hogar con jardín o patio, '
+             'y dueños con experiencia en la raza que le proporcionen ejercicio diario y estimulación mental.'),
+            ('Mía', 'Gato', 'Siamés', 1, 2, 'Hembra', True, True, 'Sano',
+             'Encontrada por unos obreros en una obra en construcción, donde llevaba días refugiada entre '
+             'los escombros. Estaba asustada y desorientada cuando llegó al refugio. Es una gata siamesa '
+             'joven, muy dulce y juguetona. Ideal para familias con niños. Se adapta bien a pisos y '
+             'le encanta estar en compañía de personas.'),
+            ('Simba', 'Perro', 'Labrador', 4, 0, 'Macho', False, True, 'Critico',
+             'Rescatado de una situación de abandono severo. Fue encontrado atado en un terreno baldío '
+             'sin acceso a agua ni comida durante días. Llegó al refugio en estado crítico con displasia '
+             'de cadera avanzada y signos de desnutrición. Actualmente recibe tratamiento veterinario '
+             'intensivo y fisioterapia. Es un perro dócil y agradecido que necesita cuidados especiales '
+             'y un hogar dispuesto a asumir su condición médica.'),
+            ('Nala', 'Gato', 'European', 3, 0, 'Hembra', True, True, 'Disponible',
+             'Rescatada de una colonia urbana controlada por el ayuntamiento. Vivía en la calle con otros '
+             'gatos, expuesta a enfermedades y condiciones climáticas adversas. Fue desparasitada y '
+             'vacunada al llegar al refugio. Es una gata europea de carácter independiente pero cariñosa '
+             'cuando coge confianza. Busca un hogar con experiencia en gatos rescatados.'),
+            ('Duke', 'Perro', 'Boxer', 6, 0, 'Macho', True, False, 'En Tratamiento',
+             'Entregado por una familia mayor que ya no podía cuidarlo por problemas de salud. Provenía '
+             'de un hogar donde estaba bien cuidado pero con movilidad reducida. Es un boxer senior con '
+             'problemas articulares que requiere medicación diaria y visitas periódicas al veterinario. '
+             'Es un perro tranquilo y muy leal, ideal para un hogar sin niños pequeños y con espacio '
+             'adecuado para sus necesidades de movilidad.'),
+            ('Pipo', 'Conejo', 'Holandés', 1, 0, 'Macho', False, True, 'Disponible',
+             'Entregado por una familia que lo adquirió sin informarse adecuadamente sobre sus cuidados '
+             'y decidió darlo en adopción. Vivía en una jaula pequeña sin espacio para ejercitarse. '
+             'Es un conejo holandés blanco y negro, muy manso y acostumbrado al manejo. Necesita un '
+             'hogar con espacio para correr y una dieta adecuada de heno y verduras frescas.'),
+            ('Oreo', 'Conejo', 'Enano', 0, 8, 'Hembra', True, True, 'Disponible',
+             'Rescatada de un particular que no podía hacerse cargo de ella por problemas económicos. '
+             'La tenían en condiciones básicas pero sin los cuidados óptimos para un conejo enano. '
+             'Es una coneja pequeña y activa, muy curiosa y sociable. Se recomienda adoptarla con '
+             'compañía o dedicarle tiempo diario de ejercicio y estimulación.'),
+            ('Chispas', 'Hamster', 'Sirio', 0, 4, 'Macho', False, False, 'Disponible',
+             'Entregado por una familia cuyo hijo perdió el interés en la mascota. Llegó con su jaula '
+             'y accesorios básicos. Es un hámster sirio joven y activo, en buen estado de salud. '
+             'Necesita un hogar responsable que entienda las necesidades de los roedores: una jaula '
+             'espaciosa con rueda de ejercicio y una dieta equilibrada.'),
+            ('Kiko', 'Pajaro', 'Loro', 2, 0, 'Macho', False, True, 'Disponible',
+             'Entregado voluntariamente por su dueño, quien por motivos de salud ya no podía atenderlo '
+             'adecuadamente. El dueño anterior lo cuidó durante dos años y le enseñó algunas palabras. '
+             'Es un loro hablador, sociable y acostumbrado a la interacción humana. Necesita un hogar '
+             'con experiencia en aves, espacio para volar y estimulación mental diaria.'),
+            ('Shadow', 'Gato', 'Negro', 5, 0, 'Macho', True, True, 'Sano',
+             'Llegó al refugio después de que su dueño falleciera y la familia no pudiera quedarse con él. '
+             'Vivía en un hogar estable desde cachorro, con todos los cuidados veterinarios al día. '
+             'Es un gato negro de tamaño grande, extremadamente tranquilo y hogareño. Se adapta bien '
+             'a entornos tranquilos. Ideal para personas mayores o familias sin niños muy pequeños.'),
+            ('Lucky', 'Perro', 'Chihuahua', 3, 0, 'Hembra', True, True, 'Disponible',
+             'Encontrada en el arcén de una autopista por un conductor que avisó a la policía local. '
+             'Llegó al refugio asustada y deshidratada, pero se recuperó por completo. Es una chihuahua '
+             'de tamaño pequeño, muy valiente y cariñosa una vez que confía. Ideal para pisos y familias '
+             'sin niños pequeños. Necesita un hogar donde no pase largas horas sola.'),
+            ('Pelusa', 'Gato', 'Carey', 2, 6, 'Hembra', True, False, 'Sano',
+             'Abandonada en una caja cerrada en la puerta del refugio durante la noche. Apareció junto '
+             'con una nota pidiendo que la cuidaran. Es una gata carey de pelo largo, muy independiente '
+             'y elegante. No es especialmente cariñosa pero disfruta de la compañía tranquila. Necesita '
+             'un hogar sin otros gatos y con gente que respete su espacio.'),
+            ('Toby', 'Perro', 'Podenco', 4, 0, 'Macho', True, True, 'En Tratamiento',
+             'Rescatado de un cazador que lo mantenía atado y en condiciones precarias. Fue incautado '
+             'por las autoridades junto con otros perros en una operación contra el maltrato animal. '
+             'Llegó con una pata fracturada que está en proceso de recuperación. Es un perro desconfiado '
+             'al principio pero muy leal una vez que establece vínculo. Necesita un hogar con paciencia, '
+             'sin niños pequeños y con espacio para correr.'),
+            ('Frida', 'Gato', 'Azul Ruso', 1, 0, 'Hembra', True, True, 'Disponible',
+             'Rescatada de una perrera municipal donde estaba en la lista de eutanasia por saturación. '
+             'Una voluntaria del refugio la vio y la trasladó a SafePaws. Es una gata azul ruso joven, '
+             'de carácter tranquilo y elegante. Ideal para familias, se adapta bien a pisos y se lleva '
+             'bien con niños respetuosos. Busca un hogar definitivo donde la valoren.'),
+            ('Rex', 'Perro', 'Dóberman', 5, 0, 'Macho', True, True, 'Sano',
+             'Entregado por su dueño tras un cambio de residencia forzoso por motivos laborales. '
+             'Vivía en una casa con jardín, bien cuidado y con todas las vacunas al día. Es un dóberman '
+             'de carácter equilibrado, bien socializado y obediente. Necesita un hogar con experiencia '
+             'en la raza, espacio suficiente y dueños activos que le proporcionen ejercicio diario.'),
         ]
         
         base_date = timezone.now().date()
         
-        for i, (name, species, breed, age_y, age_m, sex, vacc, ster, status) in enumerate(animales):
+        for i, (name, species, breed, age_y, age_m, sex, vacc, ster, status, description) in enumerate(animales):
             from apps.animales.models import Animal
-            if Animal.objects.filter(name=name, species=species).exists():
-                continue
-                
             owner = random.choice(owners) if owners else None
             days_back = random.randint(1, 90)
             
-            Animal.objects.create(
-                name=name,
-                species=species,
-                breed=breed,
-                age_years=age_y,
-                age_months=age_m,
-                sex=sex,
-                admission_date=base_date - timedelta(days=days_back),
-                status=status,
-                vaccinated=vacc,
-                sterilized=ster,
-                owner=owner,
-                is_active=True
+            obj, created = Animal.objects.update_or_create(
+                name=name, species=species,
+                defaults={
+                    'breed': breed,
+                    'age_years': age_y,
+                    'age_months': age_m,
+                    'sex': sex,
+                    'admission_date': base_date - timedelta(days=days_back),
+                    'status': status,
+                    'vaccinated': vacc,
+                    'sterilized': ster,
+                    'description': description,
+                    'owner': owner,
+                    'is_active': True
+                }
             )
-            self.stdout.write(f"    + {name} ({species})")
+            if created:
+                self.stdout.write(f"    + {name} ({species})")
+            else:
+                self.stdout.write(f"    ~ {name} ({species}) actualizado")
 
     def seed_donaciones(self):
         self.stdout.write("  [DONACIONES]")
         
         donors = [
-            ('Fundación Amigos de los Animales', 'fundacion@amigos.es', '+34600000100', 'Monetaria', 5000, 'Transferencia'),
-            ('María Gómez Sánchez', 'maria.g@email.com', '+34600000101', 'Monetaria', 250, 'Tarjeta'),
-            ('Pet Store Co.', 'contacto@petstore.es', '+34600000102', 'Monetaria', 1200, 'Transferencia'),
-            ('Anónimo', '', '', 'Monetaria', 500, 'Efectivo'),
-            ('Juan Rodríguez', 'juan.r@email.com', '+34600000103', 'Monetaria', 100, 'PayPal'),
-            ('ONG Protectora Animal', 'ong@protectora.es', '+34600000104', 'Monetaria', 2500, 'Transferencia'),
-            ('Carmen Vega', 'carmen.v@email.com', '+34600000105', 'Monetaria', 75, 'Tarjeta'),
-            ('Empresas Nat SA', 'rrhh@empresasnat.es', '+34600000106', 'Monetaria', 3000, 'Transferencia'),
-            ('Luis Martínez', 'luis.m@email.com', '+34600000107', 'Monetaria', 150, 'Efectivo'),
-            ('Ana Belén Torres', 'ana.t@email.com', '+34600000108', 'Monetaria', 200, 'Tarjeta'),
-            ('Distribuidora Pet', 'compras@distripet.es', '+34600000109', 'Material', 0, ''),
-            ('Veterinaria PetCare', 'vet@petcare.es', '+34600000110', 'Material', 0, ''),
-            ('Coordinadora Animal', 'info@coordanimal.es', '+34600000111', 'Monetaria', 800, 'Transferencia'),
-            ('Beatriz Sánchez', 'beatriz.s@email.com', '+34600000112', 'Monetaria', 50, 'Tarjeta'),
-            ('Club de Mascotas', 'club@mascotas.es', '+34600000113', 'Monetaria', 450, 'Transferencia'),
-            ('Raúl Fernández', 'raul.f@email.com', '+34600000114', 'Monetaria', 100, 'PayPal'),
-            ('Tienda Animalandia', 'tienda@animalandia.es', '+34600000115', 'Material', 0, ''),
-            ('Silvia Crespo', 'silvia.c@email.com', '+34600000116', 'Monetaria', 300, 'Tarjeta'),
-            ('Alberto Velasco', 'alberto.v@email.com', '+34600000117', 'Monetaria', 175, 'Efectivo'),
-            ('Fundación Huellas', 'fundacion@huellas.es', '+34600000118', 'Monetaria', 1500, 'Transferencia'),
+            ('Fundación Amigos de los Animales', 'fundacion@amigos.es', '+34600000100', 'Monetaria', 5000, 'Transferencia', 'Donativo corporativo anual'),
+            ('María Gómez Sánchez', 'maria.g@email.com', '+34600000101', 'Monetaria', 250, 'Tarjeta', 'Donativo mensual recurrente'),
+            ('Pet Store Co.', 'contacto@petstore.es', '+34600000102', 'Monetaria', 1200, 'Transferencia', 'Patrocinio de eventos del refugio'),
+            ('Anónimo', '', '', 'Monetaria', 500, 'Efectivo', 'Donativo anónimo en hucha del refugio'),
+            ('Juan Rodríguez', 'juan.r@email.com', '+34600000103', 'Monetaria', 100, 'PayPal', 'Donativo online campaña Navidad'),
+            ('ONG Protectora Animal', 'ong@protectora.es', '+34600000104', 'Monetaria', 2500, 'Transferencia', 'Subvención trimestral'),
+            ('Carmen Vega', 'carmen.v@email.com', '+34600000105', 'Monetaria', 75, 'Tarjeta', 'Donativo cumpleaños solidario'),
+            ('Empresas Nat SA', 'rrhh@empresasnat.es', '+34600000106', 'Monetaria', 3000, 'Transferencia', 'Aportación RSC empresa'),
+            ('Luis Martínez', 'luis.m@email.com', '+34600000107', 'Monetaria', 150, 'Efectivo', 'Donativo en evento benéfico'),
+            ('Ana Belén Torres', 'ana.t@email.com', '+34600000108', 'Monetaria', 200, 'Tarjeta', 'Donativo por adopción completada'),
+            ('Distribuidora Pet', 'compras@distripet.es', '+34600000109', 'Material', 0, '', 'Lote de 50 kg de pienso y 30 latas de comida húmeda'),
+            ('Veterinaria PetCare', 'vet@petcare.es', '+34600000110', 'Material', 0, '', 'Material sanitario: vendas, jeringuillas y antisépticos'),
+            ('Coordinadora Animal', 'info@coordanimal.es', '+34600000111', 'Monetaria', 800, 'Transferencia', 'Donativo campaña de esterilización'),
+            ('Beatriz Sánchez', 'beatriz.s@email.com', '+34600000112', 'Monetaria', 50, 'Tarjeta', 'Donativo puntual semana solidaria'),
+            ('Club de Mascotas', 'club@mascotas.es', '+34600000113', 'Monetaria', 450, 'Transferencia', 'Recaudación evento socios'),
+            ('Raúl Fernández', 'raul.f@email.com', '+34600000114', 'Monetaria', 100, 'PayPal', 'Donativo online'),
+            ('Tienda Animalandia', 'tienda@animalandia.es', '+34600000115', 'Material', 0, '', 'Juguetes, camas y accesorios para perros y gatos'),
+            ('Silvia Crespo', 'silvia.c@email.com', '+34600000116', 'Monetaria', 300, 'Tarjeta', 'Donativo por apadrinamiento de animal'),
+            ('Alberto Velasco', 'alberto.v@email.com', '+34600000117', 'Monetaria', 175, 'Efectivo', 'Donativo recogida en empresa'),
+            ('Fundación Huellas', 'fundacion@huellas.es', '+34600000118', 'Monetaria', 1500, 'Transferencia', 'Convenio de colaboración anual'),
         ]
         
         base_date = timezone.now().date()
         estados = ['Pendiente', 'Recibida', 'Procesada', 'Procesada', 'Procesada']
         
-        for donante, email, phone, tipo, amount, metodo in donors:
-            from apps.donaciones.models import Donacion
+        from apps.donaciones.models import Donacion
+        Donacion.objects.all().delete()
+        
+        for donante, email, phone, tipo, amount, metodo, desc in donors:
             days_back = random.randint(1, 180)
             estado = random.choice(estados) if tipo == 'Monetaria' else 'Recibida'
             
@@ -211,6 +296,7 @@ class Command(BaseCommand):
                 status=estado,
                 amount=amount if amount else None,
                 payment_method=metodo if metodo else '',
+                description=desc,
                 is_active=True
             )
             self.stdout.write(f"    + {donante[:30]}")
