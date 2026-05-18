@@ -1,0 +1,59 @@
+{% extends "layouts/base.html" %}
+{% block title %}SafePaws — Resolver ticket{% endblock %}
+{% block content %}
+<div class="list-header">
+    <h1 class="section-title">Resolver Ticket #{{ ticket.id }}</h1>
+    {% include 'layouts/partials/btn-back.html' %}
+</div>
+
+<div class="form-view">
+    <div class="form-header">
+        <h2 class="form-title">Solicitud de {{ ticket.email }}</h2>
+        <p style="color: #64748b; font-size: 0.875rem; margin-top: 0.5rem">
+            {{ ticket.reason }}
+        </p>
+        <p style="color: #64748b; font-size: 0.8rem; margin-top: 0.25rem">
+            Creado el {{ ticket.created_at|date:'d/m/Y H:i' }}
+        </p>
+    </div>
+
+    {% if resolved %}
+    <div style="background: #065f46; color: #fff; padding: 1.25rem; border-radius: 0.75rem; margin-bottom: 1.5rem; text-align: center;">
+        <p style="font-size: 1.1rem; font-weight: 600;">✓ Ticket resuelto correctamente</p>
+        <p style="margin-top: 0.5rem; font-size: 0.9rem;">
+            Se ha restablecido la contraseña del usuario asociado a {{ ticket.email }}.
+        </p>
+        <a href="{% url 'tickets_list' %}" class="btn-primary" style="display: inline-block; margin-top: 1rem; padding: 0.6rem 1.5rem; background: #fff; color: #065f46; border-radius: 0.5rem; text-decoration: none; font-weight: 600;">
+            Volver a tickets
+        </a>
+    </div>
+    {% else %}
+
+    <form method="POST" class="animal-form">
+        {% csrf_token %}
+
+        {% if error %}
+        <div style="background: #7f1d1d; color: #fff; padding: 0.75rem 1rem; border-radius: 0.5rem; margin-bottom: 1rem;">
+            {{ error }}
+        </div>
+        {% endif %}
+
+        <fieldset>
+            <legend>Restablecer Contraseña</legend>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="new_password">Nueva Contraseña</label>
+                    <input type="text" id="new_password" name="new_password" class="form-control-list"
+                        placeholder="Nueva contraseña para el usuario" required>
+                </div>
+            </div>
+        </fieldset>
+
+        <div class="form-actions">
+            <button type="submit" class="btn-success">Restablecer y cerrar ticket</button>
+            <a href="{% url 'tickets_list' %}" class="btn-secondary">Cancelar</a>
+        </div>
+    </form>
+    {% endif %}
+</div>
+{% endblock %}

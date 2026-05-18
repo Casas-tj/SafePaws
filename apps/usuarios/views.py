@@ -1,8 +1,10 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import get_user_model
+from django.utils import timezone
+from .models import PasswordResetTicket
 from .services.user_service import UserService
 from .services.role_services import RoleService
-from django.contrib.auth import get_user_model
 from apps.core.decorators import permisos_requeridos
 
 
@@ -175,7 +177,69 @@ def roles_form(request, role_id=None):
 
 
 def recuperar_contrasena(request):
+    ticket_creado = False
+    ticket_id = None
+
+    if request.method == "POST":
+        email = request.POST.get("email", "").strip()
+        reason = request.POST.get("recovery_reason", "").strip()
+
+        if email and reason:
+            ticket = PasswordResetTicket.objects.create(email=email, reason=reason)
+            ticket_creado = True
+            ticket_id = ticket.id
+
     return render(request, 'usuarios/recuperar_contrasena.html', {
         "headertitle": "SafePaws",
         "headersubtitle": "Recuperación de Contraseña",
+        "ticket_creado": ticket_creado,
+        "ticket_id": ticket_id,
+    })
+
+
+@permisos_requeridos("usuarios.view_passwordresetticket")
+def tickets_list(request):
+    tickets = PasswordResetTicket.objects.all()
+    return render(request, 'usuarios/tickets_list.html', {
+        'tickets': tickets,
+        "headertitle": "Tickets de recuperación",
+        "headersubtitle": "Solicitudes de restablecimiento de contraseña",
+        "btn_back": "Volver",
+        "back_url": "home",
+    })
+
+
+@permisos_requeridos("usuarios.change_passwordresetticket")
+def tickets_resolve(request, ticket_id):
+    ticket = PasswordResetTicket.objects.filter(id=ticket_id, status='Pendiente').first()
+    if not ticket:
+        return redirect('tickets_list')
+
+    resolved = False
+    error = None
+
+    if request.method == "POST":
+        new_password = request.POST.get("new_password", "").strip()
+        if len(new_password) < 4:
+            error = "La contraseña debe tener al menos 4 caracteres"
+        else:
+            user = get_user_model().objects.filter(email=ticket.email).first()
+            if user:
+                user.set_password(new_password)
+                user.save()
+
+            ticket.status = 'Resuelto'
+            ticket.resolved_at = timezone.now()
+            ticket.resolved_by = request.user
+            ticket.save()
+            resolved = True
+
+    return render(request, 'usuarios/tickets_resolve.html', {
+        'ticket': ticket,
+        'resolved': resolved,
+        'error': error,
+        "headertitle": "Resolver ticket",
+        "headersubtitle": f"Ticket #{ticket.id} — {ticket.email}",
+        "btn_back": "Volver",
+        "back_url": "tickets_list",
     })

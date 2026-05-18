@@ -1,0 +1,51 @@
+{% extends "layouts/base.html" %}
+{% block title %}SafePaws — Tickets de recuperación{% endblock %}
+{% block content %}
+<div class="list-header">
+    <h1 class="section-title">Tickets de Recuperación</h1>
+    {% include 'layouts/partials/btn-back.html' %}
+</div>
+
+<div class="table-wrapper">
+    <table class="data-table-list">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Email</th>
+                <th>Motivo</th>
+                <th>Fecha</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ticket in tickets %}
+            <tr>
+                <td>#{{ ticket.id }}</td>
+                <td>{{ ticket.email }}</td>
+                <td>{{ ticket.reason }}</td>
+                <td>{{ ticket.created_at|date:'d/m/Y H:i' }}</td>
+                <td>
+                    <span class="badge {% if ticket.status == 'Pendiente' %}badge-warning{% else %}badge-success{% endif %}">
+                        {{ ticket.status }}
+                    </span>
+                </td>
+                <td>
+                    <div class="actions-cell">
+                        {% if ticket.status == 'Pendiente' %}
+                        <a href="{% url 'tickets_resolve' ticket.id %}" class="action-btn action-edit" title="Resolver">🔑</a>
+                        {% endif %}
+                    </div>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="6" style="text-align:center; color:#64748b; padding:2rem;">
+                    No hay tickets de recuperación.
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
