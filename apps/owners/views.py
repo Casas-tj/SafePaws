@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from apps.owners.services.owners_services import OwnerService
+from apps.core.decorators import permisos_requeridos
 
 
-@login_required
+@permisos_requeridos("owners.view_owner")
 def owners(request):
 
     owners = OwnerService.list_owners()
@@ -19,7 +20,7 @@ def owners(request):
     })
 
 
-@login_required
+@permisos_requeridos("owners.add_owner", "owners.change_owner")
 def owners_form_edit(request, owner_id=None):
 
     # =========================
@@ -71,14 +72,14 @@ def owners_form_edit(request, owner_id=None):
         return redirect('owners')
 
 
-@login_required
+@permisos_requeridos("owners.delete_owner")
 def owners_delete(request, owner_id):
     if request.method == "POST":
         OwnerService.delete_owner(owner_id)
     return redirect('owners')
 
 
-@login_required
+@permisos_requeridos("owners.view_owner")
 def owners_details(request, owner_id):
     owner = OwnerService.get_owner_by_id(owner_id)
     return render(request, 'owners/owners_details.html', {

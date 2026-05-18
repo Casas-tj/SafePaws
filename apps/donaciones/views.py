@@ -1,9 +1,10 @@
 from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
 from .services.donacion_services import DonationService
+from apps.core.decorators import permisos_requeridos
 
 
-@login_required
+@permisos_requeridos("donaciones.view_donacion")
 def donaciones(request):
 
     donations = DonationService.list_donaciones()
@@ -19,14 +20,14 @@ def donaciones(request):
     })
 
 
-@login_required
+@permisos_requeridos("donaciones.delete_donacion")
 def donaciones_delete(request, donation_id):
     if request.method == "POST":
         DonationService.delete_donation(donation_id)
     return redirect("donaciones")
 
 
-@login_required
+@permisos_requeridos("donaciones.add_donacion", "donaciones.change_donacion")
 def donaciones_form(request, donation_id=None):
 
     # =========================
@@ -82,7 +83,7 @@ def donaciones_form(request, donation_id=None):
         return redirect("donaciones")
 
 
-@login_required
+@permisos_requeridos("donaciones.view_donacion")
 def donaciones_details(request, donation_id):
     donation = DonationService.get_donation_by_id(donation_id)
     return render(request, 'donaciones/donaciones_details.html', {
