@@ -1,13 +1,12 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from apps.core.decorators import permisos_requeridos, requiere_permiso
 from .services.inventario_services import ProductService, MovementService
 
 
 # =========================
 # SUMINISTROS (menú)
 # =========================
-@permisos_requeridos('inventario.view_product')
+@login_required
 def suministros(request):
 
     summary = MovementService.get_stock_summary()
@@ -24,7 +23,7 @@ def suministros(request):
 # =========================
 # PRODUCTOS
 # =========================
-@permisos_requeridos('inventario.view_product')
+@login_required
 def inventario(request):
 
     products = ProductService.list_products()
@@ -35,13 +34,12 @@ def inventario(request):
         'headersubtitle': 'Listado de Productos',
         'btn_nuevo': 'Nuevo Producto',
         'form_url': 'inventario_form',
-        'nuevo_perm': "inventario.add_product",
         'btn_back': 'Volver',
         'back_url': 'suministros',
     })
 
 
-@permisos_requeridos('inventario.delete_product')
+@login_required
 def inventario_delete(request, product_id):
     if request.method == "POST":
         ProductService.delete_product(product_id)
@@ -52,11 +50,6 @@ def inventario_delete(request, product_id):
 def inventario_form(request, product_id=None):
 
     if request.method == "GET":
-
-        if product_id:
-            requiere_permiso(request, 'inventario.change_product')
-        else:
-            requiere_permiso(request, 'inventario.add_product')
 
         product = None
 
@@ -72,12 +65,6 @@ def inventario_form(request, product_id=None):
         })
 
     if request.method == "POST":
-
-        if product_id:
-            requiere_permiso(request, 'inventario.change_product')
-        else:
-            requiere_permiso(request, 'inventario.add_product')
-
         data = {
             'name':        request.POST.get('name', ''),
             'description': request.POST.get('description', ''),
@@ -95,7 +82,7 @@ def inventario_form(request, product_id=None):
 # =========================
 # MOVIMIENTOS (stock)
 # =========================
-@permisos_requeridos('inventario.view_movement')
+@login_required
 def stock(request):
 
     movements = MovementService.list_movements()
@@ -112,13 +99,12 @@ def stock(request):
         'headersubtitle': 'Historial de Movimientos',
         'btn_nuevo': 'Registrar Movimiento',
         'form_url': 'stock_form',
-        'nuevo_perm': "inventario.add_movement",
         'btn_back': 'Volver',
         'back_url': 'suministros',
     })
 
 
-@permisos_requeridos('inventario.delete_movement')
+@login_required
 def stock_delete(request, movement_id):
     if request.method == "POST":
         MovementService.delete_movement(movement_id)
@@ -129,11 +115,6 @@ def stock_delete(request, movement_id):
 def stock_form(request, movement_id=None):
 
     if request.method == "GET":
-
-        if movement_id:
-            requiere_permiso(request, 'inventario.change_movement')
-        else:
-            requiere_permiso(request, 'inventario.add_movement')
 
         movement = None
         if movement_id:
@@ -151,12 +132,6 @@ def stock_form(request, movement_id=None):
         })
 
     if request.method == "POST":
-
-        if movement_id:
-            requiere_permiso(request, 'inventario.change_movement')
-        else:
-            requiere_permiso(request, 'inventario.add_movement')
-
         data = {
             'product_id':    request.POST.get('product_id'),
             'movement_date': request.POST.get('movement_date'),
@@ -173,7 +148,7 @@ def stock_form(request, movement_id=None):
         return redirect('stock')
 
 
-@permisos_requeridos('inventario.view_product')
+@login_required
 def inventario_details(request, product_id):
     product = ProductService.get_product_by_id(product_id)
     product.movements_list = product.movements.filter(is_active=True).order_by('-movement_date')[:10]
@@ -186,7 +161,7 @@ def inventario_details(request, product_id):
     })
 
 
-@permisos_requeridos('inventario.view_movement')
+@login_required
 def stock_details(request, movement_id):
     movement = MovementService.get_movement_by_id(movement_id)
     return render(request, 'inventario/stock_details.html', {

@@ -70,9 +70,7 @@
     </fieldset>
 
     <div class="form-buttons">
-        {% if perms.adopciones.change_adopcion %}
         <a href="{% url 'adopciones_form_edit' adopcion.id %}" class="btn-success">✏️ Editar</a>
-        {% endif %}
         {% include 'layouts/partials/btn-back.html' %}
     </div>
 </div>

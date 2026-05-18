@@ -41,18 +41,14 @@
                 <td>{{ role.name }}</td>
                 <td>
                     <div class="actions-cell">
-                        {% if perms.auth.change_group %}
                         <a href="{% url 'roles_form_edit' role.id %}" class="action-btn action-edit"
                             title="Editar">✏️</a>
-                        {% endif %}
 
-                        {% if perms.auth.delete_group %}
                         <form method="POST" action="{% url 'roles_delete' role.id %}">
                             {% csrf_token %}
                             <button type="submit" class="action-btn action-delete" title="Eliminar"
                                 onclick="return confirm('¿Eliminar rol?');">❌</button>
                         </form>
-                        {% endif %}
                     </div>
                 </td>
             </tr>
