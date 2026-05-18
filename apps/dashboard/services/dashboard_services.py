@@ -714,7 +714,7 @@ class DashboardService:
                 icon='🏥', title=f'{e.event_type}: {e.animal.name}',
                 desc=f'{e.severity} — {e.description[:80]}{"…" if len(e.description) > 80 else ""}',
                 time=e.incident_date,
-                view='incidencias',
+                view='historial',
             ))
 
         # 🐾 Adopciones recientes (7 días)
