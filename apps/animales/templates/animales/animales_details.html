@@ -93,7 +93,9 @@
 
     <!-- Botones -->
     <div class="form-buttons">
+        {% if perms.animales.change_animal %}
         <a href="{% url 'animales_form_edit' animal.id %}" class="btn-success">✏️ Editar</a>
+        {% endif %}
 
         {% include 'layouts/partials/btn-back.html' %}
     </div>
