@@ -17,6 +17,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.shortcuts import redirect
+from apps.core.views import error_403
+
+
+handler403 = error_403
 
 
 def root_redirect(request):

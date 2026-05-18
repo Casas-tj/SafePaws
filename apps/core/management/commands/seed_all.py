@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
 from django.contrib.auth import get_user_model
-from django.contrib.auth.models import Group
+from django.contrib.auth.models import Group, Permission
 from django.utils import timezone
 from datetime import timedelta
 import random
@@ -26,52 +26,89 @@ class Command(BaseCommand):
 
     def seed_users(self):
         self.stdout.write("  [USUARIOS]")
-        
-        grupos = ['Administrador', 'Veterinario', 'Cuidador de Animales', 'Atención al Cliente', 'Voluntario']
-        for g in grupos:
-            Group.objects.get_or_create(name=g)
-        
-        roles = list(Group.objects.all())
-        
+
+        # === 1. CREAR GRUPOS CON PERMISOS ===
+        grupo_permisos = {
+            'Administrador': [],
+            'Veterinario': [
+                'animales.view_animal',
+                'health.view_medicalevent', 'health.add_medicalevent',
+                'health.change_medicalevent', 'health.delete_medicalevent',
+            ],
+            'Cuidador de Animales': [
+                'animales.view_animal', 'animales.add_animal', 'animales.change_animal',
+                'health.view_medicalevent',
+                'inventario.view_product', 'inventario.view_movement', 'inventario.add_movement',
+            ],
+            'Atención al Cliente': [
+                'owners.view_owner', 'owners.add_owner', 'owners.change_owner',
+                'adopciones.view_adopcion', 'adopciones.add_adopcion',
+                'donaciones.view_donacion', 'donaciones.add_donacion',
+            ],
+        }
+
+        for nombre_grupo, codenames in grupo_permisos.items():
+            grupo, _ = Group.objects.get_or_create(name=nombre_grupo)
+            if codenames:
+                permisos = []
+                for codename in codenames:
+                    app_label, perm_codename = codename.split('.')
+                    try:
+                        perm = Permission.objects.get(
+                            content_type__app_label=app_label,
+                            codename=perm_codename
+                        )
+                        permisos.append(perm)
+                    except Permission.DoesNotExist:
+                        self.stdout.write(f"    ! Permiso no encontrado: {codename}")
+                grupo.permissions.set(permisos)
+
+        # === 2. CREAR USUARIOS ===
         usuarios = [
-            ('admin', 'Zuriñe', 'Casas', 'admin@safepaws.es', True),
-            ('vet1', 'Dr. Mario', 'García', 'vet1@safepaws.es', False),
-            ('vet2', 'Dra. Laura', 'López', 'vet2@safepaws.es', False),
-            ('vol1', 'Carlos', 'Martín', 'vol1@safepaws.es', True),
-            ('vol2', 'Ana', 'Rodríguez', 'vol2@safepaws.es', True),
-            ('vol3', 'Pedro', 'Sánchez', 'vol3@safepaws.es', True),
-            ('vol4', 'María', 'Fernández', 'vol4@safepaws.es', True),
-            ('vol5', 'Juan', 'Gómez', 'vol5@safepaws.es', True),
-            ('cuidador1', 'Lucía', 'Torres', 'cuidador1@safepaws.es', False),
-            ('cuidador2', 'Jorge', 'Ruiz', 'cuidador2@safepaws.es', False),
-            ('user11', 'Sofia', 'Benito', 'user11@test.com', False),
-            ('user12', 'Miguel', 'Castro', 'user12@test.com', True),
-            ('user13', 'Elena', 'Mora', 'user13@test.com', True),
-            ('user14', 'David', 'Herrera', 'user14@test.com', False),
-            ('user15', 'Carmen', 'Vega', 'user15@test.com', True),
-            ('user16', 'Alejandro', 'Navarro', 'user16@test.com', False),
-            ('user17', 'Patricia', 'Suárez', 'user17@test.com', True),
-            ('user18', 'Fernando', 'Reyes', 'user18@test.com', True),
-            ('user19', 'Isabel', 'Mendez', 'user19@test.com', False),
-            ('user20', 'Roberto', 'Campos', 'user20@test.com', True),
+            ('admin', 'Zuriñe', 'Casas', 'admin@safepaws.es', True, 'Administrador'),
+            ('vet1', 'Dr. Mario', 'García', 'vet1@safepaws.es', False, 'Veterinario'),
+            ('cuidador1', 'Lucía', 'Torres', 'cuidador1@safepaws.es', False, 'Cuidador de Animales'),
+            ('atencion1', 'Atención', 'Cliente', 'atencion1@safepaws.es', False, 'Atención al Cliente'),
+            ('user1', 'Sofia', 'Benito', 'user1@test.com', False, None),
+            ('user2', 'Miguel', 'Castro', 'user2@test.com', True, None),
+            ('user3', 'Elena', 'Mora', 'user3@test.com', True, None),
+            ('user4', 'David', 'Herrera', 'user4@test.com', False, None),
+            ('user5', 'Carmen', 'Vega', 'user5@test.com', True, None),
+            ('user6', 'Alejandro', 'Navarro', 'user6@test.com', False, None),
+            ('user7', 'Patricia', 'Suárez', 'user7@test.com', True, None),
+            ('user8', 'Fernando', 'Reyes', 'user8@test.com', True, None),
+            ('user9', 'Isabel', 'Mendez', 'user9@test.com', False, None),
+            ('user10', 'Roberto', 'Campos', 'user10@test.com', True, None),
+            ('user11', 'Laura', 'García', 'user11@test.com', False, None),
+            ('user12', 'Jorge', 'Ruiz', 'user12@test.com', True, None),
+            ('user13', 'Ana', 'Martín', 'user13@test.com', False, None),
+            ('user14', 'Pedro', 'López', 'user14@test.com', True, None),
+            ('user15', 'María', 'Sánchez', 'user15@test.com', False, None),
+            ('user16', 'Carlos', 'Jiménez', 'user16@test.com', True, None),
+            ('user17', 'Lucía', 'Torres', 'user17@test.com', False, None),
+            ('user18', 'Javier', 'Romero', 'user18@test.com', True, None),
+            ('user19', 'Ana', 'Flores', 'user19@test.com', False, None),
+            ('user20', 'Diego', 'Muñoz', 'user20@test.com', True, None),
         ]
-        
-        for username, first, last, email, is_vol in usuarios:
+
+        roles_disponibles = list(Group.objects.all())
+
+        for username, first, last, email, is_vol, grupo_nombre in usuarios:
             user, created = User.objects.get_or_create(username=username)
-            if created:
-                user.set_password('123456')
-                user.first_name = first
-                user.last_name = last
-                user.email = email
-                user.is_volunteer = is_vol
-                user.is_active = True
-                user.save()
-                if username == 'admin':
-                    admin_group = Group.objects.get(name='Administrador')
-                    user.groups.add(admin_group)
-                else:
-                    user.groups.add(random.choice(roles))
-                self.stdout.write(f"    + {username}")
+            user.set_password('123456')
+            user.first_name = first
+            user.last_name = last
+            user.email = email
+            user.is_volunteer = is_vol
+            user.is_active = True
+            user.save()
+            user.groups.clear()
+            if grupo_nombre:
+                grupo = Group.objects.get(name=grupo_nombre)
+                user.groups.add(grupo)
+            else:
+                user.groups.add(random.choice(roles_disponibles))
+            self.stdout.write(f"    {'+' if created else '~'} {username}")
 
     def seed_owners(self):
         self.stdout.write("  [OWNERS]")

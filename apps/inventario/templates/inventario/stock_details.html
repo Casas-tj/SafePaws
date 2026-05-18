@@ -49,7 +49,9 @@
     {% endif %}
 
     <div class="form-buttons">
+        {% if perms.inventario.change_movement %}
         <a href="{% url 'stock_form_edit' movement.id %}" class="btn-success">✏️ Editar</a>
+        {% endif %}
         {% include 'layouts/partials/btn-back.html' %}
     </div>
 </div>
