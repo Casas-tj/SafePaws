@@ -61,13 +61,17 @@
                     <div class="actions-cell">
                         <a href="{% url 'owners_details' owner.id %}" class="action-btn action-details"
                             title="Ver detalles">👁️</a>
+                        {% if perms.owners.change_owner %}
                         <a href="{% url 'owners_form_edit' owner.id %}" class="action-btn action-edit"
                             title="Editar">✏️</a>
+                        {% endif %}
+                        {% if perms.owners.delete_owner %}
                         <form action="{% url 'owners_delete' owner.id %}" method="post" style="display: inline;">
                             {% csrf_token %}
                             <button type="submit" class="action-btn action-delete" title="Eliminar"
                                 onclick="return confirm('¿Eliminar propietario?');">❌</button>
                         </form>
+                        {% endif %}
                     </div>
                 </td>
             </tr>
