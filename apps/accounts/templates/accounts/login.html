@@ -54,4 +54,12 @@
         </form>
     </main>
 </div>
+<script>
+document.getElementById('togglePassword').addEventListener('click', function () {
+    const input = document.getElementById('password');
+    const isPassword = input.type === 'password';
+    input.type = isPassword ? 'text' : 'password';
+    this.textContent = isPassword ? '🙈' : '👁️';
+});
+</script>
 {% endblock %}
