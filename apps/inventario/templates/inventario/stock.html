@@ -61,14 +61,17 @@
                     <div class="actions-cell">
                         <a href="{% url 'stock_details' movement.id %}" class="action-btn action-details"
                             title="Ver detalles">👁️</a>
+                        {% if perms.inventario.change_movement %}
                         <a href="{% url 'stock_form_edit' movement.id %}" class="action-btn action-edit"
                             title="Editar">✏️</a>
-
+                        {% endif %}
+                        {% if perms.inventario.delete_movement %}
                         <form action="{% url 'stock_delete' movement.id %}" method="post" style="display:inline;">
                             {% csrf_token %}
                             <button type="submit" class="action-btn action-delete" title="Eliminar"
                                 onclick="return confirm('¿Eliminar este movimiento?');">❌</button>
                         </form>
+                        {% endif %}
                     </div>
                 </td>
             </tr>

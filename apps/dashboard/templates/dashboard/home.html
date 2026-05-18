@@ -7,7 +7,7 @@
 <section id="mainMenu">
     <h2 style="text-align: center;">Panel de Administración</h2>
     <div class="card-container">
-        <!-- ANIMALES -->
+        {% if perms.animales.view_animal %}
         <a class="card-link" href="{% url 'animales' %}">
             <div class="card" data-section="animales" data-view="animales">
                 <span class="module-icon">🐾</span>
@@ -15,8 +15,9 @@
                 <p>Alta, baja y mantenimiento de fichas de animales.</p>
             </div>
         </a>
+        {% endif %}
 
-        <!-- ADOPCIONES -->
+        {% if perms.adopciones.view_adopcion %}
         <a class="card-link" href="{% url 'adopciones' %}">
             <div class="card" data-section="adopciones" data-view="adopciones">
                 <span class="module-icon">❤️</span>
@@ -24,8 +25,9 @@
                 <p>Control de procesos de adopción y familias.</p>
             </div>
         </a>
+        {% endif %}
 
-        <!-- OWNERS -->
+        {% if perms.owners.view_owner %}
         <a class="card-link" href="{% url 'owners' %}">
             <div class="card">
                 <span class="module-icon">👤</span>
@@ -33,8 +35,9 @@
                 <p>Propietarios y adoptantes de animales.</p>
             </div>
         </a>
+        {% endif %}
 
-        <!-- HEALTH -->
+        {% if perms.health.view_medicalevent %}
         <a class="card-link" href="{% url 'health' %}">
             <div class="card">
                 <span class="module-icon">🩺</span>
@@ -42,8 +45,9 @@
                 <p>Vacunas, revisiones y eventos médicos.</p>
             </div>
         </a>
+        {% endif %}
 
-        <!-- USUARIOS -->
+        {% if perms.usuarios.view_user %}
         <a class="card-link" href="{% url 'usuarios' %}">
             <div class="card" data-section="usuarios" data-view="usuarios">
                 <span class="module-icon">⚙️</span>
@@ -51,8 +55,9 @@
                 <p>Propietarios y rescatistas</p>
             </div>
         </a>
+        {% endif %}
 
-        <!-- SUMINISTROS -->
+        {% if perms.inventario.view_product %}
         <a class="card-link" href="{% url 'suministros' %}">
             <div class="card" data-section="inventario" data-view="inventario">
                 <span class="module-icon">🚚</span>
@@ -60,8 +65,9 @@
                 <p>Control de productos y movimientos</p>
             </div>
         </a>
+        {% endif %}
 
-        <!-- ROLES -->
+        {% if perms.auth.view_group %}
         <a class="card-link" href="{% url 'roles' %}">
             <div class="card" data-section="roles" data-view="roles">
                 <span class="module-icon">🛡️</span>
@@ -69,8 +75,9 @@
                 <p>Gestión de permisos</p>
             </div>
         </a>
+        {% endif %}
 
-        <!-- DONACIONES -->
+        {% if perms.donaciones.view_donacion %}
         <a class="card-link" href="{% url 'donaciones' %}">
             <div class="card" data-section="donaciones" data-view="donaciones">
                 <span class="module-icon">💰</span>
@@ -78,6 +85,7 @@
                 <p>Registro y seguimiento de donaciones al refugio.</p>
             </div>
         </a>
+        {% endif %}
 
         <!-- DASHBOARD -->
         <a class="card-link" href="{% url 'dashboard' %}">

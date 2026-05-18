@@ -52,14 +52,17 @@
                     <div class="actions-cell">
                         <a href="{% url 'adopciones_details' adopcion.id %}" class="action-btn action-details"
                             title="Ver detalles">👁️</a>
+                        {% if perms.adopciones.change_adopcion %}
                         <a href="{% url 'adopciones_form_edit' adopcion.id %}" class="action-btn action-edit"
                             title="Editar">✏️</a>
-
+                        {% endif %}
+                        {% if perms.adopciones.delete_adopcion %}
                         <form action="{% url 'adopciones_delete' adopcion.id %}" method="post" style="display: inline;">
                             {% csrf_token %}
                             <button type="submit" class="action-btn action-delete" title="Eliminar"
                                 onclick="return confirm('¿Eliminar esta adopción?');">❌</button>
                         </form>
+                        {% endif %}
                     </div>
                 </td>
             </tr>
