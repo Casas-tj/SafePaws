@@ -589,3 +589,25 @@ function initCharts() {
         });
     }
 }
+
+// ══════════════════════════════════════════════════════
+// 🔔 NOTIFICACIONES: toggle dropdown
+// ══════════════════════════════════════════════════════
+document.addEventListener('DOMContentLoaded', function () {
+    const btn = document.getElementById('btn-notif');
+    const dropdown = document.getElementById('notif-dropdown');
+    if (!btn || !dropdown) return;
+
+    btn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        dropdown.classList.toggle('open');
+    });
+
+    document.addEventListener('click', function () {
+        dropdown.classList.remove('open');
+    });
+
+    dropdown.addEventListener('click', function (e) {
+        e.stopPropagation();
+    });
+});

@@ -13,6 +13,9 @@ def home(request):
 
 @login_required
 def dashboard(request):
+    # ── Notificaciones ──────────────────────────────
+    notifications     = DashboardService.get_notifications()
+
     # ── Panel Principal ─────────────────────────────
     stats             = DashboardService.get_panel_stats()
     recent_adoptions  = DashboardService.get_recent_adoptions(limit=3)
@@ -70,6 +73,7 @@ def dashboard(request):
     return render(request, 'dashboard/dashboard.html', {
         # Navegación
         'btn_back': 'Volver',
+        'notifications': notifications,
         'back_url': 'home',
 
         # Panel Principal

@@ -71,10 +71,34 @@
                 <span class="search-icon">🔍</span>
                 <input type="text" placeholder="Buscar...">
             </div>
-            <button class="btn-notifications">
-                🔔
-                <span class="notification-badge">3</span>
-            </button>
+            <div class="notif-wrapper">
+                <button class="btn-notifications" id="btn-notif">
+                    🔔
+                    <span class="notification-badge">{{ notifications|length }}</span>
+                </button>
+                <div class="notif-dropdown" id="notif-dropdown">
+                    <div class="notif-dropdown-header">Notificaciones</div>
+                    <div class="notif-dropdown-body">
+                        {% for n in notifications %}
+                        <a class="notif-item" href="#" onclick="navigateTo('{{ n.view }}'); return false;">
+                            <span class="notif-icon">{{ n.icon }}</span>
+                            <div class="notif-content">
+                                <span class="notif-title">{{ n.title }}</span>
+                                <span class="notif-desc">{{ n.description }}</span>
+                            </div>
+                            {% if n.time_display %}
+                            <span class="notif-time">{{ n.time_display }}</span>
+                            {% endif %}
+                        </a>
+                        {% empty %}
+                        <div class="notif-empty">No hay notificaciones</div>
+                        {% endfor %}
+                    </div>
+                    <div class="notif-dropdown-footer">
+                        <a href="#" onclick="navigateTo('configuracion'); return false;">Ir a Configuración</a>
+                    </div>
+                </div>
+            </div>
             <div class="user-menu">
                 <div class="user-info">
                     <span class="user-name">Zuriñe Casas</span>

@@ -1,7 +1,30 @@
 from django.db.models import Sum, Count
 from django.utils import timezone
-from datetime import date
+from django.utils.timesince import timesince
+from datetime import date, timedelta
 import json
+
+
+def _build_notif(*, icon, title, desc, time, view):
+    today = date.today()
+    if time == today:
+        time_display = 'Hoy'
+    elif time == today - timedelta(days=1):
+        time_display = 'Ayer'
+    elif time:
+        days = (today - time).days
+        time_display = f'hace {days} días'
+    else:
+        time_display = ''
+    return {
+        'icon': icon,
+        'title': title,
+        'description': desc,
+        'time': time,
+        'time_display': time_display,
+        'view': view,
+        'sort_key': time or date.min,
+    }
 
 
 class DashboardService:
@@ -656,3 +679,78 @@ class DashboardService:
             'adopciones': adopciones_data,
             'donaciones': donaciones_data,
         })
+
+    # ─────────────────────────────────────────────────────
+    # 🔔 NOTIFICACIONES CENTRALIZADAS
+    # ─────────────────────────────────────────────────────
+    @staticmethod
+    def get_notifications():
+        from apps.inventario.models import Product
+        from apps.health.models import MedicalEvent
+        from apps.adopciones.models import Adopcion
+        from apps.donaciones.models import Donacion
+        from apps.animales.models import Animal
+
+        notifications = []
+        today = timezone.now().date()
+        week_ago = today - timedelta(days=7)
+
+        # ⚠️ Stock bajo
+        for p in Product.objects.filter(
+            is_active=True, quantity__lte=5
+        ).order_by('quantity')[:5]:
+            notifications.append(_build_notif(
+                icon='⚠️', title=f'Stock bajo: {p.name}',
+                desc=f'Solo {p.quantity} {p.unit} disponibles',
+                time=p.created_at.date() if p.created_at else None,
+                view='configuracion',
+            ))
+
+        # 🏥 Eventos médicos abiertos
+        for e in MedicalEvent.objects.select_related('animal').filter(
+            is_active=True
+        ).exclude(status='Resolved').order_by('-incident_date')[:5]:
+            notifications.append(_build_notif(
+                icon='🏥', title=f'{e.event_type}: {e.animal.name}',
+                desc=f'{e.severity} — {e.description[:80]}{"…" if len(e.description) > 80 else ""}',
+                time=e.incident_date,
+                view='incidencias',
+            ))
+
+        # 🐾 Adopciones recientes (7 días)
+        for a in Adopcion.objects.select_related('animal', 'owner').filter(
+            is_active=True, adoption_date__gte=week_ago
+        ).order_by('-adoption_date')[:5]:
+            notifications.append(_build_notif(
+                icon='🐾', title=f'Adopción: {a.animal.name}',
+                desc=f'Por {a.owner.name} {a.owner.last_name} — {a.status}',
+                time=a.adoption_date,
+                view='adopciones',
+            ))
+
+        # 💰 Donaciones recientes (7 días)
+        for d in Donacion.objects.filter(
+            is_active=True, date__gte=week_ago
+        ).order_by('-date')[:5]:
+            monto = f'{d.amount}€' if d.amount else d.description[:60]
+            notifications.append(_build_notif(
+                icon='💰', title=f'Donación: {d.donante}',
+                desc=f'{monto} — {d.status}',
+                time=d.date,
+                view='donaciones',
+            ))
+
+        # 🐶 Animales nuevos (7 días)
+        for a in Animal.objects.filter(
+            is_active=True, admission_date__gte=week_ago
+        ).order_by('-admission_date')[:5]:
+            emoji = {'Perro': '🐶', 'Gato': '🐱'}.get(a.species, '🐾')
+            notifications.append(_build_notif(
+                icon=emoji, title=f'Nuevo ingreso: {a.name}',
+                desc=f'{a.species} — {a.breed or a.status}',
+                time=a.admission_date,
+                view='animales',
+            ))
+
+        notifications.sort(key=lambda n: n['sort_key'], reverse=True)
+        return notifications
