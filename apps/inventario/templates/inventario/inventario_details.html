@@ -79,9 +79,7 @@
     </fieldset>
 
     <div class="form-buttons">
-        {% if perms.inventario.change_product %}
         <a href="{% url 'inventario_form_edit' product.id %}" class="btn-success">✏️ Editar</a>
-        {% endif %}
         {% include 'layouts/partials/btn-back.html' %}
     </div>
 </div>

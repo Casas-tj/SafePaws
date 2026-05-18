@@ -65,18 +65,14 @@
                         <a href="{% url 'animales_details' animal.id %}" class="action-btn action-details"
                             title="Ver detalles">👁️</a>
 
-                        {% if perms.animales.change_animal %}
                         <a href="{% url 'animales_form_edit' animal.id %}" class="action-btn action-edit"
                             title="Editar">✏️</a>
-                        {% endif %}
 
-                        {% if perms.animales.delete_animal %}
                         <form method="post" action="{% url 'animales_delete' animal.id %}">
                             {% csrf_token %}
                             <button type="submit" class="action-btn action-delete" title="Eliminar"
                                 onclick="return confirm('¿Eliminar animal?');">❌</button>
                         </form>
-                        {% endif %}
                     </div>
                 </td>
             </tr>
