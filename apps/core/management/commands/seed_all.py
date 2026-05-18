@@ -31,7 +31,7 @@ class Command(BaseCommand):
         for g in grupos:
             Group.objects.get_or_create(name=g)
         
-        roles = list(Group.objects.all())
+        self._assign_group_permissions()
         
         usuarios = [
             ('admin', 'Zuriñe', 'Casas', 'admin@safepaws.es', True),
@@ -44,6 +44,7 @@ class Command(BaseCommand):
             ('vol5', 'Juan', 'Gómez', 'vol5@safepaws.es', True),
             ('cuidador1', 'Lucía', 'Torres', 'cuidador1@safepaws.es', False),
             ('cuidador2', 'Jorge', 'Ruiz', 'cuidador2@safepaws.es', False),
+            ('atencion1', 'Marina', 'Sanz', 'atencion1@safepaws.es', False),
             ('user1', 'Sofia', 'Benito', 'user1@test.com', False),
             ('user2', 'Miguel', 'Castro', 'user2@test.com', True),
             ('user3', 'Elena', 'Mora', 'user3@test.com', True),
@@ -56,6 +57,16 @@ class Command(BaseCommand):
             ('user10', 'Roberto', 'Campos', 'user10@test.com', True),
         ]
         
+        # Mapa de roles fijos para usuarios conocidos
+        roles_map = {
+            'admin': 'Administrador',
+            'vet1': 'Veterinario',
+            'vet2': 'Veterinario',
+            'cuidador1': 'Cuidador de Animales',
+            'cuidador2': 'Cuidador de Animales',
+            'atencion1': 'Atención al Cliente',
+        }
+        
         for username, first, last, email, is_vol in usuarios:
             user, created = User.objects.get_or_create(username=username)
             if created:
@@ -65,12 +76,12 @@ class Command(BaseCommand):
                 user.email = email
                 user.is_volunteer = is_vol
                 user.is_active = True
-                user.save()
                 if username == 'admin':
-                    admin_group = Group.objects.get(name='Administrador')
-                    user.groups.add(admin_group)
-                else:
-                    user.groups.add(random.choice(roles))
+                    user.is_superuser = True
+                user.save()
+                grupo = roles_map.get(username)
+                if grupo:
+                    user.groups.add(Group.objects.get(name=grupo))
                 self.stdout.write(f"    + {username}")
 
     def seed_owners(self):
@@ -416,8 +427,11 @@ class Command(BaseCommand):
     def seed_health(self):
         self.stdout.write("  [EVENTOS MÉDICOS]")
         
+        from apps.health.models import MedicalEvent
+        MedicalEvent.objects.all().delete()
+        
         from apps.animales.models import Animal
-        animales = Animal.objects.all()[:15]
+        animales = Animal.objects.filter(is_active=True)[:20]
         
         eventos = [
             ('Emergencia', 'Golpe en la cabeza por caída', 'Alta', 'Resolved'),
@@ -448,38 +462,48 @@ class Command(BaseCommand):
             ('Control', 'Revisión de peso', 'Baja', 'Resolved'),
             ('Procedimiento', 'Tratamiento antiparasitario', 'Baja', 'Resolved'),
             ('Consulta', 'Infección urinaria', 'Media', 'Resolved'),
-            ('Emergencia', 'Reacción аллергическая', 'Alta', 'Abierto'),
+            ('Emergencia', 'Reacción alérgica severa', 'Alta', 'Abierto'),
             ('Control', 'Radiografía torácica', 'Media', 'Resolved'),
+            ('Emergencia', 'Mordedura de otro animal', 'Alta', 'Resolved'),
+            ('Consulta', 'Fisioterapia por displasia', 'Media', 'En Proceso'),
+            ('Procedimiento', 'Sutura de laceración', 'Media', 'Resolved'),
+            ('Control', 'Ecografía abdominal', 'Media', 'Resolved'),
+            ('Emergencia', 'Convulsiones', 'Alta', 'Abierto'),
+            ('Consulta', 'Sobrepeso y dieta', 'Baja', 'En Proceso'),
+            ('Procedimiento', 'Drenaje de absceso', 'Media', 'Resolved'),
+            ('Control', 'Análisis de orina', 'Baja', 'Resolved'),
+            ('Emergencia', 'Hipotermia por abandono', 'Alta', 'Resolved'),
+            ('Consulta', 'Valoración geriátrica', 'Baja', 'Resolved'),
+            ('Procedimiento', 'Baño medicado', 'Baja', 'Resolved'),
+            ('Control', 'Endoscopia digestiva', 'Media', 'Resolved'),
+            ('Emergencia', 'Traumatismo por atropello', 'Alta', 'Abierto'),
+            ('Consulta', 'Seguimiento post-castración', 'Baja', 'Resolved'),
+            ('Procedimiento', 'Extracción de garrapatas', 'Baja', 'Resolved'),
         ]
         
         base_date = timezone.now().date()
         
-        # Asignar varios eventos a cada animal (3-4 por animal)
-        evento_idx = 0
+        # Asignar 10 eventos aleatorios distintos a cada animal
         for animal in animales:
-            for _ in range(3):
-                if evento_idx < len(eventos):
-                    from apps.health.models import MedicalEvent
-                    tipo, desc, sev, estado = eventos[evento_idx]
-                    days_back = random.randint(1, 120)
-                    
-                    resolved_date = None
-                    if estado == 'Resolved':
-                        days_resolved = random.randint(1, days_back - 1) if days_back > 1 else 0
-                        resolved_date = base_date - timedelta(days=days_resolved)
-                    
-                    MedicalEvent.objects.create(
-                        animal=animal,
-                        event_type=tipo,
-                        description=desc,
-                        incident_date=base_date - timedelta(days=days_back),
-                        severity=sev,
-                        status=estado,
-                        resolved_date=resolved_date,
-                        is_active=True
-                    )
-                    self.stdout.write(f"    + {tipo}: {animal.name}")
-                    evento_idx += 1
+            for tipo, desc, sev, estado in random.sample(eventos, 10):
+                days_back = random.randint(1, 180)
+                
+                resolved_date = None
+                if estado == 'Resolved':
+                    days_resolved = random.randint(1, days_back - 1) if days_back > 1 else 0
+                    resolved_date = base_date - timedelta(days=days_resolved)
+                
+                MedicalEvent.objects.create(
+                    animal=animal,
+                    event_type=tipo,
+                    description=desc,
+                    incident_date=base_date - timedelta(days=days_back),
+                    severity=sev,
+                    status=estado,
+                    resolved_date=resolved_date,
+                    is_active=True
+                )
+                self.stdout.write(f"    + {tipo}: {animal.name}")
 
     def seed_adopciones(self):
         self.stdout.write("  [ADOPCIONES]")
@@ -533,3 +557,43 @@ class Command(BaseCommand):
                 is_active=True
             )
             self.stdout.write(f"    + {animal.name} -> {owner.name}")
+
+    def _assign_group_permissions(self):
+        from django.contrib.auth.models import Permission
+        from django.contrib.contenttypes.models import ContentType
+
+        from apps.animales.models import Animal
+        from apps.adopciones.models import Adopcion
+        from apps.owners.models import Owner
+        from apps.health.models import MedicalEvent
+        from apps.usuarios.models import User
+        from apps.inventario.models import Product, Movement
+        from apps.donaciones.models import Donacion
+
+        # Helper para obtener permisos de un modelo
+        def permisos(model, acciones):
+            ct = ContentType.objects.get_for_model(model)
+            return Permission.objects.filter(content_type=ct, codename__in=acciones)
+
+        grupo_vet = Group.objects.get(name='Veterinario')
+        grupo_vet.permissions.set(
+            list(permisos(Animal, ['view_animal']))
+            + list(permisos(MedicalEvent, ['view_medicalevent', 'add_medicalevent', 'change_medicalevent', 'delete_medicalevent']))
+        )
+
+        grupo_cuidador = Group.objects.get(name='Cuidador de Animales')
+        grupo_cuidador.permissions.set(
+            list(permisos(Animal, ['view_animal', 'add_animal', 'change_animal', 'delete_animal']))
+            + list(permisos(Product, ['view_product']))
+            + list(permisos(Movement, ['add_movement']))
+        )
+
+        grupo_atencion = Group.objects.get(name='Atención al Cliente')
+        grupo_atencion.permissions.set(
+            list(permisos(Owner, ['view_owner', 'add_owner', 'change_owner', 'delete_owner']))
+            + list(permisos(Adopcion, ['view_adopcion', 'add_adopcion', 'change_adopcion', 'delete_adopcion']))
+            + list(permisos(Donacion, ['view_donacion', 'add_donacion', 'change_donacion', 'delete_donacion']))
+        )
+
+        grupo_admin = Group.objects.get(name='Administrador')
+        grupo_admin.permissions.set(Permission.objects.all())
