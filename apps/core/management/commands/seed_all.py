@@ -380,6 +380,7 @@ class Command(BaseCommand):
         self.stdout.write("  [MOVIMIENTOS]")
         
         from apps.inventario.models import Product, Movement
+        Movement.objects.all().delete()
         
         productos = Product.objects.all()[:15]
         
@@ -508,6 +509,9 @@ class Command(BaseCommand):
     def seed_adopciones(self):
         self.stdout.write("  [ADOPCIONES]")
         
+        from apps.adopciones.models import Adopcion
+        Adopcion.objects.all().delete()
+        
         from apps.animales.models import Animal
         from apps.owners.models import Owner
         animales = list(Animal.objects.all()[:20])
@@ -544,7 +548,6 @@ class Command(BaseCommand):
         estados = ['Pendiente', 'Aprobada', 'Completada', 'Completada', 'Completada']
         
         for i, (animal, owner) in enumerate(adopciones_data):
-            from apps.adopciones.models import Adopcion
             days_back = random.randint(10, 180)
             estado = random.choice(estados)
             fecha_adop = base_date - timedelta(days=days_back)

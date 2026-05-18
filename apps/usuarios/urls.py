@@ -17,4 +17,6 @@ urlpatterns = [
      path('roles_form/<int:role_id>/', views.roles_form, name="roles_form_edit"),
      path('roles_delete/<int:role_id>/', views.roles_delete, name="roles_delete"),
      path('recuperar_contrasena/', views.recuperar_contrasena, name="recuperar_contrasena"),
+     path('tickets/', views.tickets_list, name="tickets_list"),
+     path('tickets_resolve/<int:ticket_id>/', views.tickets_resolve, name="tickets_resolve"),
 ]
