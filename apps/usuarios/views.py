@@ -1,12 +1,11 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from apps.core.decorators import permisos_requeridos, requiere_permiso
 from .services.user_service import UserService
 from .services.role_services import RoleService
 from django.contrib.auth import get_user_model
 
 
-@permisos_requeridos('auth.view_user')
+@login_required
 def usuarios(request):
 
     users = UserService.list_users()
@@ -17,13 +16,12 @@ def usuarios(request):
         "headersubtitle": "Listado de Usuarios",
         "btn_nuevo": "Nuevo Usuario",
         "form_url": 'usuarios_form',
-        "nuevo_perm": "auth.add_user",
         "btn_back": "Volver",
         "back_url": "home",
     })
 
 
-@permisos_requeridos('auth.delete_user')
+@login_required
 def usuarios_delete(request, user_id):
 
     if request.method == "POST":
@@ -39,11 +37,6 @@ def usuarios_form(request, user_id=None):
     # 📋 GET → mostrar formulario
     # =========================
     if request.method == "GET":
-
-        if user_id:
-            requiere_permiso(request, 'auth.change_user')
-        else:
-            requiere_permiso(request, 'auth.add_user')
 
         user = None
         if user_id:
@@ -64,11 +57,6 @@ def usuarios_form(request, user_id=None):
     # 💾 POST
     # =========================
     if request.method == "POST":
-
-        if user_id:
-            requiere_permiso(request, 'auth.change_user')
-        else:
-            requiere_permiso(request, 'auth.add_user')
 
         # =========================
         # 🟡 CREATE / UPDATE
@@ -113,7 +101,7 @@ def usuarios_form(request, user_id=None):
         return redirect("usuarios")
 
 
-@permisos_requeridos('auth.view_group')
+@login_required
 def roles(request):
 
     roles = RoleService.list_roles()
@@ -124,13 +112,12 @@ def roles(request):
         "headersubtitle": "Roles del Sistema",
         "btn_nuevo": "Nuevo Rol",
         "form_url": "roles_form",
-        "nuevo_perm": "auth.add_group",
         "btn_back": "Volver",
         "back_url": "home",
     })
 
 
-@permisos_requeridos('auth.delete_group')
+@login_required
 def roles_delete(request, role_id):
     if request.method == "POST":
         RoleService.delete_role(role_id)
@@ -145,11 +132,6 @@ def roles_form(request, role_id=None):
     # 📋 GET → mostrar formulario
     # =========================
     if request.method == "GET":
-
-        if role_id:
-            requiere_permiso(request, 'auth.change_group')
-        else:
-            requiere_permiso(request, 'auth.add_group')
 
         role = None
         if role_id:
@@ -170,11 +152,6 @@ def roles_form(request, role_id=None):
     # 💾 POST → guardar
     # =========================
     if request.method == "POST":
-
-        if role_id:
-            requiere_permiso(request, 'auth.change_group')
-        else:
-            requiere_permiso(request, 'auth.add_group')
 
         name = request.POST.get("name")
         permissions = request.POST.getlist("permissions")

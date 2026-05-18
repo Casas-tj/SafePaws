@@ -1,10 +1,8 @@
 <div class="list-actions">
     {% if form_url %}
-        {% if not nuevo_perm or nuevo_perm in perms %}
-        <a id="btnNuevoVoluntario" class="btn-success card-link" href="{% url form_url %}">
-            <span>+ {{btn_nuevo}}</span>
-        </a>
-        {% endif %}
+    <a id="btnNuevoVoluntario" class="btn-success card-link" href="{% url form_url %}">
+        <span>+ {{btn_nuevo}}</span>
+    </a>
     {% endif %}
 
     {% if back_url %}

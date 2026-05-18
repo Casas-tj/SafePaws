@@ -1,11 +1,10 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from apps.core.decorators import permisos_requeridos, requiere_permiso
 from .services.animal_services import AnimalService
 from apps.owners.services.owners_services import OwnerService
 
 
-@permisos_requeridos('animales.view_animal')
+@login_required
 def animales(request):
 
     animal = AnimalService.list_animals()
@@ -16,13 +15,12 @@ def animales(request):
         "headersubtitle": "Listado de animales",
         "btn_nuevo": "Nuevo Animal",
         "form_url": 'animales_form',
-        "nuevo_perm": "animales.add_animal",
         "btn_back": "Volver",
         "back_url": "home",
     })
 
 
-@permisos_requeridos('animales.delete_animal')
+@login_required
 def animales_delete(request, animal_id):
     if request.method == "POST":
         AnimalService.delete_animal(animal_id)
@@ -36,11 +34,6 @@ def animales_form(request, animal_id=None):
     # 📋 GET → mostrar formulario
     # =========================
     if request.method == "GET":
-
-        if animal_id:
-            requiere_permiso(request, 'animales.change_animal')
-        else:
-            requiere_permiso(request, 'animales.add_animal')
 
         animal = None
         owner = None
@@ -64,11 +57,6 @@ def animales_form(request, animal_id=None):
     # 💾 POST
     # =========================
     if request.method == "POST":
-
-        if animal_id:
-            requiere_permiso(request, 'animales.change_animal')
-        else:
-            requiere_permiso(request, 'animales.add_animal')
 
         # =========================
         # 🟡 CREATE / UPDATE
@@ -117,7 +105,7 @@ def animales_form(request, animal_id=None):
         return redirect("animales")
 
 
-@permisos_requeridos('animales.view_animal')
+@login_required
 def animales_details(request, animal_id):
 
     animal = AnimalService.get_animal_by_id(animal_id)

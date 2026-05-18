@@ -1,12 +1,11 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from apps.core.decorators import permisos_requeridos, requiere_permiso
 from apps.adopciones.services.adopciones_services import AdoptionService
 from apps.animales.models import Animal
 from apps.owners.models import Owner
 
 
-@permisos_requeridos('adopciones.view_adopcion')
+@login_required
 def adopciones(request):
 
     adopciones_list = AdoptionService.list_adoptions()
@@ -17,13 +16,12 @@ def adopciones(request):
         'headersubtitle': 'Listado de Adopciones',
         'btn_nuevo': 'Nueva Adopción',
         'form_url': 'adopciones_form',
-        'nuevo_perm': "adopciones.add_adopcion",
         'btn_back': 'Volver',
         'back_url': 'home',
     })
 
 
-@permisos_requeridos('adopciones.delete_adopcion')
+@login_required
 def adopciones_delete(request, adoption_id):
     if request.method == "POST":
         AdoptionService.delete_adoption(adoption_id)
@@ -37,11 +35,6 @@ def adopciones_form(request, adoption_id=None):
     # 📋 GET → mostrar formulario
     # =========================
     if request.method == "GET":
-
-        if adoption_id:
-            requiere_permiso(request, 'adopciones.change_adopcion')
-        else:
-            requiere_permiso(request, 'adopciones.add_adopcion')
 
         adoption = None
         if adoption_id:
@@ -65,11 +58,6 @@ def adopciones_form(request, adoption_id=None):
     # =========================
     if request.method == "POST":
 
-        if adoption_id:
-            requiere_permiso(request, 'adopciones.change_adopcion')
-        else:
-            requiere_permiso(request, 'adopciones.add_adopcion')
-
         animal_id = request.POST.get("animal_id")
         owner_id = request.POST.get("owner_id")
         adoption_date = request.POST.get("adoption_date") or None
@@ -88,7 +76,7 @@ def adopciones_form(request, adoption_id=None):
         return redirect("adopciones")
 
 
-@permisos_requeridos('adopciones.view_adopcion')
+@login_required
 def adopciones_details(request, adoption_id):
     adopcion = AdoptionService.get_adoption_by_id(adoption_id)
     return render(request, 'adopciones/adopciones_details.html', {

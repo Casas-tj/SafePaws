@@ -1,11 +1,10 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from apps.core.decorators import permisos_requeridos, requiere_permiso
 from apps.health.services.health_services import HealthService
 from apps.animales.models import Animal
 
 
-@permisos_requeridos('health.view_medicalevent')
+@login_required
 def health(request):
 
     events = HealthService.list_events()
@@ -19,13 +18,12 @@ def health(request):
         'headersubtitle': 'Eventos médicos por animal',
         'btn_nuevo': 'Nuevo Registro Médico',
         'form_url': 'health_form',
-        'nuevo_perm': "health.add_medicalevent",
         'btn_back': 'Volver',
         'back_url': 'home',
     })
 
 
-@permisos_requeridos('health.view_medicalevent')
+@login_required
 def health_detail(request, animal_id):
     """
     Muestra las atenciones médicas de un animal específico.
@@ -73,11 +71,6 @@ def health_form_edit(request, event_id=None):
     # =========================
     if request.method == "GET":
 
-        if event_id:
-            requiere_permiso(request, 'health.change_medicalevent')
-        else:
-            requiere_permiso(request, 'health.add_medicalevent')
-
         event = None
         preselected_animal = None
 
@@ -110,11 +103,6 @@ def health_form_edit(request, event_id=None):
     # =========================
     if request.method == 'POST':
 
-        if event_id:
-            requiere_permiso(request, 'health.change_medicalevent')
-        else:
-            requiere_permiso(request, 'health.add_medicalevent')
-
         animal_id = request.POST.get('animal_id')
         event_type = request.POST.get('event_type')
         description = request.POST.get('description')
@@ -140,7 +128,7 @@ def health_form_edit(request, event_id=None):
 
 
 # ❌ ELIMINAR EVENTO MÉDICO
-@permisos_requeridos('health.delete_medicalevent')
+@login_required
 def health_delete(request, event_id):
     """
     Soft delete de una atención médica.
