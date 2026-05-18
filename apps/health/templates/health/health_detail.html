@@ -63,13 +63,16 @@
             </p>
         </div>
         <div class="actions-cell" style="flex-shrink:0;">
+            {% if perms.health.change_medicalevent %}
             <a href="{% url 'health_form_edit' event.id %}" class="action-btn action-edit" title="Editar">✏️</a>
-
+            {% endif %}
+            {% if perms.health.delete_medicalevent %}
             <form method="post" action="{% url 'health_delete' event.id %}" style="display:inline;">
                 {% csrf_token %}
                 <button type="submit" class="action-btn action-delete" title="Eliminar"
                     onclick="return confirm('¿Eliminar esta atención?');">❌</button>
             </form>
+            {% endif %}
         </div>
     </div>
     {% empty %}
@@ -77,10 +80,12 @@
                 border-radius:8px; border:1px dashed #cbd5e1;">
         <p style="margin:0; font-size:1rem;">No hay atenciones registradas para {{ animal.name }}.</p>
 
+        {% if perms.health.add_medicalevent %}
         <a href="{% url 'health_form' %}?animal_id={{ animal.id }}" class="btn-success"
             style="display:inline-block; margin-top:1rem;">
             + Registrar primera atención
         </a>
+        {% endif %}
     </div>
     {% endfor %}
 </div>

@@ -44,6 +44,7 @@
 
     <!-- Cards de navegación -->
     <div class="card-container">
+        {% if perms.inventario.view_product %}
         <a class="card-link" href="{% url 'inventario' %}">
             <div class="card" data-section="inventario">
                 <span class="module-icon">📦</span>
@@ -51,6 +52,8 @@
                 <p>Gestión de productos y existencias</p>
             </div>
         </a>
+        {% endif %}
+        {% if perms.inventario.view_movement %}
         <a class="card-link" href="{% url 'stock' %}">
             <div class="card" data-section="control_stock">
                 <span class="module-icon">📊</span>
@@ -58,6 +61,7 @@
                 <p>Entradas y salidas de productos</p>
             </div>
         </a>
+        {% endif %}
     </div>
 </section>
 {% endblock %}
