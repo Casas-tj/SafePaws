@@ -27,7 +27,7 @@ class Command(BaseCommand):
     def seed_users(self):
         self.stdout.write("  [USUARIOS]")
         
-        grupos = ['Administrador', 'Veterinario', 'Cuidador de Animales', 'Atención al Cliente', 'Voluntario']
+        grupos = ['Administrador', 'Veterinario', 'Cuidador de Animales', 'Atención al Cliente']
         for g in grupos:
             Group.objects.get_or_create(name=g)
         
