@@ -25,6 +25,8 @@ def root_redirect(request):
     return redirect("accounts:login")
 
 
+handler403 = 'config.views.handler403'
+
 urlpatterns = [
 
     path('', root_redirect),

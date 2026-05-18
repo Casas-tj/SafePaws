@@ -33,8 +33,8 @@ class Command(BaseCommand):  # 👈 ESTO ES OBLIGATORIO
             )
 
             # 🔹 campos extra del modelo
-            user.telefono = f"+56900000{i}"
-            user.descripcion = f"Usuario de prueba {i}"
+            user.phone = f"+56900000{i}"
+            user.description = f"Usuario de prueba {i}"
             user.save()
 
             role = random.choice(roles)

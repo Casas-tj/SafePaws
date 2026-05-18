@@ -3,9 +3,10 @@ from django.contrib.auth.decorators import login_required
 from .services.user_service import UserService
 from .services.role_services import RoleService
 from django.contrib.auth import get_user_model
+from apps.core.decorators import permisos_requeridos
 
 
-@login_required
+@permisos_requeridos("usuarios.view_user")
 def usuarios(request):
 
     users = UserService.list_users()
@@ -21,7 +22,7 @@ def usuarios(request):
     })
 
 
-@login_required
+@permisos_requeridos("usuarios.delete_user")
 def usuarios_delete(request, user_id):
 
     if request.method == "POST":
@@ -30,7 +31,7 @@ def usuarios_delete(request, user_id):
     return redirect("usuarios")
 
 
-@login_required
+@permisos_requeridos("usuarios.add_user", "usuarios.change_user")
 def usuarios_form(request, user_id=None):
 
     # =========================
@@ -101,7 +102,7 @@ def usuarios_form(request, user_id=None):
         return redirect("usuarios")
 
 
-@login_required
+@permisos_requeridos("auth.view_group")
 def roles(request):
 
     roles = RoleService.list_roles()
@@ -117,7 +118,7 @@ def roles(request):
     })
 
 
-@login_required
+@permisos_requeridos("auth.delete_group")
 def roles_delete(request, role_id):
     if request.method == "POST":
         RoleService.delete_role(role_id)
@@ -125,7 +126,7 @@ def roles_delete(request, role_id):
     return redirect("roles")
 
 
-@login_required
+@permisos_requeridos("auth.add_group", "auth.change_group")
 def roles_form(request, role_id=None):
 
     # =========================

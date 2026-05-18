@@ -2,9 +2,10 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from .services.animal_services import AnimalService
 from apps.owners.services.owners_services import OwnerService
+from apps.core.decorators import permisos_requeridos
 
 
-@login_required
+@permisos_requeridos("animales.view_animal")
 def animales(request):
 
     animal = AnimalService.list_animals()
@@ -20,14 +21,14 @@ def animales(request):
     })
 
 
-@login_required
+@permisos_requeridos("animales.delete_animal")
 def animales_delete(request, animal_id):
     if request.method == "POST":
         AnimalService.delete_animal(animal_id)
     return redirect("animales")
 
 
-@login_required
+@permisos_requeridos("animales.add_animal", "animales.change_animal")
 def animales_form(request, animal_id=None):
 
     # =========================
@@ -105,7 +106,7 @@ def animales_form(request, animal_id=None):
         return redirect("animales")
 
 
-@login_required
+@permisos_requeridos("animales.view_animal")
 def animales_details(request, animal_id):
 
     animal = AnimalService.get_animal_by_id(animal_id)

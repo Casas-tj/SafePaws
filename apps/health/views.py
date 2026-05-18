@@ -2,9 +2,10 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from apps.health.services.health_services import HealthService
 from apps.animales.models import Animal
+from apps.core.decorators import permisos_requeridos
 
 
-@login_required
+@permisos_requeridos("health.view_medicalevent")
 def health(request):
 
     events = HealthService.list_events()
@@ -23,7 +24,7 @@ def health(request):
     })
 
 
-@login_required
+@permisos_requeridos("health.view_medicalevent")
 def health_detail(request, animal_id):
     """
     Muestra las atenciones médicas de un animal específico.
@@ -57,7 +58,7 @@ def health_detail(request, animal_id):
     })
 
 
-@login_required
+@permisos_requeridos("health.add_medicalevent", "health.change_medicalevent")
 def health_form_edit(request, event_id=None):
     """
     Crea o edita una atención médica.
@@ -128,7 +129,7 @@ def health_form_edit(request, event_id=None):
 
 
 # ❌ ELIMINAR EVENTO MÉDICO
-@login_required
+@permisos_requeridos("health.delete_medicalevent")
 def health_delete(request, event_id):
     """
     Soft delete de una atención médica.

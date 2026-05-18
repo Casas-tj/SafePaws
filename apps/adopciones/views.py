@@ -3,9 +3,10 @@ from django.contrib.auth.decorators import login_required
 from apps.adopciones.services.adopciones_services import AdoptionService
 from apps.animales.models import Animal
 from apps.owners.models import Owner
+from apps.core.decorators import permisos_requeridos
 
 
-@login_required
+@permisos_requeridos("adopciones.view_adopcion")
 def adopciones(request):
 
     adopciones_list = AdoptionService.list_adoptions()
@@ -21,14 +22,14 @@ def adopciones(request):
     })
 
 
-@login_required
+@permisos_requeridos("adopciones.delete_adopcion")
 def adopciones_delete(request, adoption_id):
     if request.method == "POST":
         AdoptionService.delete_adoption(adoption_id)
     return redirect("adopciones")
 
 
-@login_required
+@permisos_requeridos("adopciones.add_adopcion", "adopciones.change_adopcion")
 def adopciones_form(request, adoption_id=None):
 
     # =========================
@@ -76,7 +77,7 @@ def adopciones_form(request, adoption_id=None):
         return redirect("adopciones")
 
 
-@login_required
+@permisos_requeridos("adopciones.view_adopcion")
 def adopciones_details(request, adoption_id):
     adopcion = AdoptionService.get_adoption_by_id(adoption_id)
     return render(request, 'adopciones/adopciones_details.html', {
