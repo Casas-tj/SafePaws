@@ -80,7 +80,11 @@
                     <div class="notif-dropdown-header">Notificaciones</div>
                     <div class="notif-dropdown-body">
                         {% for n in notifications %}
-                        <a class="notif-item" href="#" onclick="navigateTo('{{ n.view }}'); return false;">
+                        {% if n.direct_url %}
+                        <a class="notif-item" href="{{ n.direct_url }}" onclick="closeNotifDropdown(); decrementBadge();">
+                        {% else %}
+                        <a class="notif-item" href="#" onclick="navigateTo('{{ n.view }}'); closeNotifDropdown(); decrementBadge(); return false;">
+                        {% endif %}
                             <span class="notif-icon">{{ n.icon }}</span>
                             <div class="notif-content">
                                 <span class="notif-title">{{ n.title }}</span>

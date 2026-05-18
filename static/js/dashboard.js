@@ -591,8 +591,18 @@ function initCharts() {
 }
 
 // ══════════════════════════════════════════════════════
-// 🔔 NOTIFICACIONES: toggle dropdown
+// 🔔 NOTIFICACIONES: helpers
 // ══════════════════════════════════════════════════════
+function closeNotifDropdown() {
+    const d = document.getElementById('notif-dropdown');
+    if (d) d.classList.remove('open');
+}
+
+function decrementBadge() {
+    const b = document.querySelector('.notification-badge');
+    if (b) b.textContent = Math.max(0, parseInt(b.textContent) - 1);
+}
+
 document.addEventListener('DOMContentLoaded', function () {
     const btn = document.getElementById('btn-notif');
     const dropdown = document.getElementById('notif-dropdown');

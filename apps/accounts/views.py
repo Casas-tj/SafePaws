@@ -14,6 +14,10 @@ def login_view(request):
         if user is not None:
             if user.is_active:
                 login(request, user)
+                if request.POST.get("remember"):
+                    request.session.set_expiry(1209600)
+                else:
+                    request.session.set_expiry(0)
                 return redirect("home")
             else:
                 return render(request, "accounts/login.html", {
