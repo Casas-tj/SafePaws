@@ -1,11 +1,12 @@
 from django.db.models import Sum, Count
+from django.urls import reverse
 from django.utils import timezone
 from django.utils.timesince import timesince
 from datetime import date, timedelta
 import json
 
 
-def _build_notif(*, icon, title, desc, time, view):
+def _build_notif(*, icon, title, desc, time, view, url=None):
     today = date.today()
     if time == today:
         time_display = 'Hoy'
@@ -16,7 +17,7 @@ def _build_notif(*, icon, title, desc, time, view):
         time_display = f'hace {days} días'
     else:
         time_display = ''
-    return {
+    result = {
         'icon': icon,
         'title': title,
         'description': desc,
@@ -25,6 +26,9 @@ def _build_notif(*, icon, title, desc, time, view):
         'view': view,
         'sort_key': time or date.min,
     }
+    if url:
+        result['direct_url'] = url
+    return result
 
 
 class DashboardService:
@@ -703,7 +707,8 @@ class DashboardService:
                 icon='⚠️', title=f'Stock bajo: {p.name}',
                 desc=f'Solo {p.quantity} {p.unit} disponibles',
                 time=p.created_at.date() if p.created_at else None,
-                view='configuracion',
+                view='panel',
+                url=reverse('inventario'),
             ))
 
         # 🏥 Eventos médicos abiertos
