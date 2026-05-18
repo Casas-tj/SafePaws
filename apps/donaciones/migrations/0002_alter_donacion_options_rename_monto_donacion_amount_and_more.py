@@ -14,39 +14,4 @@ class Migration(migrations.Migration):
             name='donacion',
             options={'ordering': ['-date'], 'verbose_name': 'Donación', 'verbose_name_plural': 'Donaciones'},
         ),
-        migrations.RenameField(
-            model_name='donacion',
-            old_name='monto',
-            new_name='amount',
-        ),
-        migrations.RenameField(
-            model_name='donacion',
-            old_name='fecha',
-            new_name='date',
-        ),
-        migrations.RenameField(
-            model_name='donacion',
-            old_name='descripcion',
-            new_name='description',
-        ),
-        migrations.RenameField(
-            model_name='donacion',
-            old_name='donante_telefono',
-            new_name='donante_phone',
-        ),
-        migrations.RenameField(
-            model_name='donacion',
-            old_name='metodo_pago',
-            new_name='payment_method',
-        ),
-        migrations.RenameField(
-            model_name='donacion',
-            old_name='estado',
-            new_name='status',
-        ),
-        migrations.RenameField(
-            model_name='donacion',
-            old_name='tipo',
-            new_name='type',
-        ),
     ]
